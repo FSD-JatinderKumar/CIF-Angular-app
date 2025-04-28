@@ -36,9 +36,8 @@ const routes: Routes = [
 
   },
   {
-    path: 'Register',
-    component: CifRegisterPageComponent,   // done with module
-    // loadChildren: () => import('./views/pages/cif_webPortal/CifRegisterPage/CifRegisterPage.component.module').then(m => m.CifRegisterPageModule),
+    path: 'Register',//    component: CifRegisterPageComponent,   // done with module
+    loadChildren: () => import('./views/pages/cif_webPortal/CifRegisterPage/CifRegisterPage.component.module').then(m => m.CifRegisterPageModule),
   },
   {
     path: 'recoverAccount',  // component:RecoverAccountComponent done with Module

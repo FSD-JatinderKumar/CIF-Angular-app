@@ -21,7 +21,8 @@ import swal from 'sweetalert2';
 @Component({
   selector: 'app-CifRegisterPage',
   templateUrl: './CifRegisterPage.component.html',
-  styleUrls: ['./CifRegisterPage.component.scss']
+  styleUrls: ['./CifRegisterPage.component.scss'],
+  // standalone: false
 })
 export class CifRegisterPageComponent implements OnInit {
   emailId: any = '';  candidateName: any; supervisorName: any;mobileNumber: any;     instituteName: any;

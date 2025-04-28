@@ -15,37 +15,56 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // Ng-select
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ATopHeaderComponent } from '../atop-header/atop-header.component';
+import { ArchwizardModule } from 'angular-archwizard';
  
-
 const routes: Routes = [
   {
     path: '',
-    component: CifRegisterPageComponent
+    component: CifRegisterPageComponent, 
   }
 ]
-
 @NgModule({
   declarations: [CifRegisterPageComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    FormsModule,
-    // FeatherIconModule,
-    NgbDropdownModule,
-    NgbDatepickerModule,
-    NgApexchartsModule,
     NgxDatatableModule,
-    NgbNavModule,
-    NgbCollapseModule,
-    PerfectScrollbarModule,
-    NgbModule,
+    FormsModule,
+    ArchwizardModule,
     ReactiveFormsModule,
-    NgSelectModule,
-    
-    
-],
-  providers: [
-   
-  ]
+    PerfectScrollbarModule,
+    NgbModule
+  ],
 })
+// const routes: Routes = [
+//   {
+//     path: '',
+//     component: CifRegisterPageComponent
+//   }
+// ]
+
+// @NgModule({
+//   declarations: [CifRegisterPageComponent],
+//   imports: [
+//     CommonModule,
+//     RouterModule.forChild(routes),
+//     FormsModule,
+//     // FeatherIconModule,
+//     NgbDropdownModule,
+//     NgbDatepickerModule,
+//     NgApexchartsModule,
+//     NgxDatatableModule,
+//     NgbNavModule,
+//     NgbCollapseModule,
+//     PerfectScrollbarModule,
+//     NgbModule,
+//     ReactiveFormsModule,
+//     NgSelectModule,
+    
+    
+// ],
+//   providers: [
+   
+//   ]
+// })
 export class CifRegisterPageModule { }

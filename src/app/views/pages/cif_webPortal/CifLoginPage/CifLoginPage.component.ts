@@ -21,7 +21,8 @@ import { MouDocumentsService } from 'src/app/_services/mou-documents.service';
 @Component({
   selector: 'app-CifLoginPage',
   templateUrl: './CifLoginPage.component.html',
-  styleUrls: ['./CifLoginPage.component.scss']
+  styleUrls: ['./CifLoginPage.component.scss'],
+  standalone:false
 })
 export class CifLoginPageComponent implements OnInit {
   
@@ -114,10 +115,7 @@ export class CifLoginPageComponent implements OnInit {
       text: 'Login details are Invalid!',
       icon: 'warning',
     });
-    // const element = document.getElementById('ActivityTakeActionPage');
-    // if (element) {
-    //   element.hidden = true;
-    // }
+    
   }
 
 

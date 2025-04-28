@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-atop-header',
   templateUrl: './atop-header.component.html',
-  styleUrls: ['./atop-header.component.scss']
+  styleUrls: ['./atop-header.component.scss'],
+  standalone: false
 })
 export class ATopHeaderComponent implements OnInit {
 

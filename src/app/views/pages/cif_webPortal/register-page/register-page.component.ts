@@ -17,7 +17,8 @@ import { LoginSessionService } from 'src/app/_services/login-session.service';
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
-  styleUrls: ['./register-page.component.scss']
+  styleUrls: ['./register-page.component.scss'],
+  standalone:false
 })
 export class RegisterPageComponent implements OnInit {
   emailId: any = '';  candidateName: any; supervisorName: any;mobileNumber: any;     instituteName: any;

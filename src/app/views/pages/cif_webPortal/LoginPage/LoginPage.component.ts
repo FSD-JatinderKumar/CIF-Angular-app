@@ -20,7 +20,8 @@ import { MouDocumentsService } from 'src/app/_services/mou-documents.service';
 @Component({
   selector: 'app-LoginPage',
   templateUrl: './LoginPage.component.html',
-  styleUrls: ['./LoginPage.component.scss']
+  styleUrls: ['./LoginPage.component.scss'],
+  // standalone: false
 })
 export class LoginPageNComponent implements OnInit {
   registrationNumber: any; regdId: any; DriveDropDown: any; showNoDataFoundMessage: boolean; UserData: any; isLoginFailed: boolean;

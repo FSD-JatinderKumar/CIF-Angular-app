@@ -21,6 +21,7 @@ import { DOCUMENT } from '@angular/common';
     selector: 'app-CifInstruments',
     templateUrl: './CifInstruments.component.html',
     styleUrls: ['./CifInstruments.component.scss'],
+    standalone: false
 })
 export class CifInstrumentsComponent implements OnInit {
     ColumnMode = ColumnMode; columns: any; loadingIndicator = false; headHtmlData: any[] = []; p: any = 1; perPage: any = 5;

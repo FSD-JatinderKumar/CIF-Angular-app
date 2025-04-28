@@ -17,6 +17,7 @@ import { QuillModule } from 'ngx-quill';
 // import { NgbCollapseModule, NgbModule, NgbNav, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ArchwizardModule } from 'angular-archwizard';
 
 const routes: Routes = [
   {
@@ -29,10 +30,30 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    NgxDatatableModule,
+    FormsModule,
+    ArchwizardModule,
+    ReactiveFormsModule,
     PerfectScrollbarModule,
-    NgbModule,
-    ReactiveFormsModule
-
+    NgbModule
   ],
 })
+
+// const routes: Routes = [
+//   {
+//     path: '',
+//     component: LoginPageNComponent, 
+//   }
+// ]
+// @NgModule({
+//   declarations: [LoginPageNComponent],
+//   imports: [
+//     CommonModule,
+//     RouterModule.forChild(routes),
+//     PerfectScrollbarModule,
+//     NgbModule,
+//     ReactiveFormsModule
+
+//   ],
+// })
 export class LoginPageNComponentModule { }

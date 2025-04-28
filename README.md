@@ -29,3 +29,43 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 <!-- https://github.com/FSD-JatinderKumar/CIF-Angular-app.git -->
 <!-- git remote add origin  https://github.com/FSD-JatinderKumar/CIF-Angular-app.git -->
+# Steps to create next js project with empty folder structure and no tailwind
+
+# 1 npx create-next-app@latest your-app-name --typescript --no-tailwind --eslint
+<!-- 
+
+npx create-next-app@latest cif-app --typescript --no-tailwind --eslint
+√ Would you like your code inside a `src/` directory? ... No / Yes
+√ Would you like to use App Router? (recommended) ... No / Yes
+√ Would you like to use Turbopack for `next dev`? ... No / Yes
+√ Would you like to customize the import alias (`@/*` by default)? ... No / Yes
+√ What import alias would you like configured? ... @/*
+Creating a new Next.js app in D:\TaskList\CIF Angular Project\WebPro\cif-app.
+
+Using npm.
+
+Initializing project with template: app
+
+
+Installing dependencies:
+- react
+- react-dom
+- next
+
+Installing devDependencies:
+- typescript
+- @types/node
+- @types/react
+- @types/react-dom
+- eslint
+- eslint-config-next
+- @eslint/eslintrc
+
+
+added 303 packages, and audited 304 packages in 2m
+
+127 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+Success! Created cif-app at D:\TaskList\CIF Angular Project\WebPro\cif-app -->
