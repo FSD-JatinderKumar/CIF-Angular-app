@@ -1,0 +1,107 @@
+/* Style the dropdown container */
+select {
+    width: 100%; /* Full width */
+    padding: 10px 15px; /* Some padding */
+    font-size: 16px; /* Font size */
+    border: 1px solid #ccc; /* Border style */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #f9f9f9; /* Background color */
+    color: #333; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    appearance: none; /* Remove default arrow */
+}
+
+/* Add a down arrow icon */
+select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4.1 8"><polygon fill="gray" points="4.1 1 2 3.3 0 1 0.6 0.4 2 2 3.5 0.4"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 8px 8px;
+}
+
+/* Style the dropdown options */
+select option {
+    padding: 8px 12px;
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Style for hover and focus */
+select:hover, select:focus {
+    border-color: #66afe9;
+    background-color: #f1f1f1;
+    outline: none; /* Remove the default focus outline */
+}
+
+/* Optional: Style for disabled state */
+select:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+// .label
+// {
+//     height:3.125rem;
+//     width:76.875rem;
+//     background-color: brown;
+//     color:white;
+//     /* margin-left:3.123rem; */
+//     margin-top:0.625rem;
+// }
+// .box
+// {
+//     height:29.375rem;
+//     width:76.875rem;
+//     /* margin-left:3.125rem; */
+//     border-style: outset;
+//     margin-top:0rem;
+   
+// }
+// h4{
+//     // margin-left:31.25rem;
+//     padding:0.625rem;
+//     font-weight:bold ;
+// }
+// .field
+// {
+//     display: inline-flex;
+//     margin-left: 12.5rem;
+//     margin-top: 0.5rem;/*1px;*/
+//     width:50rem;;
+//     height: 5rem;
+// }
+// label{
+//     font-weight: bold;
+//     color:brown;
+// }
+// .details
+// {
+//     width:21.875rem;
+//     margin-left:2.5rem;
+   
+// }
+
+// select,textarea,input{
+//     border-style: outset;
+//     box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.2);
+// }
+
+// .btt
+// {
+//     width:21.875REM;
+//     margin-top:2.25rem;
+//     margin-left: 22.5rem;
+   
+// }
+// button{
+//     background-color: #fd6c04!important;
+//     color:white;
+//     // margin-top: 3rem;
+//     box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.2);
+// }
+// button:hover
+// {
+//     background-color: brown!important;
+//     color:white;
+// }

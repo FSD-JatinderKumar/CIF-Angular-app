@@ -1,0 +1,226 @@
+<app-AdminDashboard></app-AdminDashboard>
+<div class="row">
+    <div class="  mb-5 mt-4 ">
+        <div class="row">
+            <h2 class="text-center ">Update Image(s)</h2>
+        </div>
+
+        <div class="row my-3">
+            <div class="col-4 mb-2">
+                <div class="text-md-center">
+                    <button (click)="exportToExcel()" class="btn btn-dark"
+                        [disabled]="this.TempAllInstrumentsDetails.length == 0">
+                        Export to Excel
+                    </button>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="text-center text-md-end">
+                    <input [(ngModel)]="searchQueryx" (keyup)="searchx()" id="searchx" type="text" class="form-control"
+                        placeholder="Type Search Text" aria-label="Search" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="text-center text-md-end">
+                    <!-- <span> </span> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row m-2 p-2">
+            <div class="col-12">
+                <ngx-datatable class="bootstrap table table-striped material" [rows]="this.TempAllInstrumentsDetails"
+                    [loadingIndicator]="loadingIndicator" [columnMode]="ColumnMode.force" [footerHeight]="50"
+                    [limit]="10" [headerHeight]="80" rowHeight="auto">
+                    <ngx-datatable-column *ngFor="let col of columns" [prop]="col"></ngx-datatable-column>
+
+                    <ngx-datatable-column name="Download Image" [sortable]="false" prop="Id">
+                        <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
+                            ngx-datatable-cell-template>
+                            <ng-container *ngIf="row.imageUrl != null">
+                                <button class="btn btn-dark btn-sm" (click)="onSelectFile(row)">
+                                    Download
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="row.imageUrl == null">
+                                <span class="ms-3 text-danger">No File</span>
+                            </ng-container>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="Instrument Status" [sortable]="false" prop="Id">
+                        <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                            <ng-container *ngIf="row.isActive===true; else unavailable">
+                                <span class="text-success ">Available</span>
+                            </ng-container>
+                            <ng-template #unavailable>
+                                <span class="text-danger">Unavailable</span>
+                            </ng-template>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <!-- <ngx-datatable-column name="Description" [sortable]="false" prop="Id">
+                            <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
+                                ngx-datatable-cell-template>
+                                <ng-container *ngIf="row.description != null">
+                                    <span class="text-truncate d-block">
+                                        {{ row.description | slice: 0:120 }} {{ row.description.length > 20 ? '...' : ''
+                                        }}
+                                    </span>
+                                </ng-container>
+                                <ng-container *ngIf="row.description == null">
+                                    <span class="text-muted fw-bold">No Description</span>
+                                </ng-container>
+                            </ng-template>
+                        </ngx-datatable-column> -->
+
+                    <ngx-datatable-column name="Actions" [sortable]="false" prop="Id">
+                        <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
+                            ngx-datatable-cell-template>
+                            <button class="btn btn-dark btn-sm" (click)="onSelect(row)">
+                                Take Action
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="container vh-100">
+    <div class="row">
+        <h6 class="card-title d-flex justify-content-center fs-4 text-success">All Instrument </h6>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="mb-3">
+                   
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="mb-3">
+                    <input [(ngModel)]="searchQueryx" (keyup)="searchx()" id="searchx" type="text"
+                        style=" width: 21rem;" class="form-control" placeholder="Type Search Text " aria-label="Search"
+                        aria-describedby="basic-addon1" />
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <ngx-datatable class="bootstrap table table-striped material" [rows]="this.TempAllInstrumentsDetails"
+                [loadingIndicator]="loadingIndicator" [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10"
+                [headerHeight]="80" rowHeight="auto">
+                <ngx-datatable-column *ngFor="let col of columns" [prop]="col"></ngx-datatable-column>
+                <ngx-datatable-column name="Download Image" [sortable]="false" prop="Id">
+                    <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <ng-container *ngIf="row.imageUrl != null">
+                            <button class="btn btn-dark" (click)="onSelectFile(row)">
+                                Download
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="row.imageUrl == null">
+                            <span style="margin: auto;float: left;
+                        font-weight: bold;padding: 10px 10px 10px 10px;">No FIle</span>
+                        </ng-container>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Description" [sortable]="false" prop="Id">
+                    <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <ng-container *ngIf="row.description != null ">
+                            <span style="margin: auto;float: left;
+                        font-weight: bold;padding: 10px 10px 10px 10px;"> {{row.description | slice:0:120 }} {{
+                                row.description.length > 20 ? '...' : '' }}</span>
+                        </ng-container>
+                        <ng-container *ngIf="row.description== null">
+                            <span style="margin: auto;float: left;
+                        font-weight: bold;padding: 10px 10px 10px 10px;">No Description </span>
+                        </ng-container>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Actions" [sortable]="false" prop="Id">
+                    <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+
+                        <button class="btn btn-dark" (click)="onSelect(row)">
+                            Take Action
+                        </button><br />
+
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+</div> -->
+    <ng-template #loginFailed>
+        <div class="text-center bg-danger" *ngIf="isLoginFailed">
+            <h3 class="text-center fs-2 m-5 text-warn pt-5 "> Error in User Login . </h3>
+            <div class="row mt-4 mb-4">
+                <div class="col-sm-12 text-center">
+                    <div class="mb-3 p-4">
+                        <Label class="form-label fs-4 text-warn ">Something Went Wrong. Please Try login again!.</Label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #viewDescModal let-modal>
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Instrument Image Modify</h5>
+            <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <label for="InstrumentId" class="form-label">{{this.InstrumentTitles}}</label>
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <form id="UpdateImage">
+                        <div class="row p-3 m-3">
+
+                            <div class="row mb-4">
+                                <div class="col-3">
+                                    <label for="userName" class="col-12 col-form-label">Instrument Id</label>
+                                    <label for="InstrumentId" class="form-label">{{this.InstrumentId}}</label>
+
+                                </div>
+                                <div class="col-3">
+                                    <div class="col-12">
+                                        <label for="userName" class="col-12 col-form-label">Instrument Status </label>
+                                        <input type="checkbox" id="StatusInstrument" name="StatusInstrument"
+                                            [(ngModel)]="StatusInstrument" (change)="ChangeStatus($event)" />
+                                        <div *ngIf="isForm1Submitted && form1.file.errors?.required"
+                                            class="invalid-feedback">
+                                            Required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <label for="userName" class="col-12 col-form-label">Instrument Image:</label>
+                                    <div class="col-12">
+                                        <input class="form-control" [(ngModel)]="fileNamesX" type="file" id="File"
+                                            name="file" (change)="onFileXSelected($event, this.InstrumentId)"
+                                            accept=".png, .jpg, .jpeg" />
+                                        <div *ngIf="isForm1Submitted && form1.file.errors?.required"
+                                            class="invalid-feedback">
+                                            Required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 text-end">
+                                    <label class="col-12 col-form-label"> Action Button </label>
+                                    <div class="col-12"><button type="submit"
+                                            [disabled]="!fileChosen[this.InstrumentId]" class="btn btn-primary"
+                                            (click)="UpdateFileDocument(this.InstrumentId);">Upload
+                                            Image </button>
+                                    </div>
+                                    <!-- <button type="submit" style="margin-top: 27px;" [disabled]="isInputDisabled" class="btn btn-dark me-2"
+                  (click)="UpdateImageData();">Submit</button> -->
+
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

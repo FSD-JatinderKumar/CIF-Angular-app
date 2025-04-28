@@ -1,0 +1,192 @@
+<nav class="navbar navbar-light navbar-expand-lg mb-4">
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler bg-light"
+      type="button"
+      (click)="toggleNavbar()"
+      aria-controls="navbarNav"
+      [attr.aria-expanded]="isNavbarCollapsed ? 'false' : 'true'"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div [ngClass]="{'collapse': isNavbarCollapsed, 'navbar-collapse': true}"  id="navbarNav"    >
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 bg-transparent" >
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle custom-nav-link"
+            id="newBookingsDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+          <span style="border-bottom:1px solid #ef7d00;"> Bookings & Payments</span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="newBookingsDropdown">
+            <li>
+              <a
+                class="dropdown-item custom-dropdown-item"
+                (click)="goto('NewBookings')"
+                >New Booking</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item custom-dropdown-item"
+                (click)="goto('ViewBookings')"
+                >All Bookings</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle custom-nav-link"
+            id="newBookingsDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+          <span style="border-bottom:1px solid #ef7d00;">  Payment Receipts</span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="newBookingsDropdown">
+            <li>
+              <a
+                class="dropdown-item custom-dropdown-item"
+                (click)="goto('SearchPayments')"
+                >All Paid</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item custom-dropdown-item"
+                (click)="goto('SearchPendingPayments')"
+                >All Pending</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item custom-dropdown-item"
+                (click)="goto('FailedPayments')"
+                >All Failed</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle custom-nav-link"
+            id="resultsDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+          <span style="border-bottom:1px solid #ef7d00;"> Results</span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="resultsDropdown">
+            <li>
+              <a
+                class="dropdown-item custom-dropdown-item"
+                (click)="goto('BookingStatus')"
+                >Test Status</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item custom-dropdown-item"
+                (click)="goto('BookingResult')"
+                >View Results</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link custom-nav-link"
+            href="javascript:void(0)"
+            (click)="handleChangePassword($event)"
+            >Change Password</a
+          >
+        </li>
+        <!-- <li class="nav-item">
+          <a
+            class="nav-link custom-nav-link"
+            (click)="goto('CifTermsConditions')"
+            >Our Terms and Conditions</a
+          >
+        </li> -->
+        <li class="nav-item">
+          <a
+            class="nav-link custom-nav-link"
+            (click)="goto('Login')"
+            >Logout</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="text-center mt-4">
+  <h2 class="mb-0 text-center mb-4">Central Instrumentation Facility</h2>
+</div>
+ 
+
+<!-- 
+<nav class="navbar navbar-light bg-light navbar-expand-lg mb-4">
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="toggleNavbar()"
+      aria-controls="navbarNav"
+      [attr.aria-expanded]="isNavbarCollapsed ? 'false' : 'true'"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div [ngClass]="{'collapse': isNavbarCollapsed, 'navbar-collapse': true, 'justify-content-center': true}" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle custom-nav-link" id="newBookingsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Bookings & Payments
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="newBookingsDropdown">
+            <li><a class="dropdown-item custom-dropdown-item" (click)="goto('NewBookings');">New Booking</a></li>
+            <li><a class="dropdown-item custom-dropdown-item" (click)="goto('ViewBookings');">All Bookings</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle custom-nav-link" id="resultsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Results
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="resultsDropdown">
+            <li><a class="dropdown-item custom-dropdown-item" (click)="goto('BookingStatus');">Test Status</a></li>
+            <li><a class="dropdown-item custom-dropdown-item" (click)="goto('BookingResult');">View Results</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link custom-nav-link" href="javascript:void(0)" (click)="handleChangePassword($event)">
+            Change Password
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link custom-nav-link" (click)="goto('CifTermsConditions');">Our Terms and Conditions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link custom-nav-link" (click)="goto('cifWebPortal');">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div style="padding-bottom: 10px;">  
+  <div class="container-fluid d-flex justify-content-center align-items-center">
+   
+    <div class="mx-auto text-start mt-4">
+      <h1 class="mb-0">Central Instrumentation Facility</h1>
+    </div>
+    
+  </div>
+
+</div>
+  <router-outlet></router-outlet> -->

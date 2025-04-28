@@ -1,0 +1,47 @@
+.table-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .table-wrapper {
+    overflow-y: auto;
+    max-height: 400px; 
+  }
+  
+  .table {
+    width: max-content;
+    border-collapse: collapse;
+  }
+  
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #f9f9f9; 
+    border: 1px solid #ddd;
+  }
+  
+  tbody td {
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    padding: 8px 12px;
+    text-align: left;
+  }
+  
+  .pagination-controls {
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .loading-indicator {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 1.2em;
+    color: #555;
+  }
+  

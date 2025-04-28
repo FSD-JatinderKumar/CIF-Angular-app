@@ -1,0 +1,53 @@
+<nav class="navbar navbar-light navbar-expand-lg mb-4">
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler bg-light"
+      type="button"
+      (click)="toggleNavbar()"
+      aria-controls="navbarNav"
+      [attr.aria-expanded]="isNavbarCollapsed ? 'false' : 'true'"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div [ngClass]="{'collapse': isNavbarCollapsed, 'navbar-collapse': true, 'justify-content-center': true}" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 bg-transparent">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="manageTestsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <span style="border-bottom:1px solid #ef7d00;">   Manage Tests </span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="manageTestsDropdown">
+            <li><a class="dropdown-item" (click)="goto('AssignTestCifA')">Assign Test</a></li>
+            <li><a class="dropdown-item" (click)="goto('ViewBookingsAdmins')">Upload Results</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown ">
+          <a class="nav-link dropdown-toggle" id="manageUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Manage User
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="manageUserDropdown">
+            <li><a class="dropdown-item" (click)="goto('PendingPaymentsA')">User Payments</a></li>
+            <li><a class="dropdown-item" (click)="goto('UserDetail')">User Details</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown ">
+          <a class="nav-link dropdown-toggle" id="manageUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Instruments
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="manageUserDropdown">
+            <a class="dropdown-item" (click)="goto('AdminInstrumentAction')">Change State</a>
+            <a class="dropdown-item" (click)="goto('AdminUploadImage')">Upload Image</a>
+            <!-- <li><a class="nav-link" >Edit Details</a></li>  -->
+            <!-- (click)="goto('#')" -->
+          </ul>
+        </li>
+        <!-- <li class="nav-item    d-flex align-items-center">
+          
+        </li> -->
+        <li class="nav-item  ">
+          <a class="nav-link" (click)="goto('Login')">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,348 @@
+<app-FacultyDashboard></app-FacultyDashboard>
+<div class="container-fluid " style=" height: 2.5rem; ">
+  <div class="container-fluid d-flex justify-content-center align-items-center">
+    <div class="mx-auto mt-4 mb-4 text-start">
+      <h1 class="mb-0">Central Instrumentation Facility Staff Dashboard </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-around">
+            <label class="col-6 form-label text-danger" style="font-weight: 700;">Employee Name / UID
+            </label>
+            <label class="col-6 form-label text-dark  " style="text-align: right; font-weight: 700;">{{EmployeeName}} /
+              {{this.EmployeeCode}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-around">
+            <label class="col-5 form-label text-danger " style="font-weight: 700;">Department
+              Name</label>
+            <label class="col-7 form-label text-dark " style="text-align: right;font-weight: 700;">
+              {{this.DepartmentName}}
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<nav>
+  <div class="nav nav-tabs nav nav-tabs d-flex justify-content-center active" id="nav-tab" role="tablist">
+    <button class="btn btn-warning me-5 active" id="StaffUpload-Results-tab" data-bs-toggle="tab"
+      style="padding: .95rem 8rem;" data-bs-target="#StaffUpload-Results" type="button" role="tab"
+      aria-controls="StaffUpload-Results" aria-selected="true">Upload Results  </button>
+
+    <button class=" btn btn-warning ms-5" id="AllUpload-Results-tab" data-bs-toggle="tab"
+      style="padding: .95rem 8rem;" data-bs-target="#AllUpload-Results" type="button" role="tab"
+      aria-controls="AllUpload-Results" aria-selected="false">View My Uploaded </button>   
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent" *ngIf="isLoginFailed==false; else loginFailed"
+  style="background-color: white; height: 85rem;">
+  <div class="tab-pane fade active show" id="StaffUpload-Results" role="tabpanel"
+    aria-labelledby="StaffUpload-Results-tab">
+    <!-- <div class="container-fluid" id="CIFForm" *ngIf="isLoginFailed==false; else loginFailed"  style="background-color: white; height: 85rem;"> -->
+
+    <div class="row" *ngIf="BookingData.length > 0 ;else NoData">
+      <div class="col-12 stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <hr />
+            <div class="row d-flex justify-content-center">
+              <div class="col-sm-2">
+                <div class="mb-3">
+                  <button (click)="exportToExcel()" class="btn btn-dark "
+                    [disabled]="tmpsBookingData.length ===0">Export to
+                    Excel</button>
+                </div>
+              </div>
+              <div class="col-sm-5">
+                <div class="mb-3 text-center">
+                  <Label class="fs-3 "> Results Upload </Label>
+                </div>
+              </div>
+              <div class="col-sm-5 mb-4 ">
+                <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text" style=" width: 21rem; "
+                  class="form-control " placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+              </div>
+              <hr />
+            </div>
+            <ng-container *ngIf="tmpsBookingData.length > 0; else noRecords">
+
+              <table id="BookingDetailsDataTable" #table class="table">
+                <thead>
+                  <tr>
+                    <th class="form-label fs-5 text-danger    fw-bolder">User Id</th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Booking Id</th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Instrument Id</th>
+                    <th class="fw-bold fs-5 text-danger     ">Request Sheet</th>
+                    <!-- <th class="form-label fs-5 text-danger    fw-bolder">Analysis Charges </th> -->
+                    <th class="form-label fs-5 text-danger    fw-bolder">Number of Samples</th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Total Charges </th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Request Date</th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Action </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let BookingDataRow of getCurrentPageData(); let i = index">
+                    <tr *ngIf="BookingDataRow.userId?.length>0;">
+                      <td class="fw-bold "> {{BookingDataRow.userId?.length>0? BookingDataRow.userId: 'NA'
+                        }} <br /> <span class="text-danger"> {{BookingDataRow.candidateName}} </span></td>
+                      <td class="fw-bold"> {{BookingDataRow.bookingId}}</td>
+                      <td class="fw-bold"> {{BookingDataRow.instrumentId}}
+                        <br /> <span class="text-danger"> {{BookingDataRow.instrumentName}} </span>
+                      </td>
+                      <ng-container *ngIf="BookingDataRow.fileName; else NoFile">
+                        <td>
+                          <button class="btn-dark btn ms-3" (click)="downloadFile(BookingDataRow.fileName)">
+                            View
+                          </button>
+                        </td>
+                      </ng-container>
+                      <ng-template #NoFile>
+                        <td class="ms-4">
+                          <span class="badge text-bg-info ms-3 fs-5 text-danger    "> N/A </span>
+                        </td>
+                      </ng-template>
+                      <!-- <td class="fw-bold">{{BookingDataRow.analysisCharges}} </td> -->
+                      <td class="fw-bold"> {{BookingDataRow.noOfSamples}}</td>
+                      <td class="fw-bold"> {{BookingDataRow.totalCharges}}</td>
+                      <td class="fw-bold">{{ BookingDataRow.allocatedOn }}</td>
+                      <td class="fw-bold"><button class="btn btn-dark btn-sm"
+                          (click)="openPaymentModal(BookingDataRow)">Upload Result</button></td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+                <!-- <tfoot>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </tfoot> -->
+              </table>
+              <div class="pagination">
+                <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                    class="mdi mdi-chevron-left  fs-2"> </i> </a>
+                <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+              </div>
+            </ng-container>
+            <ng-template #noRecords>
+              <p class="fs-2 text-danger text-center ">No Grid Data Available.</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #NoData>
+      <div class="text-center bg-info">
+        <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
+        <div class="row mt-4 mb-4">
+          <div class="col-sm-12 text-center">
+            <div class="mb-3 p-4">
+              <Label class="form-label fs-4 text-danger ">No Booking Found.</Label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #viewDescModal2 let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Result Upload Screen </h5>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <div class="col-md-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <div class="row mb-4">
+                <div class="col-sm">
+                  <table id="dataTableAllClosedRemarks" class="table">
+                    <thead>
+                      <tr>
+                        <!-- <th class=" fs-5 ">User </th> -->
+                        <th class=" fs-5 text-danger    ">Booking Id </th>
+                        <th class=" fs-5 text-danger    ">Instrument Name </th>
+                        <th class=" fs-5 text-danger    ">Upload File </th>
+                        <th class=" fs-5 text-danger    ">Remarks (Any)</th>
+                        <th class=" fs-5 text-danger    ">Upload Action </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <!-- <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.userEmailId != null || BookingCase.userEmailId !== 'undefined' ? BookingCase.userEmailId: 'NA' }}</td> -->
+                        <td class=" fs-5 text-danger    p-4 " style="width: 20%;">{{BookingCase.bookingId}} </td>
+                        <td class=" fs-5 text-danger    p-4 " style="width: 20%;">{{BookingCase.instrumentName}} </td>
+                        <td class=" fs-5 text-danger    ">
+                          <input class="w-30" required type="file" id="File" name="File"
+                            (change)="onFileSelected($event)" accept=".zip, .7z, .rar" #fileInput="ngModel" ngModel />
+                          <div class="col- mt-2"><span class=" themeClr"> Allowed Documents format Zip and of Max size
+                              5MB </span></div>
+
+                        </td>
+                        <td class=" fs-5 text-danger    p-4 " style="width: 20%;">
+                          <textarea required name="remarks" [(ngModel)]="Remarks" rows="5" cols="30"
+                            class="col-12 p-2 form-control" id="remarks" #remarks="ngModel" autocomplete="off">
+                                         </textarea>
+                        </td>
+                        <td><button type="submit" class="btn btn-primary me-2" (click)="VerifyData(BookingCase);">Upload
+                            Result</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+
+  <!-- Tab -2  -->
+  <div class="tab-pane fade" id="AllUpload-Results" role="tabpanel" aria-labelledby="AllUpload-Results-tab">
+    <div class="row" *ngIf="UplaodedResultsData.length > 0 ;else NoData">
+      <div class="col-12 stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <hr />
+            <div class="row d-flex justify-content-center">
+              <div class="col-sm-2">
+                <div class="mb-3">
+                  <button (click)="exportToExcels()" class="btn btn-dark "
+                    [disabled]="tmpUplaodedResultsData.length ===0">Export to
+                    Excel</button>
+                </div>
+              </div>
+              <div class="col-sm-5">
+                <div class="mb-3 text-center">
+                  <Label class="fs-3 "> Results Uploaded Report </Label>
+                </div>
+              </div>
+              <div class="col-sm-5 mb-4 ">
+                <input [(ngModel)]="searchQueryx" (keyup)="searchx()" id="search" type="text" style=" width: 21rem; "
+                  class="form-control " placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
+              </div>
+              <hr />
+            </div>
+            <ng-container *ngIf="tmpUplaodedResultsData.length > 0; else noRecords">
+
+              <table id="BookingDetailsDataTable" #table class="table">
+                <thead>
+                  <tr>
+                    <th class="form-label fs-5 text-danger    fw-bolder">User Id</th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Booking Id</th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Instrument Id</th>
+                    <th class="fw-bold fs-5 text-danger     ">Request Sheet</th>
+                    <th class="fw-bold fs-5 text-danger     ">Uploaded Results File</th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Number of Samples</th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Total Charges </th>
+                    <th class="form-label fs-5 text-danger    fw-bolder">Request Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let BookingDataRow of getCurrentResultsPageData(); let i = index">
+                    <tr *ngIf="BookingDataRow.userId?.length>0;">
+                      <td class="fw-bold "> {{BookingDataRow.userId?.length>0? BookingDataRow.userId: 'NA'
+                        }} <br /> <span class="text-danger"> {{BookingDataRow.candidateName}} </span></td>
+                      <td class="fw-bold"> {{BookingDataRow.bookingId}}</td>
+                      <td class="fw-bold"> {{BookingDataRow.instrumentId}}
+                        <br /> <span class="text-danger"> {{BookingDataRow.instrumentName}} </span>
+                      </td>
+                      <ng-container *ngIf="BookingDataRow.fileName; else NoFile">
+                        <td>
+                          <button class="btn-dark btn ms-3" (click)="downloadFile(BookingDataRow.fileName)">
+                            View
+                          </button>
+                        </td>
+                      </ng-container>
+                      <ng-template #NoFile>
+                        <td class="ms-4">
+                          <span class="badge text-bg-info ms-3 fs-5 text-danger    "> N/A </span>
+                        </td>
+                      </ng-template>
+                      <ng-container *ngIf="BookingDataRow.uploadedResultSheet; else NoFile">
+                        <td>
+                          <button class="btn-dark btn ms-3" (click)="downloadUploadResult(BookingDataRow.uploadedResultSheet)">
+                            Download Result 
+                          </button>
+                        </td>
+                      </ng-container>
+                      <ng-template #NoFile>
+                        <td class="ms-4">
+                          <span class="badge text-bg-info ms-3 fs-5 text-danger"> N/A </span>
+                        </td>
+                      </ng-template>
+                      <!-- <td class="fw-bold">{{BookingDataRow.analysisCharges}} </td> -->
+                      <td class="fw-bold"> {{BookingDataRow.noOfSamples}}</td>
+                      <td class="fw-bold"> {{BookingDataRow.totalCharges}}</td>
+                      <td class="fw-bold">{{ BookingDataRow.allocatedOn }}</td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+                <!-- <tfoot>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </tfoot> -->
+              </table>
+              <div class="pagination">
+                <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                    class="mdi mdi-chevron-left  fs-2"> </i> </a>
+                <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+              </div>
+            </ng-container>
+            <ng-template #noRecords>
+              <p class="fs-2 text-danger text-center ">No Grid Data Available.</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #NoData>
+      <div class="text-center bg-info">
+        <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
+        <div class="row mt-4 mb-4">
+          <div class="col-sm-12 text-center">
+            <div class="mb-3 p-4">
+              <Label class="form-label fs-4 text-danger ">No Booking Found.</Label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>
+<ng-template #loginFailed>
+  <div class="text-center bg-danger" *ngIf="isLoginFailed">
+    <h3 class="text-center fs-2 m-5 text-warn pt-5 "> Error in User Login . </h3>
+    <div class="row mt-4 mb-4">
+      <div class="col-sm-12 text-center">
+        <div class="mb-3 p-4">
+          <Label class="form-label fs-4 text-warn ">Something Went Wrong. Please Try login again!.</Label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

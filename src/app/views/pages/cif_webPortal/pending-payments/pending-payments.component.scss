@@ -1,0 +1,65 @@
+.label
+{
+    height:3.125rem;
+    width:76.875rem;
+    background-color: brown;
+    color:white;
+    /* margin-left:3.123rem; */
+    margin-top:0.625rem;
+}
+.box
+{
+    height:29.375rem;
+    width:76.875rem;
+    /* margin-left:3.125rem; */
+    border-style: outset;
+    margin-top:0rem;
+   
+}
+h4{
+    // margin-left:31.25rem;
+    padding:0.625rem;
+    font-weight:bold ;
+}
+.field
+{
+    display: inline-flex;
+    margin-left: 12.5rem;
+    margin-top: 0.5rem;/*1px;*/
+    width:50rem;;
+    height: 5rem;
+}
+// label{
+//     font-weight: bold;
+//     color:brown;
+// }
+.details
+{
+    width:21.875rem;
+    margin-left:2.5rem;
+   
+}
+
+select,textarea,input{
+    border-style: outset;
+    box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btt
+{
+    width:21.875REM;
+    margin-top:2.25rem;
+    margin-left: 22.5rem;
+   
+}
+// button{
+//     background-color: #fd6c04!important;
+//     color:white;
+//     // margin-top: 3rem;
+//     box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.2);
+// }
+// button:hover
+// {
+//     background-color: brown!important;
+//     color:white;
+// }

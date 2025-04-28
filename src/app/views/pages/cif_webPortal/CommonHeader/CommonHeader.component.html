@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-lg mb-4">
+  <div class="container-fluid">
+    <div class="container-fluid d-flex ">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <!-- <img src="https://www.lpu.in/lpu-assets/images/logo/logo.svg" alt="LPU LOGO" class="mobile-social-logo me-3 imgSize" > -->
+        <img
+          src="https://www.lpu.in/lpu-assets/images/logo/logo.svg"
+          alt="LPI Cif"
+          width="80"
+          height="80"
+          class="imgSize d-inline-block d-none align-top me-2"
+        />
+        <!-- <span>LPU CIF </span> -->
+      </a>
+      <button
+      class="navbar-toggler bg-light"
+      type="button"
+      (click)="toggleNavbar()"
+      aria-controls="navbarNav"
+      [attr.aria-expanded]="isNavbarCollapsed ? 'false' : 'true'"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div [ngClass]="{'collapse': isNavbarCollapsed, 'navbar-collapse': true}" id="navbarNav" >
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 imgSize">
+        <!-- <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <img src="https://www.lpu.in/lpu-assets/images/logo/logo.svg" alt="LPU LOGO" class="mobile-social-logo me-3 imgSize" >
+              <img src="https://www.lpu.in/lpu-assets/images/logo/naac-logo.svg" alt="LPU LOGO" class="ms-2 naac-logo">
+            </a>
+          </li> -->
+          <li class="nav-item ">
+            <a class="nav-link custom-nav-link"  (click)="goto('')"
+            > CIF Home </a>           
+          </li>        
+          <li class="nav-item">
+            <a
+              class="nav-link custom-nav-link"
+              (click)="goto('ourInstruments')"
+              >Our Instruments</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link custom-nav-link"
+              (click)="goto('LpuTermsConditions')"
+              >Our Terms and Conditions</a
+            >
+          </li>
+          <li class="nav-item">
+              <a class="nav-link custom-nav-link" (click)="goto('cifWebPortal')" >Login </a>                              
+          </li>
+          <!-- <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle custom-nav-link"
+              id="newBookingsDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Login
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="newBookingsDropdown">
+              <li>
+                <a class="dropdown-item custom-dropdown-item" (click)="goto('LoginPage')" >Lpu User </a> 
+              </li>
+              <li>
+                <a class="dropdown-item custom-dropdown-item" (click)="goto('cifWebPortal')" >External User </a>                              
+              </li>
+              <li>
+                <a class="dropdown-item custom-dropdown-item" (click)="goto('signup')" >Register User </a>   
+              </li>
+              <li>
+                <a class="dropdown-item custom-dropdown-item" (click)="goto('recoverAccount')" >Recover Account </a>                          
+              </li>
+            </ul>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

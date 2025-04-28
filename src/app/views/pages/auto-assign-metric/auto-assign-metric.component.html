@@ -1,0 +1,341 @@
+<div class="container-fluid" id="JournalForm" *ngIf="isLoginFailed==false; else loginFailed">
+  <div class="col-md-12 grid-margin">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title fs-2 text-center">AutoQuery Intergration </h2>
+
+        <!-- <aw-wizard #wizardForm>
+
+          <aw-wizard-step stepTitle="step 1"> -->
+           <div class="m-5">
+            <form (ngSubmit)="form1Submit()" [formGroup]="validationForm1">
+
+              <div class="row mb-3">
+                <label for="metricId" class="col-sm-3 col-form-label">Session Id</label>
+                <div class="col-sm-3">
+                  <!-- <label for="sessionDropdown">Select Session</label> -->
+                  <select id="sessionDropdown" class="form-control " id="sessionId" [(ngModel)]="sessionId"
+                    formControlName="sessionId" bindValue="sessionId"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.sessionId.errors}" placeholder="Session Id">
+                    <option value="Select">Select Session</option>
+                    <option *ngFor="let item of items" [value]="item.id">
+                      {{ item.session }}
+                    </option>
+                  </select>
+                  <!-- <div *ngIf="isForm1Submitted && form1.sessionId.errors?.required " class="invalid-feedback">
+                    Required
+                  </div> -->
+                  <div
+                    *ngIf=" isForm1Submitted && (validationForm1.get('sessionId')?.value=='Select' || validationForm1.get('sessionId')?.touched) "
+                    class="text-danger">
+                    Required
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="row mb-3">
+                <label for="metricId" class="col-sm-3 col-form-label">Metric Id</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control " id="metricId" [(ngModel)]="metricId"
+                    formControlName="metricId" (change)="OnMetricChange($event)" bindValue="metricId"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.metricId.errors}" placeholder="Metric Id">
+                  <div *ngIf="isForm1Submitted && form1.metricId.errors?.required" class="invalid-feedback">
+                    Required
+                  </div>
+                  <div class="col-sm-6"> <span
+                      *ngIf="metricId=='' && form1.metricId.invalid && form1.metricId.touched">Field Required</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col-sm-12">
+                  <div class="table-responsive">
+                    <div id="wrapper1">
+                      <div id="div1">
+                      </div>
+                    </div>
+                    <div id="wrapper2">
+                      <div id="div2">
+                        <table id="dataTableExampleNews" class="table table-responsive table-full-width">
+                          <thead>
+                            <tr>
+                              <th *ngFor="let dt of columns" style="min-width: 150px; text-align: left;">
+                                {{ dt }}
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let row of tmpsOnMetricData">
+                              <td class="col-2 m-4" *ngFor="let col of columns"
+                                style="min-width: 150px; text-align: left;">
+                                {{ row[col] || '-' }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="ResultQuery" class="col-sm-3 col-form-label">Result Query</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" id="ResultQueryss" [(ngModel)]="ResultQuery"
+                    (change)="GetResult()" formControlName="ResultQuery"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.ResultQuery.errors}" placeholder="Result Query">
+                  <div *ngIf="isForm1Submitted && form1.ResultQuery.errors?.required" class="invalid-feedback">
+                    Required
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-5">
+                <div class="col-sm-12">
+                  <div *ngIf="loadingIndicator" class="loading-indicator">
+                    Loading data, please wait...
+                  </div>
+
+                  <div *ngIf="!loadingIndicator && QueryResult.length > 0; else noDataTemplate" class="table-container">
+                    <div class="table-header" #headerWrapper>
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th *ngFor="let column of columnss">{{ column }}</th>
+                          </tr>
+                        </thead>
+                      </table>
+                    </div>
+
+                    <div class="table-body" #bodyWrapper>
+                      <table class="table">
+                        <tbody>
+                          <tr *ngFor="let row of pagedQueryResult">
+                            <td *ngFor="let column of columnss">{{ row[column] }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="pagination-controls">
+                      <button [disabled]="currentPage === 1" (click)="onPageChange(currentPage - 1)">
+                        &laquo; Previous
+                      </button>
+                      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+                      <button [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
+                        Next &raquo;
+                      </button>
+                    </div>
+                  </div>
+
+                  <ng-template #noDataTemplate>
+                    <p class="text-danger badge badge-bg-info ">No data available to display.</p>
+                  </ng-template>
+                </div>
+              </div>
+
+
+              <div class="row mb-3">
+                <label for="AutoAllocated" class="col-sm-3 col-form-label">Is Auto Allocated </label>
+                <div class="col-sm-3">
+                  <input type="radio" formControlName="AutoAllocated" id="AutoAllocatedYes" class="ms-4 me-4" [(ngModel)]="AutoAllocated"
+                    value="true"> Yes
+                  <input type="radio" formControlName="AutoAllocated" id="AutoAllocatedNo" class="ms-4 me-4" value="false" [(ngModel)]="AutoAllocated">
+                  No
+                  <div
+                    *ngIf=" isForm1Submitted && (validationForm1.get('AutoAllocated')?.value=='No' || validationForm1.get('AutoAllocated')?.touched) "
+                    class="text-danger">
+                    Required
+                  </div>
+                </div>
+                <!-- </div>
+              
+              <div class="row mb-3"> -->
+                <label for="AllocationType" class="col-sm-3 col-form-label">Allocation Type </label>
+                <div class="col-sm-3">
+                  <input type="radio" formControlName="AllocationType" id="AllocationTypeYes" class="ms-4 me-4" [(ngModel)]="AllocationType"
+                    value="true"> Yes
+                  <input type="radio" formControlName="AllocationType" id="AllocationTypeNo" class="ms-4 me-4" [(ngModel)]="AllocationType"
+                    value="false"> No
+                  <div *ngIf=" isForm1Submitted && (validationForm1.get('AllocationType')?.value=='No' || validationForm1.get('AllocationType')?.touched)" class="text-danger">
+                    Required
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="row mb-3">
+                <label for="IsIncentiveBased" class="col-sm-3 col-form-label">Is Incentive Based </label>
+                <div class="col-sm-3">
+                  <input type="radio" formControlName="IsIncentiveBased" id="IsIncentiveBasedYes" class="ms-4 me-4" value="true" [(ngModel)]="IsIncentiveBased">
+                  Yes
+                  <input type="radio" formControlName="IsIncentiveBased" id="IsIncentiveBasedNo" class="ms-4 me-4" value="false" [(ngModel)]="IsIncentiveBased">
+                  No
+                  <div
+                    *ngIf=" isForm1Submitted && (validationForm1.get('IsIncentiveBased')?.value=='No' || validationForm1.get('IsIncentiveBased')?.touched) "
+                    class="text-danger">
+                    Required
+                  </div>
+                </div>
+                <!-- </div>
+              <div class="row mb-3"> -->
+                <label for="StageWise" class="col-sm-3 col-form-label">Is StageWise </label>
+                <div class="col-sm-3">
+                  <input type="radio" formControlName="StageWise" id="StageWiseYes" class="ms-4 me-4" value="true" [(ngModel)]="StageWise"/> Yes
+                  <input type="radio" formControlName="StageWise" id="StageWiseNo" class="ms-4 me-4" value="false"  [(ngModel)]="StageWise"/> No
+                  <div
+                    *ngIf=" isForm1Submitted && (validationForm1.get('StageWise')?.value=='No' || validationForm1.get('StageWise')?.touched) "
+                    class="text-danger">
+                    Required
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="StreamWise" class="col-sm-3 col-form-label">Is StreamWise </label>
+                <div class="col-sm-3">
+                  <input type="radio" formControlName="StreamWise" id="StreamWisesYes" class="ms-4 me-4" value="true" [(ngModel)]="StreamWise" />
+                  Yes
+                  <input type="radio" formControlName="StreamWise" id="StreamWisesNo" class="ms-4 me-4" value="false" [(ngModel)]="StreamWise" /> No
+                  <div
+                    *ngIf=" isForm1Submitted && (validationForm1.get('StreamWise')?.value=='0' || validationForm1.get('StreamWise')?.touched) "
+                    class="text-danger">
+                    Required
+                  </div>
+                </div>
+              <!-- </div>
+              <div class="row mb-3"> -->
+                <label for="SchoolWise" class="col-sm-3 col-form-label">Is School Wise </label>
+                <div class="col-sm-3">
+                  <input type="radio" formControlName="SchoolWise" id="SchoolWisesYes" class="ms-4 me-4" value="true" [(ngModel)]="SchoolWise" />
+                  Yes
+                  <input type="radio" formControlName="SchoolWise" id="SchoolWisesNo" class="ms-4 me-4" value="false" [(ngModel)]="SchoolWise" /> No
+                  <div
+                    *ngIf=" isForm1Submitted && (validationForm1.get('SchoolWise')?.value=='0' || validationForm1.get('SchoolWise')?.touched) "
+                    class="text-danger">
+                    Required
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="PageUrl" class="col-sm-3 col-form-label">Page URL </label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="PageUrl" formControlName="PageUrl" [(ngModel)]="PageUrl"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.PageUrl.errors}"
+                    placeholder="Page Url">
+                  <div *ngIf="isForm1Submitted && form1.PageUrl.errors?.required" class="invalid-feedback">
+                    Required
+                  </div>
+                </div>
+            
+                <label for="Remarks" class="col-sm-3 col-form-label">Remarks </label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="DetailedQuery" formControlName="Remarks" [(ngModel)]="Remarks"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.Remarks.errors}"
+                    placeholder="Remarks ">
+                  <div *ngIf="isForm1Submitted && form1.Remarks.errors?.required" class="invalid-feedback">
+                    Required
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="DetailedQuerys" class="col-sm-3 col-form-label">Detailed Query </label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="DetailedQuery" formControlName="DetailedQuerys" [(ngModel)]="DetailedQuerys"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.DetailedQuerys.errors}"
+                    placeholder="DetailedQuery">
+                  <div *ngIf="isForm1Submitted && form1.DetailedQuerys.errors?.required" class="invalid-feedback">
+                    Required
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="ProofType" class="col-sm-3 col-form-label">ProofType</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="ProofType" formControlName="ProofType" [(ngModel)]="ProofType"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.ProofType.errors}" placeholder="Proof Type">
+                  <div *ngIf="isForm1Submitted && form1.ProofType.errors?.required" class="invalid-feedback">
+                    Required
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="userName" class="col-sm-3 col-form-label">Query Handler UID</label>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="userName" formControlName="userName" [(ngModel)]="userName"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.userName.errors}" placeholder="UID">
+                  <div *ngIf="isForm1Submitted && form1.userName.errors?.required" class="invalid-feedback">
+                    Required
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-2">
+                <button class="btn btn-primary" type="submit">Save</button>
+              </div>
+            </form>
+          </div> 
+          <!-- </aw-wizard-step>
+
+          <aw-wizard-step stepTitle="step 2">
+            <form (ngSubmit)="form2Submit()" [formGroup]="validationForm2">
+              <div class="row mb-3">
+                <label for="email" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                  <input type="email" class="form-control" id="email" formControlName="email"
+                    [ngClass]="{'is-invalid': isForm2Submitted && form2.email.errors}" placeholder="Email">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="mobileNumber" class="col-sm-3 col-form-label">Mobile</label>
+                <div class="col-sm-9">
+                  <input type="number" class="form-control" id="mobileNumber" formControlName="mobileNumber"
+                    [ngClass]="{'is-invalid': isForm2Submitted && form2.mobileNumber.errors}"
+                    placeholder="Mobile number">
+                </div>
+              </div>
+              <div class="row mb-3">
+                <label for="password" class="col-sm-3 col-form-label">Password</label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control" id="password" formControlName="password"
+                    [ngClass]="{'is-invalid': isForm2Submitted && form2.password.errors}" placeholder="Password">
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mt-2">
+                <button class="btn btn-secondary me-2" type="button" awPreviousStep>Back</button>
+                <button class="btn btn-primary" type="submit">Continue</button>
+              </div>
+            </form>
+          </aw-wizard-step>
+
+          <aw-wizard-step stepTitle="finish">
+            <div class="text-center">
+              <i data-feather="check-circle" appFeatherIcon class="text-success mt-4 mb-2 icon-xxl"></i>
+              <h3 class="text-muted mb-3">Thank you !</h3>
+              <p class="w-75 mx-auto mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
+                ut nulla nunc. Maecenas arcu sem, hendrerit a tempor quis, sagittis accumsan tellus. In hac habitasse
+                platea dictumst</p>
+            </div>
+            <div class="d-flex justify-content-center mt-2">
+              <button class="btn btn-secondary me-2" type="button" awPreviousStep>Back</button>
+              <button class="btn btn-success" type="button" (click)="finishFunction()">Finish</button>
+            </div>
+          </aw-wizard-step>
+
+        </aw-wizard> -->
+
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loginFailed>
+  <div class="text-center bg-danger" *ngIf="isLoginFailed">
+    <h3 class="text-center fs-2 m-5 text-warn pt-5 "> Error in User Login . </h3>
+    <div class="row mt-4 mb-4">
+      <div class="col-sm-12 text-center">
+        <div class="mb-3 p-4">
+          <Label class="form-label fs-4 text-warn ">Something Wen Wrong. Please Try login again!.</Label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

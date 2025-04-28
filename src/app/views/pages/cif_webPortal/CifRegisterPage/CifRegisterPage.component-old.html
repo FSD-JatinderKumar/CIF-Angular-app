@@ -1,0 +1,288 @@
+<div class="sticky-bar">
+    <ul>
+        <li class="apply-now-outer">
+            <a target="_blank" href="https://admission.lpu.in/" data-gtm-section="sticky">
+                <span class="apply-now">Apply Now</span>
+            </a>
+        </li>
+        <li>
+            <a target="_blank" href="https://iviewd.com/lpu2/" data-gtm-section="sticky">
+                <img width="auto" height="auto" src="https://www.lpu.in/lpu-assets/images/icons/360-view-w.svg"
+                    alt="new-call-icon">
+                <span class="st-label">Virtual Tour</span>
+            </a>
+        </li>
+        <li>
+            <a target="_blank" href="" class="ppwnd" data-gtm-section="sticky">
+                <img width="auto" height="auto" src="https://www.lpu.in/lpu-assets/images/icons/phone-full.svg"
+                    alt="new-call-icon">
+                <span class="st-label">Schedule a Call</span>
+            </a>
+        </li>
+        <li>
+            <a target="_blank"
+                href="https://api.whatsapp.com/send?phone=+919852569000&amp;text=Hi%2C%20I%20need%20assistance%20for%20Admissions%202024."
+                data-gtm-section="sticky">
+                <img width="auto" height="auto" src="https://www.lpu.in/lpu-assets/images/icons/whatsapp-white.svg"
+                    alt="new-whatsapp-icon">
+                <span class="st-label">Whatsapp only <br>+919852569000</span>
+            </a>
+        </li>
+        <li>
+            <a target="_blank" href="#" data-bs-toggle="modal" data-bs-target="#live-video-counselling">
+                <img width="auto" height="auto" src="https://www.lpu.in/lpu-assets/images/icons/live-video.svg"
+                    alt="new-video-chat">
+                <span class="st-label">Live Video <br>Counselling</span>
+            </a>
+        </li>
+        <li><a href="https://www.lpu.in/admission/lpu-in-your-town.php#lpu-town" data-gtm-section="sticky">
+                <img width="auto" height="auto" src="https://www.lpu.in/lpu-assets/images/icons/town.svg"
+                    alt="new-location-icon">
+                <span class="st-label">LPU in Your Town</span></a>
+        </li>
+    </ul>
+</div>
+
+
+
+
+<section class="section">
+    <div class="container">
+        <div class="heading-wraper mb-5">
+            <div class="main-head">
+                <h1>Centeral Instrumentation <br>
+                    Facility - Login </h1>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6 d-none d-lg-block">
+                <img src="https://www.lpu.in/lpu-assets/images/cif/login-left.png" />
+            </div>
+            <div class="col-md-6 d-none login-div">
+                <div class="cif-login">
+                    <div class="mb-4 cif-input-group">
+                        <label class="form-label" for="loginid">Login ID</label>
+                        <input type="text" class="form-control" placeholder="Enter Login ID" id="loginid">
+                        <i class="input-user"></i>
+                    </div>
+                    <div class="mb-4 cif-input-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="enter password">
+                        <i toggle="#password" class="input-eye input-eye-slash toggle-password"></i>
+                    </div>
+                    <div class="mb-4 text-center">
+                        <button type="submit" class="lpu-btn border-0 px-5 mb-3">Submit</button>
+                        <a href="" class="link-btn justify-content-center">
+                            Forget your password?
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-3 mb-4">
+                    Don’t have an account? <a class="reg-link"><strong>Register</strong></a>
+                </div>
+                <div class="mt-3 mb-4">
+                    By Login you agree with <a href="">terms and conditions</a> and <a href="">privercy policy</a>
+                </div>
+
+            </div>
+            <div class="col-md-6 reg-div">
+                <form [formGroup]="cifUserForm" (ngSubmit)="Onsubmit()" class="forms-sample">
+                    <div class="cif-register">
+                        <!-- <div class="row">
+                            <div class="col-md-12 mb-3">
+                                If you already has an account, just <a class="login-link" routerLink="/CifLoginPages"><strong>sign
+                                        in</strong></a>
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter Email">
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="name">Name</label>
+                                <input type="Text" class="form-control" id="name" placeholder="Enter Name">
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="name-of-supervisor">Name of Supervisor</label>
+                                <input type="text" class="form-control" id="name-of-supervisor" placeholder="Enter Name of Supervisor">
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="mobile">Mobile</label>
+                                <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile Number">
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="organization">Organization</label>.
+                                <select id="ddlDeparture" class="form-select not-dark">
+                                    <option value="0">Select</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="department">Department</label>
+                                <input type="text" class="form-control" id="department" placeholder="Enter Department">
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="id-proof">ID Proof</label>
+                                <div class="form-group">
+                                    <label class="radio-inline" style="margin-top: 10px;">
+                                        <input type="radio" class="radio-inline" name="rblIdType" value="Voter Card">
+                                        Voter Card</label>
+                                    <label class="radio-inline" style="margin-top: 10px;">
+                                        <input type="radio" class="radio-inline" name="rblIdType" value="Driving License">
+                                        Driving License</label>
+                                    <label class="radio-inline" style="margin-top: 10px;">
+                                        <input type="radio" class="radio-inline" name="rblIdType" value="Aadhar Card">
+                                        Aadhar Card</label>
+                                    <label class="radio-inline" style="margin-top: 10px;">
+                                        <input type="radio" class="radio-inline" name="rblIdType" value="nstitute ID Card">
+                                        Institute ID Card</label>
+                                    <label class="radio-inline" style="margin-top: 10px;">
+                                        <input type="radio" class="radio-inline" name="rblIdType" value="PAN card">
+                                        PAN card</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="id-number">ID Number</label>
+                                <input type="text" class="form-control" id="id-number" placeholder="Enter ID Number">
+                            </div>
+                            <div class="col-md-12"><label class="form-label" for="txtAddress">Corresponding Address</label>
+                                <textarea class="form-control not-dark" id="txtAddress" name="txtAddress" rows="4" cols="30"></textarea>
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="password">Password</label>
+                                <input type="password" class="form-control" id="reg-password" placeholder="Enter Password">
+                                <i toggle="#reg-password" class="input-eye input-eye-slash r-toggle-password"></i>
+                            </div>
+                            <div class="col-md-6 mb-3"><label class="form-label" for="confirm-password">Confirm Password</label>
+                                <input type="password" class="form-control" id="reg-confirm-password"
+                                    placeholder="Enter Confirm Password">
+                                <i toggle="#reg-confirm-password" class="input-eye input-eye-slash cr-toggle-password"></i>
+                            </div>
+                        </div> -->
+                        <!-- <form [formGroup]="cifUserForm" (ngSubmit)="Onsubmit()" class="forms-sample"> -->
+                            <div class="row">
+                              <div class="col-md-6 mb-3">
+                                <label for="EmailId">Email</label>
+                                <input type="email" id="EmailId" formControlName="EmailId" class="form-control" [(ngModel)]="emailId"
+                                  placeholder="Enter Email" 
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.EmailId.errors}"
+                                  >
+                                <div *ngIf="isForm1Submitted && form1.EmailId.errors?.required" class="invalid-feedback">Required
+                                </div>
+                                <div *ngIf="isForm1Submitted && form1.EmailId.errors?.email" class="invalid-feedback">Invalid Email
+                                </div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="CandidateName">Name</label>
+                                <input type="text" id="CandidateName" formControlName="CandidateName" class="form-control"
+                                  [(ngModel)]="candidateName" placeholder="Enter Your Name"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.CandidateName.errors}">
+                                <div *ngIf="isForm1Submitted && form1.CandidateName.errors?.required" class="invalid-feedback">
+                                  Required</div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="SupervisorName">Name of Supervisor</label>
+                                <input type="text" id="SupervisorName" formControlName="Supervisorname" class="form-control"
+                                  [(ngModel)]="supervisorName" placeholder="Enter Supervisor Name"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.Supervisorname.errors}">
+                                <div *ngIf="isForm1Submitted && form1.Supervisorname.errors?.required" class="invalid-feedback">
+                                  Required</div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="MobileNumber">Mobile</label>
+                                <input type="text" id="MobileNumber" formControlName="MobileNumber" class="form-control"
+                                  [(ngModel)]="mobileNumber" placeholder="Enter Mobile No."
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.MobileNumber.errors}">
+                                <div *ngIf="isForm1Submitted && form1.MobileNumber.errors?.required" class="invalid-feedback">Required
+                                </div>
+                                <div *ngIf="isForm1Submitted && form1.MobileNumber.errors?.pattern" class="invalid-feedback">Invalid
+                                  Mobile Number</div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="InstituteName">Organization</label>
+                                <input type="text" id="InstituteName" formControlName="InstituteName" class="form-control"
+                                  [(ngModel)]="instituteName" placeholder="Enter Organization Name"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.InstituteName.errors}">
+                                <div *ngIf="isForm1Submitted && form1.InstituteName.errors?.required" class="invalid-feedback">
+                                  Required</div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="DepartmentName">Department</label>
+                                <input type="text" id="DepartmentName" formControlName="DepartmentName" class="form-control"
+                                  [(ngModel)]="departmentName" placeholder="Enter Department Name"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.DepartmentName.errors}">
+                                <div *ngIf="isForm1Submitted && form1.DepartmentName.errors?.required" class="invalid-feedback">
+                                  Required</div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="IdProofType">ID Proof Type</label>
+                                <select id="IdProofType" formControlName="IdProofType" class="form-select" [(ngModel)]="idProofType"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.IdProofType.errors}" >
+                                  <option value="" selected>Select</option>
+                                  <option value="AadharCard">Aadhar Card</option>
+                                  <option value="RegistrationCard">Organisation Card</option>
+                                  <option value="PanCard">Pan Card</option>
+                                  <option value="LicenseCard">License Card</option>
+                                </select>
+                                <div *ngIf="isForm1Submitted && form1.IdProofType.errors?.required" class="invalid-feedback">Required
+                                </div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="IdProofNumber">ID Proof Number</label>
+                                <input type="text" id="IdProofNumber" formControlName="IdProofNumber" class="form-control"
+                                  [(ngModel)]="idProofNumber" placeholder="Enter ID Proof Number"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.IdProofNumber.errors}">
+                                <div *ngIf="isForm1Submitted && form1.IdProofNumber.errors?.required" class="invalid-feedback">
+                                  Required</div>
+                              </div>
+              
+                              <div class="col-md-12 mb-3">
+                                <label for="Address">Address</label>
+                                <textarea id="Address" formControlName="Address" class="form-control" [(ngModel)]="address"
+                                  placeholder="Enter Address"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.Address.errors}"></textarea>
+                                <div *ngIf="isForm1Submitted && form1.Address.errors?.required" class="invalid-feedback">Required
+                                </div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="Password">Password</label>
+                                <input type="password" id="Password" formControlName="Password" class="form-control"
+                                  [(ngModel)]="password" placeholder="Enter Password"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.Password.errors}">
+                                <div *ngIf="isForm1Submitted && form1.Password.errors?.required" class="invalid-feedback">Required
+                                </div>
+                                <div *ngIf="isForm1Submitted && form1.Password.errors?.minlength" class="invalid-feedback">Password
+                                  must be at least 6 characters long</div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="ConfirmPassword">Confirm Password</label>
+                                <input type="password" id="ConfirmPassword" formControlName="ConfirmPassword" class="form-control"
+                                  placeholder="Confirm Password">
+                                <div *ngIf="isForm1Submitted && form1.ConfirmPassword.errors?.required" class="invalid-feedback">
+                                  Required</div>
+                              </div>
+              
+                              <div class="col-md-6 mb-3">
+                                <label for="UserRole">Role</label>
+                                <select id="UserRole" formControlName="UserRole" class="form-select" [(ngModel)]="userRole"
+                                  [ngClass]="{'is-invalid': isForm1Submitted && form1.UserRole.errors}">
+                                  <option value="Select" selected>Select Role</option>
+                                  <option value="400001">External Academia</option>
+                                  <option value="400002">Industry Users</option>
+                                </select>
+                                <div *ngIf="isForm1Submitted && form1.UserRole.errors?.required" class="invalid-feedback">Required
+                                </div>
+                              </div>
+                            </div>
+                          <!-- </form> -->
+                
+                        <div class="col-md-12 mb-4 text-center">
+                            <button type="submit" class="lpu-btn border-0 px-5 mb-3 " [disabled]="!cifUserForm.valid">Signup</button>
+                            <!-- <button type="submit" class="lpu-btn border-0 px-5 mb-3">Submit</button> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>

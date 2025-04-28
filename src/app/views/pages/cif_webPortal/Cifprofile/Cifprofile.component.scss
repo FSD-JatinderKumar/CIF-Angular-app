@@ -1,0 +1,30 @@
+.profile-header {
+    position: relative;
+    margin-bottom: 20px;
+}
+.profile-header .cover-photo {
+    height: 200px;
+    background-color: #f5f5f5;
+    background-size: cover;
+    background-position: center;
+}
+.profile-header .profile-photo {
+    position: absolute;
+    bottom: -50px;
+    left: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid white;
+}
+.profile-header .profile-photo img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+.profile-header h3 {
+    margin-top: 60px;
+    margin-bottom: 0;
+}
+.profile-header p {
+    color: gray;
+}

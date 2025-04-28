@@ -1,0 +1,156 @@
+<!-- <app-CommonHeader></app-CommonHeader> -->
+<div class="row p-0 w-100 m-0 auth-page">
+  <div class="col-md-12 col-xl-12 mx-auto">
+      <div class="row">
+        <div class="col-md-6 pe-md-0">
+          <!-- <div class="auth-side-wrapper" [ngStyle]="{ 'background-image': 'url(https://via.placeholder.com/219x452)' }"> -->
+          <div class="auth-side-wrapper" [ngStyle]="{ 'background-image': 'url(https://www.lpu.in/lpu-assets/images/cif/login-left.png)' }">
+          </div>
+        </div>
+        <div class="col-md-6 ps-md-0">
+          <div class="auth-form-wrapper px-4 py-5 p-5">
+            <a routerLink="." class="nobleui-logo d-block mb-2">CIF New User <span> Registration Page</span></a>
+            <!-- <div class="col-md-12 mb-3">
+              <a routerLink="/cifWebPortal" class="text-dark nobleui-logo "> <span>sign in</span></a>
+            </div> -->
+            <h5 class="nobleui-logo d-block mb-2 mb-4">Create your Account</h5>
+            <form [formGroup]="cifUserForm" (ngSubmit)="Onsubmit()" class="forms-sample">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="EmailId">Email</label>
+                  <input type="email" id="EmailId" formControlName="EmailId" class="form-control" [(ngModel)]="emailId"
+                    placeholder="Enter Email" [ngClass]="{'is-invalid': isForm1Submitted && form1.EmailId.errors}">
+                  <div *ngIf="isForm1Submitted && form1.EmailId.errors?.required" class="invalid-feedback">Required
+                  </div>
+                  <div *ngIf="isForm1Submitted && form1.EmailId.errors?.email" class="invalid-feedback">Invalid Email
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="CandidateName">Name</label>
+                  <input type="text" id="CandidateName" formControlName="CandidateName" class="form-control"
+                    [(ngModel)]="candidateName" placeholder="Enter Your Name"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.CandidateName.errors}">
+                  <div *ngIf="isForm1Submitted && form1.CandidateName.errors?.required" class="invalid-feedback">
+                    Required</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="SupervisorName">Name of Supervisor</label>
+                  <input type="text" id="SupervisorName" formControlName="Supervisorname" class="form-control"
+                    [(ngModel)]="supervisorName" placeholder="Enter Supervisor Name"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.Supervisorname.errors}">
+                  <div *ngIf="isForm1Submitted && form1.Supervisorname.errors?.required" class="invalid-feedback">
+                    Required</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="MobileNumber">Mobile</label>
+                  <input type="text" id="MobileNumber" formControlName="MobileNumber" class="form-control"
+                    [(ngModel)]="mobileNumber" placeholder="Enter Mobile No."
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.MobileNumber.errors}">
+                  <div *ngIf="isForm1Submitted && form1.MobileNumber.errors?.required" class="invalid-feedback">Required
+                  </div>
+                  <div *ngIf="isForm1Submitted && form1.MobileNumber.errors?.pattern" class="invalid-feedback">Invalid
+                    Mobile Number</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="InstituteName">Organization</label>
+                  <input type="text" id="InstituteName" formControlName="InstituteName" class="form-control"
+                    [(ngModel)]="instituteName" placeholder="Enter Organization Name"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.InstituteName.errors}">
+                  <div *ngIf="isForm1Submitted && form1.InstituteName.errors?.required" class="invalid-feedback">
+                    Required</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="DepartmentName">Department</label>
+                  <input type="text" id="DepartmentName" formControlName="DepartmentName" class="form-control"
+                    [(ngModel)]="departmentName" placeholder="Enter Department Name"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.DepartmentName.errors}">
+                  <div *ngIf="isForm1Submitted && form1.DepartmentName.errors?.required" class="invalid-feedback">
+                    Required</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="IdProofType">ID Proof Type</label>
+                  <select id="IdProofType" formControlName="IdProofType" class="form-select" [(ngModel)]="idProofType"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.IdProofType.errors}">
+                    <option value="select">Select</option>
+                    <option value="AadharCard">Aadhar Card</option>
+                    <option value="RegistrationCard">Organisation Card</option>
+                    <option value="PanCard">Pan Card</option>
+                    <option value="LicenseCard">License Card</option>
+                  </select>
+                  <div *ngIf="isForm1Submitted && form1.IdProofType.errors?.required" class="invalid-feedback">Required
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="IdProofNumber">ID Proof Number</label>
+                  <input type="text" id="IdProofNumber" formControlName="IdProofNumber" class="form-control"
+                    [(ngModel)]="idProofNumber" placeholder="Enter ID Proof Number"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.IdProofNumber.errors}">
+                  <div *ngIf="isForm1Submitted && form1.IdProofNumber.errors?.required" class="invalid-feedback">
+                    Required</div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <label for="Address">Address</label>
+                  <textarea id="Address" formControlName="Address" class="form-control" [(ngModel)]="address"
+                    placeholder="Enter Address"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.Address.errors}"></textarea>
+                  <div *ngIf="isForm1Submitted && form1.Address.errors?.required" class="invalid-feedback">Required
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="Password">Password</label>
+                  <input type="password" id="Password" formControlName="Password" class="form-control"
+                    [(ngModel)]="password" placeholder="Enter Password"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.Password.errors}">
+                  <div *ngIf="isForm1Submitted && form1.Password.errors?.required" class="invalid-feedback">Required
+                  </div>
+                  <div *ngIf="isForm1Submitted && form1.Password.errors?.minlength" class="invalid-feedback">Password
+                    must be at least 6 characters long</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="ConfirmPassword">Confirm Password</label>
+                  <input type="password" id="ConfirmPassword" formControlName="ConfirmPassword" class="form-control"
+                    placeholder="Confirm Password"
+                  [ngClass]="{'is-invalid': isForm1Submitted && form1.ConfirmPassword.errors}">
+                  <div *ngIf="isForm1Submitted && form1.ConfirmPassword.errors?.required" class="invalid-feedback">
+                    Required</div>
+                  <!-- <div *ngIf="isForm1Submitted && form1.errors?.mismatch" class="invalid-feedback">Passwords do not match</div> -->
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="UserRole">Role</label>
+                  <select id="UserRole" formControlName="UserRole" class="form-select" [(ngModel)]="userRole"
+                    [ngClass]="{'is-invalid': isForm1Submitted && form1.UserRole.errors}">
+                    <option value="select" selected>Select Role</option>
+                    <!-- <option value="400000">Internal Users</option> -->
+                    <option value="400001">External Academia</option>
+                    <option value="400002">Industry Users</option>
+                  </select>
+                  <div *ngIf="isForm1Submitted && form1.UserRole.errors?.required" class="invalid-feedback">Required
+                  </div>
+                </div>
+
+
+                <div class="col-md-12">
+                  <!-- <button type="submit" class="btn btn-primary w-100">Register</button> -->
+                  <button type="submit" class="btn ">Signup</button>
+                  <button type="button" (click)="OnReset()" class="btn ">Reset</button>
+
+                  <a routerLink="/CifLoginPages" class="d-block mt-3 text-dark">Already a user? Sign in</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+.custom-nav-link {
+  padding: 10px 15px;  
+  font-size: 1.2rem;  
+  
+}
+
+.custom-dropdown-item {
+  padding: 8px 15px;
+  // font-weight: bold;
+  // font-size: 1rem;
+}
+
+.navbar-nav .nav-item {
+  padding: 0 2px;
+  background: #ef7d00 !important;
+  // width: 13.5rem !important;
+  // font-weight: bolder;
+  // font-size: 1.5rem;
+}
+// .navbar-nav {
+//   // font-weight: bolder;
+//   // font-size: 1.8rem;
+// }
+
+.navbar-toggler {
+  margin-right: 10px;  
+}
+
+/* Center navbar on large screens */
+@media (min-width: 992px) {
+  .navbar-nav {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Adjust navbar for small screens */
+@media (max-width: 768px) {
+  .navbar-nav {
+    flex-direction: column;
+    text-align: start;
+    width: 100%;
+  }
+
+  .custom-nav-link {
+    padding: 10px; /* Larger padding for better touch targets */
+    font-size: 16px;
+  }
+
+  .dropdown-menu {
+    width: 100%; /* Full width for small devices */
+   
+  }
+}

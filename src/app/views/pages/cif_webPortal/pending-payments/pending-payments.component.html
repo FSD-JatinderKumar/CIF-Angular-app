@@ -1,0 +1,154 @@
+<app-cif-menu-bar></app-cif-menu-bar>
+<div class="container mb-5 mt-5">
+    <div class="row " *ngIf="PaymentDetailsX.length > 0 ; else NoData">
+        <div class="col-12 stretch-card">
+            <div class="row">
+                <div class="container-fluid" style=" height: 50rem; ">
+                    <div class="row mt-2 d-flex justify-content-center">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <button (click)="exportToExcel()" class="btn btn-dark"
+                                    [disabled]="tmpsPaymentDetails.length==0">Export to
+                                    Excel</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3 text-start">
+                                <h2 class="fw-bolder">My Payments Details</h2>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 ">
+                            <!-- <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery"> -->
+                            <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text"
+                                style=" width: 21rem;" class="form-control" placeholder="Search" aria-label="Search"
+                                aria-describedby="basic-addon1" />
+                        </div>
+                    </div>
+                    <ng-container *ngIf="tmpsPaymentDetails.length > 0; else noRecords">
+                        <table id="PaymentDataTable" #table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="form-label">Booking Id</th>
+                                    <th class="form-label">Instrument Name</th>
+                                    <th class="form-label">Number of Samples</th>
+                                    <th class="form-label">Total Amount </th>
+                                    <th class="form-label">Payment Status</th>
+                                    <!-- <th class="fs-5 fw-bolder">Request Date</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let PaymentDetailsRow of getCurrentPageData(); let i = index">
+                                    <tr>
+                                        <td class="fw-bold ">{{PaymentDetailsRow.bookingId}}</td>
+                                        <td class="fw-bold "> {{PaymentDetailsRow.instrumentName}}</td>
+                                        <td class="fw-bold "> {{PaymentDetailsRow.noOfSamples}}</td>
+                                        <td class="fw-bold ">{{PaymentDetailsRow.totalCharges | currency:'INR':'symbol' }} </td>
+                                        <!-- <td class="fw-bold ">{{ PaymentDetailsRow.requestDate }}</td> -->
+                                        <!-- <td class="fw-bold "> {{PaymentDetailsRow.totalCharges}}</td> -->
+                                        <!-- <td class="fw-bold "><button class="btn btn-primary btn-sm" (click)="openPaymentModal(PaymentDetailsRow)">Pay Now</button></td> -->
+                                        <ng-container *ngIf="PaymentDetailsRow.paymentStatus == 'failure'; else checkSuccess">
+                                            <td>                                          
+                                                <span class="badge text-bg-info ms-3 fs-5 mb-4">Payment Failed 
+                                                    <!-- on <span class="badge text-bg-danger fs-5">{{PaymentDetailsRow.paymentDate }}</span> -->
+                                                </span>
+                                                <button class="btn btn-dark ms-3"
+                                                    (click)="openPaymentModal(PaymentDetailsRow)">Pay Now</button>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-template #checkSuccess>
+                                            <ng-container *ngIf="PaymentDetailsRow.paymentStatus == 'success'; else noPayment">
+                                                <td>
+                                                    <span class="badge text-bg-info ms-3 fs-5 mb-4">Payment
+                                                        Successful</span>
+                                                </td>
+                                            </ng-container>
+                                        </ng-template>
+
+                                        <ng-template #noPayment>
+                                                <td>
+                                                    <span class="badge text-bg-info ms-3 fs-5 mb-4">Payment
+                                                        Pending</span>
+                                                    <button class="btn btn-dark ms-3"
+                                                        (click)="openPaymentModal(PaymentDetailsRow)">Pay Now</button>
+                                                </td>
+                                            
+                                        </ng-template>
+
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+
+                        </table>
+                        <div class="pagination">
+                            <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                                    class="mdi mdi-chevron-left  fs-2"> </i> </a>
+                            <span class=" p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                            <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+                        </div>
+                    </ng-container>
+                    <ng-template #noRecords>
+                        <p class="fs-1  text-center ">No Payment Found.</p>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #NoData>
+        <div class="text-center  p-2 mb-4 vh-100">
+            <div class="row mt-4 mb-4 rounded border border-primary">
+                <h3 class="text-center fs-2 pt-5 "> All Pending Payments ! </h3>
+                <div class="col-sm-12 text-center">
+                    <div class="mb-3 p-4">
+                        <h3 class="form-label fs-4  " style="color: #ef7d00 !important;">No Payment Record Found.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #viewDescModal2 let-modal>
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Payment Screen </h5>
+            <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <div class="col-md-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-sm">
+                                <table id="dataTableAllClosedRemarks" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="form-label ">Booking Id</th>
+                                            <th class="form-label ">Instrument Name </th>
+                                            <!-- <th class="fw-bold ">Analysis Name</th> -->
+                                            <th class="form-label ">Samples Requested </th>
+                                            <th class="form-label ">Total Amount </th>
+                                            <th class="form-label ">Pay Now </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-4 " style="width: 20%;">{{BookingCase.id}} </td>
+                                            <td class="p-4 " style="width: 20%;">{{BookingCase.instrumentName}} </td>
+                                            <!-- <td class="">{{BookingCase.analysisType}} </td> -->
+                                            <td class="">{{BookingCase.noOfSamples}} </td>
+                                            <td class="">{{BookingCase.totalCharges  | currency:'INR':'symbol'}} </td>
+                                            <td><button type="submit" class="btn btn-dark me-2"
+                                                    (click)="VerifyData(BookingCase);">Confirm and Pay</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

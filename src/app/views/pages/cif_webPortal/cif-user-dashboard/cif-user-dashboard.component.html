@@ -1,0 +1,104 @@
+<nav class="navbarx  navbar-expand-lg bg-secondary-subtle ">
+  <div class="container-fluid justify-content-between">
+    <a class="navbar-brand" href="#">
+      <img src="assets/naac-logo.svg" alt="Logo" width="130" height="120" class="d-inline-block align-text-top">
+    </a>
+    <p>Central Instrumentation Facility</p>
+    <div class="mt-2 navv">
+      <div class=" navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown btn ">
+            <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              My Booking
+            </a>
+            <ul class="dropdown-menu btn  ">
+
+              <li><a class="dropdown-item" [routerLink]="['/NewBookings']">New Booking</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/ViewBookings']">View Old</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/SearchBookings']">Search</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/BookingResult']">Results</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown btn ">
+            <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              My Payments
+            </a>
+            <ul class="dropdown-menu btn  ">
+
+              <li><a class="dropdown-item" [routerLink]="['/PendingPayments']">Pendings</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/Refunds']">Refund Status</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/SearchPayments']">Search</a></li>
+              <li><a class="dropdown-item" [routerLink]="['/cifDashboards']">Upload Slips</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown btn ">
+            <a class="nav-link  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Settings
+            </a>
+            <ul class="dropdown-menu btn  ">
+              <li><a class="dropdown-item" [routerLink]="['/ChangePassword']">Change Password</a></li>
+            </ul>
+          </li>
+     
+          <a href="/cifWebPortal">
+            <li class="btn btn-warning "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                fill="currentColor" class="bi bi-box-arrow-in-right " viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                  d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z" />
+                <path fill-rule="evenodd"
+                  d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+              </svg>Logout</li>
+          </a>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="row">
+  <div class="col-md-4 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row d-flex justify-content-around">
+          <label class="col-md-6 form-label " style="font-weight: 700;">Candidate Name
+          </label>
+          <label class="col-md-6 form-label text-dark  "
+            style="text-align: right; font-weight: 700;">{{this.candidateName}} </label>
+        </div>
+        <div class="row d-flex justify-content-around">
+          <label class="col-md-6 form-label " style="font-weight: 700;">Supervisor Name
+          </label>
+          <label class="col-md-6 form-label text-dark  "
+            style="text-align: right; font-weight: 700;">{{this.supervisorName?.length>4 ? this.supervisorName : 'N/A' }} </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 grid-margin ">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="text-success text-center mt-1 mb-4 ">CIF User Dashboard </h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row d-flex justify-content-around">
+          <label class="col-md-5 form-label  " style="font-weight: 700;">Department
+            Name</label>
+          <label class="col-md-7 form-label text-dark " style="text-align: right;font-weight: 700;">
+            {{this.departmentName}}
+          </label>
+        </div>
+        <div class="row d-flex justify-content-around">
+          <label class="col-md-5 form-label  " style="font-weight: 700;">Email Id</label>
+          <label class="col-md-7 form-label text-dark " style="text-align: right;font-weight: 700;">
+            {{this.user_Email.length>0 ? this.user_Email: 'NA' }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<router-outlet></router-outlet>

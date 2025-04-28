@@ -1,0 +1,158 @@
+<app-AdminDashboard></app-AdminDashboard>
+
+<div class="row" *ngIf="AllBookingTestsData.length > 0; else NoData" >
+    <div class="col-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mt-4 mb-4">
+                    <div class="col-sm-4">
+                        <div class="mb-3">
+                            <button (click)="exportToExcel()" class="btn btn-dark" [disabled]="tmpsAllBookingTestsData.length==0">Export to Excel</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="mb-3">
+                            <h2>Test Assign Page</h2>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-4">
+                        <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text"
+                        class="form-control" placeholder="Search Your Text Here" aria-label="Search"
+                        aria-describedby="basic-addon1" />
+                    </div>
+                </div>
+                <ng-container *ngIf="tmpsAllBookingTestsData.length > 0; else noRecords">
+                    <div class="table-responsive mt-4 mb-4">
+                        <table id="AdminAssignTest" #table >
+                        <thead>
+                            <tr>
+                                <th class="fw-bold ">Candidate Name</th>
+                                <th class="fw-bold  ">Candidate Email</th>
+                                <th class="fw-bold  ">Instrument Name</th>
+                                <th class="fw-bold  ">Request Sheet</th>
+                                <th class="fw-bold  ">Number of Samples</th>
+                                <th class="fw-bold  ">Request Date</th>
+                                <th class="fw-bold  ">Assign Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let AllBookingTestsDataRow of getCurrentPageData(); let i = index">
+                                <tr>
+                                    <td class="fw-bold ">{{AllBookingTestsDataRow.candidateName?.length<1 ? 'Internal User': AllBookingTestsDataRow.candidateName  }}</td>
+                                    <td class="fw-bold ">{{AllBookingTestsDataRow.userEmailId?.length>0 ? AllBookingTestsDataRow.userEmailId : 'Internal User'  }}</td>
+                                    <td class="fw-bold ">{{AllBookingTestsDataRow.instrumentName}}</td>
+                                    <ng-container *ngIf="AllBookingTestsDataRow.fileName; else NoFile">
+                                        <td>
+                                           <button class="btn-dark btn ms-3" (click)="downloadFile(AllBookingTestsDataRow.fileName)">
+                                                View
+                                              </button>
+                                        </td>
+                                    </ng-container>
+                                    <ng-template #NoFile>
+                                        <td class="ms-4">
+                                          <span class="badge text-bg-info ms-3 fs-5 "> N/A </span></td>
+                                    </ng-template>
+                                    <td class="fw-bold ">{{AllBookingTestsDataRow.noOfSamples}}</td>
+                                    <td class="fw-bold ">{{AllBookingTestsDataRow.bookingRequestDate | date:'dd/MM/yyyy' }}</td>
+                                    <td class="fw-bold ">
+                                        <button class="btn btn-dark" (click)="openPaymentModal(AllBookingTestsDataRow)">Assign</button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1">
+                            <i class="mdi mdi-chevron-left fs-2"></i>
+                        </a>
+                        <span class=" p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                        <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()">
+                            <i class="mdi mdi-chevron-right fs-2"></i>
+                        </a>
+                    </div>
+                </div>
+                </ng-container>
+                <ng-template #noRecords>
+                    <p class="fs-2  text-center">No Grid Data Available.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #NoData>
+    <div class="text-center bg-info" >
+        <h3 class="text-center fs-2 m-5  pt-5 "> No Record ! </h3>
+        <div class="row mt-4 mb-4">
+            <div class="col-sm-12 text-center">
+                <div class="mb-3 p-4">
+                    <Label class="fw-bold  fs-4  ">No Booking Found.</Label>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #viewDescModal2 let-modal>
+    <div class="modal-header">
+        <h2 class="modal-title fs-2" id="exampleModalLabel">Assign Test </h2>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-sm">
+                            <table id="dataTableAllClosedRemarks" class="table">
+                                <thead>
+                                    <tr>
+                                        <!-- <th class=" fs-5 ">User </th> -->
+                                        <th class=" fs-5 text-dark">Booking Id </th>
+                                        <th class=" fs-5 text-dark">Instrument Name </th>
+                                        <th class=" fs-5 text-dark">Assign To </th>
+                                        <th class=" fs-5 text-dark"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.userEmailId != null || BookingCase.userEmailId !== 'undefined' ? BookingCase.userEmailId: 'NA' }}</td> -->
+                                        <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.bookingId}} </td>
+                                        <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.instrumentName}} </td>
+                                        <td class=" fs-5 p-4 " style="width: 20%;">
+                                            <!-- <select name="staffName" id="staffName" [(ngModel)]="AssignedTo" onchange="getAssignedTo()"> -->
+
+                                                <select id="staffName" (change)="onActivitySelected($event)" class="col-12 p-2 form-control"
+                                                required ngModel name="staffName" #AssignedTo="ngModel">
+                                                <option value="Select" selected>Select Staff</option>
+                                                <option value="Dr. Vijay Kumar 24374 ">Dr. Vijay Kumar 24374</option>
+                                                <option value="Dr. Nupur Prasad 20362">Dr. Nupur Prasad 20362</option>
+                                                <option value="Mr. Prashant Kumar 16477">Mr. Prashant Kumar 16477</option>
+                                                <option value="Dr. Nabaparna Chakraborty 27727">Dr. Nabaparna Chakraborty 27727</option>
+                                                <option value="Dr. Shagun Kainth 32007">Dr. Shagun Kainth 32007</option>
+                                                <option value="Dr. Amrinder Mehta 25816">Dr. Amrinder Mehta 25816</option>
+                                                <option value="Dr. Vaidehi Katoch 26549">Dr. Vaidehi Katoch 26549</option>
+                                                <option value="Ms. Baljit Bangar 26918">Ms. Baljit Bangar 26918</option>
+                                                <option value="Ms. Amandeep Kaur 30694">Ms. Amandeep Kaur 30694</option>
+                                                <option value="Ms. Kamlash Rani 29159">Ms. Kamlash Rani 29159</option>
+                                                <option value="Mr. Sameer Singh Pathania 31691">Mr. Sameer Singh Pathania 31691</option>
+                                                <option value="Mrs. Anju Kumari 25760">Mrs. Anju Kumari 25760</option>
+                                                <option value="Ms. Paramjit Kaur 29007">Ms. Paramjit Kaur 29007</option>
+                                            </select>
+
+                                        </td>
+
+                                        <td><button type="submit" class="btn btn-dark me-2"
+                                                (click)="VerifyData(BookingCase);">Assign </button></td>
+                                    </tr>
+                                <!-- </form> -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

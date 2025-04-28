@@ -1,0 +1,21 @@
+@media print {
+    .modal-body {
+      padding: 20px;
+      font-size: 14px;
+    }
+  
+    .d-flex {
+      margin-bottom: 10px;
+    }
+  
+    .fs-5 {
+      font-size: 16px;
+    }
+  }
+  
+
+  
+.modal-body-wrapper {
+  overflow-y: scroll;
+  height: 60vh;
+}

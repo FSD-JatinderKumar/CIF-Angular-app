@@ -1,0 +1,177 @@
+<!-- <app-cif-menu-bar></app-cif-menu-bar> -->
+
+<!-- <div class="container-fluid" *ngIf="currentStep === 1"> -->
+<div class="row">
+    <!-- <div class="col-md-12 col-sm-6 mt-2"> -->
+    <!-- <marquee>{{ concatenatedInstrumentNames }} </marquee> </label> -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <!-- <label class="form-label m-3 p-3 fs-3 " >Instruments Under Maintenance : - </label> -->
+                        <span class="card-title fs-4 text-danger me-4">Instruments Under Maintenance : -</span>
+                        <div *ngIf="InstrumentDataInactive.length>0 ; else NoInstrument">
+                            <span class="badge text-bg-warning fs-5 p-2 m-2"
+                                *ngFor="let banner of InstrumentDataInactive">{{ banner.instrumentName }}</span>
+                            <!--<a href="{{ banner.link }}" class="btn btn-primary">Learn More</a> -->
+                        </div>
+                        <ng-template #NoInstrument>
+                            <span class="badge text-bg-warning fs-5 p-2 m-2"> No Instrument is under Maintenance</span>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- </div> -->
+</div>
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
+            <div class=" text-center">
+                <h4 class="fs-4"> New Test Request Form</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form [formGroup]="formdata" (ngSubmit)="Addtogrid()">
+            <div class="row p-3" *ngFor="let row of rows; let i = index">
+                <div class="col-md-3 col-sm-6 mt-2">
+                    <label class="form-label">Instrument Name:</label>
+                    <select class="form-select" (change)="getAllAnalysis($event)" formControlName="InstrumentName">
+                        <option value="Select">Select Instrument</option>
+                        <option [value]="dropDown.instrumentId" *ngFor="let dropDown of InstrumentData">
+                            {{dropDown.instrumentName}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6 mt-2">
+                    <label class="form-label">Analysis Type:</label>
+                    <select class="form-select" formControlName="AnalysisId" (change)="setAnalysisId($event)">
+                        <option value="Select">Select Analysis Type</option>
+                        <option [value]="dropDownA.analysisId" *ngFor="let dropDownA of AnalysisData">
+                            {{dropDownA.analysisType}}</option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-sm-6 mt-2">
+                    <label class="form-label">Duration:</label>
+                    <select class="form-select" formControlName="Duration" (change)="getPrice($event)">
+                        <option value="Select">Select Duration</option>
+                        <option *ngFor="let dropDownD of InstrumentsDuration" [value]="dropDownD.analysisId">
+                            {{dropDownD.typeName}}
+                        </option>
+                    </select>
+                    <!-- <select class="form-select" class="form-select" formControlName="Duration" [(ngModel)]="Duration" (change)="getPrice($event)">
+                      <option value="select">Select Duration</option>
+                      <option [value]="dropDownD.analysisId" *ngFor="let dropDownD of InstrumentsDuration">{{dropDownD.typeName}}</option>
+                  </select> -->
+                    <!-- <ng-container *ngIf="this.isHourly; else OtherCase">
+                        <label class="form-label">Charges on Sample Based</label>
+                        <input type="text" class="form-control" id="Duration" name="Duration" formControlName="Duration" [(ngModel)]="Duration" readonly >
+                    </ng-container>
+                    <ng-template #OtherCase>
+                        <select class="form-select" formControlName="Duration" [(ngModel)]="Duration" (change)="getPrice($event)">
+                            <option value="Select">Select Duration</option>
+                            <option value="30 Min">Thirty Minutes</option>
+                            <option value="60 Min">One Hour</option>
+                            <option value="Others">Other Cases</option>
+                        </select>
+                     </ng-template> -->
+                </div>
+                <div class="col-md-2 col-sm-6 mt-2" style="display:none;">
+                    <label class="form-label">Analysis Charges:</label>
+                    <input type="text" class="form-control" id="PriceValue" name="PriceValue" formControlName="Charges"
+                        [(ngModel)]="PriceValue" readonly>
+                </div>
+                <div class="col-md-2 col-sm-6 mt-2">
+                    <label class="form-label">Sample Count:</label>
+                    <input type="number" class="form-control" id="NumberOfSamples" [(ngModel)]="NumberOfSamples"
+                        formControlName="NoOfSample" (change)="calculateAmount()" placeholder="Enter No. of Sample">
+                </div>
+                <div class="col-md-2 col-sm-6 mt-2 ">
+                    <label class="form-label">Total Amount:</label>
+                    <input type="number" class="form-control" formControlName="TotalAmount" id="totalAmount"
+                        [(ngModel)]="totalAmount" readonly>
+                </div>
+                <div class="col-md-3 col-sm-6 mt-5">
+                    <label class="form-label">Specific Parameters Required for Test(s):</label><br>
+                    <textarea cols="15" class="form-control" formControlName="Remarks" id="Remarks"
+                        [(ngModel)]="Remarks" required></textarea>
+
+                </div>
+                <div class="col-md-3 col-sm-6 mt-5">
+                    <label class="form-label">Upload sample File For Parametes</label><br>
+                    <input class="form-control" required type="file" id="File" formControlName="ExcelData"
+                        (change)="onFileSelected($event)" accept=".xls, .xlsx" #fileInput />
+                    <label class="form-label fs-6 text-success"> {{this.Message.length>0? this.Message : ''}}</label>
+                </div>
+                <div class="col-md-3 col-sm-6 mt-5">
+                    <label class="form-label">Check the sample File For Parametes</label><br>
+                    <a (click)="testClick(this.InstrumentId)" class="btn btn-dark">Download Format</a>
+                </div>
+
+                <div class="col-md-2 col-sm-6 mt-5">
+                    <label class="form-label">Add to Bucket:</label><br>
+                    <button type="button" class="btn btn-primary btn-lg" (click)="Addtogrid()"
+                        [disabled]="formdata.invalid">
+                        <i class="mdi fs-4 mdi-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- <div class="row mt-3">
+            <div class="col-sm-12 text-center">
+                <button type="button" class="btn btn-dark" (click)="goToNextStep()" [disabled]="Datagrid.length == 0">Next Step</button>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+
+<!-- <div class="container-fluid" *ngIf="currentStep === 2"> -->
+<div class="container-fluid">
+    <div class="mt-1 mb-1 row d-flex justify-content-center">
+        <div class="col-md-12 text-center">
+            <h4 class="fs-4">Test Requests Details</h4>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>AnalysisId</th>
+                <th>InstrumentId</th>
+                <th>Price Value</th>
+                <th>Number Of Samples</th>
+                <th>Total Amount</th>
+                <th>Specific Parameters Required</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of Datagrid; let i = index">
+                <td>{{item.analysisId}}</td>
+                <td>{{item.instrument}}</td>
+                <td>{{item.PriceValue}}</td>
+                <td>{{item.NumberOfSamples}}</td>
+                <td>{{item.totalAmount}}</td>
+                <td>{{item.Remarks}}</td>
+                <td><button type="button" class="btn btn-lg" (click)="deleteEntry(i)"><i
+                            class="mdi fs-4 mdi-minus"></i></button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-end"><strong>Total Payment:</strong></td>
+                <td colspan="4">{{getTotalPayment() | currency:'INR':'symbol'}}</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="row">
+
+        <div class="col-sm-2 mt-2 text-end">
+            <button type="button" class="me-2 btn btn-primary" [disabled]="Datagrid.length == 0"
+                (click)="saveAllRecords()">Save All Records</button>
+        </div>
+    </div>
+</div>

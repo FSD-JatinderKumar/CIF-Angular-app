@@ -1,0 +1,56 @@
+.custom-nav-link {
+    padding: 10px 15px;  
+    font-size: 1.2rem;  
+  }
+  .imgSize{
+    height: 6.2rem; 
+    width: 6.2rem;
+  }
+  
+  .custom-dropdown-item {
+    padding: 8px 15px;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .navbar-nav .nav-item {
+    margin: 0 5px;
+    font-weight: bolder;
+    font-size: 1.5rem;
+  }
+  .navbar-nav {
+    font-weight: bolder;
+    font-size: 1.8rem;
+  }
+  
+  .navbar-toggler {
+    margin-right: 10px;  
+  }
+  
+  /* Center navbar on large screens */
+  @media (min-width: 992px) {
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+  }
+  
+  /* Adjust navbar for small screens */
+  @media (max-width: 768px) {
+    .navbar-nav {
+      flex-direction: column;
+      text-align: start;
+      width: 100%;
+    }
+  
+    .custom-nav-link {
+      padding: 10px; /* Larger padding for better touch targets */
+      font-size: 16px;
+    }
+  
+    .dropdown-menu {
+      width: 100%; /* Full width for small devices */
+    }
+  }
