@@ -123,7 +123,7 @@ export class LoginPageNComponent implements OnInit {
       text: 'Login details are Invalid!',
       icon: 'warning',
     })
-
+    this.formdata.reset();
   }
   getStudentById(regNo:any) {
     this.CIFwebService.getStudentById(regNo).subscribe({

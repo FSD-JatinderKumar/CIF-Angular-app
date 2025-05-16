@@ -4,10 +4,11 @@ import { Observable, forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import { StorageService } from './storage.service';
-import { University } from '../views/pages/sm-add-new-university/university.model';
-import { UniversityUpdate } from '../views/pages/sm-add-new-university/universityUpdate.model';
-import { xmlUniversity } from '../views/pages/sm-add-new-university/xmlUniversity.model';
-import { deleteUniversity } from '../views/pages/sm-add-new-university/deleteUniversity.model';
+
+// import { University } from '../views/pages';
+// import { UniversityUpdate } from '../views/pages/sm-add-new-university/universityUpdate.model';
+// import { xmlUniversity } from '../views/pages/sm-add-new-university/xmlUniversity.model';
+// import { deleteUniversity } from '../views/pages/sm-add-new-university/deleteUniversity.model';
 
 const AUTH_API = 'https://projectsapi.lpu.in/';
 //const AUTH_API = 'https://localhost:7125/'; //'https://projectsapi.lpu.in/';
@@ -188,18 +189,18 @@ export class SemesterExchangeStuDetailsService {
       { headers }
     );
   }
-  addUniversity(universityData: University): Observable<any> {
-    // let token = this.storageService.getUser();
-    var authToken = this.storageService.getUser();
-    let headers = new HttpHeaders()
-      .set('Authorization', 'Bearer ' + authToken)
-      .set('Content-Type', 'application/json');
-    //httpOptions.headers.set('Authentication', 'Bearer ' + token);
-    return this.http.post(
-      AUTH_API + 'api/SemesterExchangeStudent/CreateUniversityData', universityData,
-      { headers }
-    );
-  }
+  // addUniversity(universityData: University): Observable<any> {
+  //   // let token = this.storageService.getUser();
+  //   var authToken = this.storageService.getUser();
+  //   let headers = new HttpHeaders()
+  //     .set('Authorization', 'Bearer ' + authToken)
+  //     .set('Content-Type', 'application/json');
+  //   //httpOptions.headers.set('Authentication', 'Bearer ' + token);
+  //   return this.http.post(
+  //     AUTH_API + 'api/SemesterExchangeStudent/CreateUniversityData', universityData,
+  //     { headers }
+  //   );
+  // }
 
   addSECheckListDocuments(dataSoft: FormData): Observable<any> {  
     var authToken = this.storageService.getUser();  
@@ -253,42 +254,42 @@ export class SemesterExchangeStuDetailsService {
   }
 
 
-  // Upload Excel sheet Record data into University Database 
-  createUniversityUsingExcelSheet(xmlUniversity: xmlUniversity): Observable<any> {
-    var authToken = this.storageService.getUser();
-     let headers = new HttpHeaders()
-     .set('Authorization', 'Bearer ' + authToken)
-     .set('Content-Type', 'application/json');
-   //httpOptions.headers.set('Authentication', 'Bearer ' + token);
-   return this.http.post(
-     AUTH_API + 'api/SemesterExchangeStudent/UploadExceldata', xmlUniversity,
-     { headers }
-   );
- }
+//   // Upload Excel sheet Record data into University Database 
+//   createUniversityUsingExcelSheet(xmlUniversity: xmlUniversity): Observable<any> {
+//     var authToken = this.storageService.getUser();
+//      let headers = new HttpHeaders()
+//      .set('Authorization', 'Bearer ' + authToken)
+//      .set('Content-Type', 'application/json');
+//    //httpOptions.headers.set('Authentication', 'Bearer ' + token);
+//    return this.http.post(
+//      AUTH_API + 'api/SemesterExchangeStudent/UploadExceldata', xmlUniversity,
+//      { headers }
+//    );
+//  }
 
-// Delete Record from Database  university 
-  deleteUniversityRecord(deleteUniversity: deleteUniversity): Observable<any> {
-    var authToken = this.storageService.getUser();
-    let headers = new HttpHeaders()
-      .set('Authorization', 'Bearer ' + authToken)
-      .set('Content-Type', 'application/json');
+// // Delete Record from Database  university 
+//   deleteUniversityRecord(deleteUniversity: deleteUniversity): Observable<any> {
+//     var authToken = this.storageService.getUser();
+//     let headers = new HttpHeaders()
+//       .set('Authorization', 'Bearer ' + authToken)
+//       .set('Content-Type', 'application/json');
     
-    return this.http.post(
-      AUTH_API + 'api/SemesterExchangeStudent/DeleteUniversityRecord', deleteUniversity,
-      { headers }
-    );
-  }
-// UpdateUniversityData
-updateUniversity(universityData: UniversityUpdate): Observable<any> {
-  var authToken = this.storageService.getUser();
-  let headers = new HttpHeaders()
-    .set('Authorization', 'Bearer ' + authToken)
-    .set('Content-Type', 'application/json');
-  //httpOptions.headers.set('Authentication', 'Bearer ' + token);
-  return this.http.post(
-    AUTH_API + 'api/SemesterExchangeStudent/UpdateUniversityData', universityData,
-    { headers }
-  );
-}
+//     return this.http.post(
+//       AUTH_API + 'api/SemesterExchangeStudent/DeleteUniversityRecord', deleteUniversity,
+//       { headers }
+//     );
+//   }
+// // UpdateUniversityData
+// updateUniversity(universityData: UniversityUpdate): Observable<any> {
+//   var authToken = this.storageService.getUser();
+//   let headers = new HttpHeaders()
+//     .set('Authorization', 'Bearer ' + authToken)
+//     .set('Content-Type', 'application/json');
+//   //httpOptions.headers.set('Authentication', 'Bearer ' + token);
+//   return this.http.post(
+//     AUTH_API + 'api/SemesterExchangeStudent/UpdateUniversityData', universityData,
+//     { headers }
+//   );
+// }
 
 }

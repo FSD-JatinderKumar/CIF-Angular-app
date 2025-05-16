@@ -62,119 +62,64 @@
             <div class="col-md-6 login-div">
                 <div class="cif-login">
                     <form class="forms-sample" [formGroup]="formdata" (ngSubmit)="OnSubmit()">
-                        <div class="mb-4 cif-input-group">
-                          <label class="form-label" for="loginid">Login ID</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Enter Login ID/ Email"
-                            formControlName="Email"
-                            id="loginid"
-                          />
-                          <!-- <i class="input-user"></i> -->
-                          <span class="text-danger" *ngIf="email?.invalid && email?.touched">
-                            Email is required
-                          </span>
+                      <div class="mb-4 cif-input-group">
+                        <label class="form-label" for="loginid">Login ID</label>
+                        <input type="text" class="form-control" placeholder="Enter Login ID/ Email" formControlName="Email" id="loginid"
+                          required />
+                        <!-- <i class="input-user"></i> -->
+                        <!-- <span class="text-danger" *ngIf="email?.invalid && email?.touched">
+                                              Email is required
+                                            </span> -->
+                    
+                        <div *ngIf="submitted || email?.touched || email?.errors" class="text-danger">
+                          <small *ngIf="email?.errors?.['required']">User Id is required.</small>
                         </div>
+                      </div>
+                    
+                      <div class="mb-4 cif-input-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input [type]="showPassword ? 'text' : 'password'" class="form-control" placeholder="Enter password"
+                          formControlName="password" id="password" required />
+                        <i class="input-eye input-eye-slash" (click)="togglePasswordVisibility()"></i>
+                        <!-- <i toggle="#password" class="input-eye input-eye-slash toggle-password"></i> -->
+                        <!-- <span class="text-danger" *ngIf="passwordText?.invalid && passwordText?.touched">
+                                              Password is required
+                                            </span> -->
+                    
+                        <div *ngIf="submitted || passwordText?.touched || passwordText?.errors" class="text-danger">
+                          <small *ngIf="passwordText?.errors?.['required']">password is required.</small>
+                        </div>
+                      </div>
+                    
+                      <div class="mb-4 cif-input-group">
+                        <label class="form-check-label" for="UserRoleS">Choose Role</label>
+                        <select class="form-select" formControlName="UserRoleS" (change)="CheckUserType($event)" required>
+                          <option value="" disabled>Select Role</option>
+                          <option value="400001">External Academia</option>
+                          <option value="400002">Industry User</option>
+                        </select>
+                    
+                        <div *ngIf="submitted || userRole?.touched || userRole?.errors" class="text-danger">
+                          <small *ngIf="userRole?.errors?.['required']">Role is required.</small>
+                        </div>
+                      </div>
+                    
+                      <div class="text-danger text-center" *ngIf="loginError">
+                        {{ loginError }}
+                      </div>
+                    
+                      <div class="mb-4 text-center">
+                        <button type="submit" class="lpu-btn border-0 px-5 mb-3" [disabled]="formdata.invalid">
+                          Submit
+                        </button>
+                        <div class="d-flex justify-content-between"> <a routerLink="/LpuLogin" class="link-btn justify-content-start">Lpu
+                            User Login</a>
+                          <a routerLink="/recoverAccount" class="link-btn justify-content-end" style="color: #ef7d00 !important;">Recover
+                            Account</a>
+                        </div>
+                      </div>
+                    </form>
                       
-                        <div class="mb-4 cif-input-group">
-                          <label class="form-label" for="password">Password</label>
-                          <input
-                            [type]="showPassword ? 'text' : 'password'"
-                            class="form-control"
-                            placeholder="Enter password"
-                            formControlName="password"
-                            id="password"
-                          />
-                          <i class="input-eye input-eye-slash"  (click)="togglePasswordVisibility()"></i>
-                          <!-- <i toggle="#password" class="input-eye input-eye-slash toggle-password"></i> -->
-                          <span class="text-danger" *ngIf="passwordText?.invalid && passwordText?.touched">
-                            Password is required
-                          </span>
-                        </div>
-                      
-                        <div class="mb-4 cif-input-group">
-                          <label class="form-check-label" for="authCheck">Choose Role</label>
-                          <select class="form-select" formControlName="UserRoleS" (change)="CheckUserType($event)">
-                            <option value="">Select Role</option>
-                            <option value="400001">External Academia</option>
-                            <option value="400002">Industry User</option>
-                          </select>
-                          <span class="text-danger" *ngIf="userRole?.invalid && userRole?.touched">
-                            Role is required
-                          </span>
-                        </div>
-                      
-                        <div class="text-danger text-center" *ngIf="loginError">
-                          {{ loginError }}
-                        </div>
-                      
-                        <div class="mb-4 text-center">
-                          <button type="submit" class="lpu-btn border-0 px-5 mb-3" [disabled]="formdata.invalid">
-                            Submit
-                          </button>
-                          <div class="d-flex justify-content-between"> <a routerLink="/LpuLogin" class="link-btn justify-content-start">Lpu User Login</a> 
-                            <a routerLink="/recoverAccount" class="link-btn justify-content-end" style="color: #ef7d00 !important;">Recover Account</a> 
-                          </div>
-                        </div>
-                      </form>
-                      
-                    <!-- <form class="forms-sample" [formGroup]="formdata" (ngSubmit)="OnSubmit()">
-                        <div class="mb-4 cif-input-group">
-                          <label class="form-label" for="loginid">Login ID</label>
-                          <input 
-                            type="text" 
-                            class="form-control" 
-                            placeholder="Enter Login ID/ Email" 
-                            formControlName="Email"
-                            id="loginid">
-                          <i class="input-user"></i>
-                          <span class="text-danger" *ngIf="formdata.get('Email')?.invalid && formdata.get('Email')?.touched">
-                            Email is required
-                          </span>
-                        </div>
-                      
-                        <div class="mb-4 cif-input-group">
-                          <label class="form-label" for="password">Password</label>
-                          <input 
-                            type="password" 
-                            class="form-control" 
-                            placeholder="Enter password" 
-                            formControlName="password" 
-                            id="password">
-                          <i toggle="#password" class="input-eye input-eye-slash toggle-password"></i>
-                          <span class="text-danger" *ngIf="formdata.get('password')?.invalid && formdata.get('password')?.touched">
-                            Password is required
-                          </span>
-                        </div>
-                      
-                        <div class="mb-4 cif-input-group">
-                          <label class="form-check-label" for="authCheck">Choose Role</label>
-                          <select 
-                            class="form-select" 
-                            formControlName="UserRoleS" 
-                            (change)="CheckUserType($event)">
-                            <option value="" >Select Role</option>
-                            <option value="400001">External Academia</option>
-                            <option value="400002">Industry User</option>
-                          </select>
-                          <span class="text-danger" *ngIf="formdata.get('UserRoleS')?.invalid && formdata.get('UserRoleS')?.touched">
-                            Role is required
-                          </span>
-                        </div>
-                      
-                        <div class="mb-4 text-center">
-                          <button 
-                            type="submit" 
-                            class="lpu-btn border-0 px-5 mb-3" 
-                            [disabled]="formdata.invalid">
-                            Submit
-                          </button>
-                           
-                       
-                        </div>
-                      </form>
-                       -->
                 </div>
                 <div class="mt-3 mb-4">
                     Don’t have an account? <a class="reg-link" routerLink="/Register"><strong>Register</strong></a>

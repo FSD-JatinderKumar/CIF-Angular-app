@@ -30,6 +30,8 @@ import { CifRegisterPageModule } from './views/pages/cif_webPortal/CifRegisterPa
 import { ATopHeaderComponent } from './views/pages/cif_webPortal/atop-header/atop-header.component';
 import { AFooterBarComponent } from './views/pages/cif_webPortal/afooter-bar/afooter-bar.component';
 import { CifInstrumentsComponent } from './views/pages/cif_webPortal/CifInstruments/CifInstruments.component';
+import { CifLoginPageComponent } from './views/pages/cif_webPortal/CifLoginPage/CifLoginPage.component';
+import { CifLoginPageModule } from './views/pages/cif_webPortal/CifLoginPage/CifLoginPage.component.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,8 @@ import { CifInstrumentsComponent } from './views/pages/cif_webPortal/CifInstrume
     // ChangePasswordsComponent,
     ATopHeaderComponent,
     AFooterBarComponent,
-    CifInstrumentsComponent
+    CifInstrumentsComponent,
+    CifLoginPageComponent
   ],
   imports: [
     BrowserModule,
