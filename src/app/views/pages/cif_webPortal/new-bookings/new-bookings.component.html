@@ -40,7 +40,7 @@
                             <select class="form-select" (change)="getAllAnalysis($event)"
                                 formControlName="InstrumentName">
                                 <option value="Select" selected>Select Instrument</option>
-                                <option [value]="dropDown.instrumentId" *ngFor="let dropDown of InstrumentData">
+                                <option [value]="dropDown.instrumentId + '-' + dropDown.instrumentName" *ngFor="let dropDown of InstrumentData">
                                     {{dropDown.instrumentName}}</option>
                             </select>
                         </div>
@@ -129,6 +129,7 @@
                         <tr>
                             <th>AnalysisId</th>
                             <th>InstrumentId</th>
+                            <th>InstrumentName</th>
                             <th>Price Value</th>
                             <th>Number Of Samples</th>
                             <th>Total Amount</th>
@@ -140,6 +141,7 @@
                         <tr *ngFor="let item of Datagrid; let i = index">
                             <td>{{item.analysisId}}</td>
                             <td>{{item.instrument}}</td>
+                            <td>{{item.instrumentName}}</td>
                             <td>{{item.PriceValue}}</td>
                             <td>{{item.NumberOfSamples}}</td>
                             <td>{{item.totalAmount}}</td>

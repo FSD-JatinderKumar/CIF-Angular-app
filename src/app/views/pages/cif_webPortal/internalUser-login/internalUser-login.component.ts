@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
@@ -56,23 +56,52 @@ export class InternalUserLoginComponent implements OnInit {
     private mouDocumentsService: MouDocumentsService,
   ) { }
 
-  ngOnInit(): void {
+  // ngOnInit(): void {
 
-    // (<HTMLInputElement>document.getElementById('stMain')).innerHTML = 'Central Instument Facility <span class="themeClr" >Portal </span>';
-    // (<HTMLInputElement>document.getElementById('imgLogo')).style.width = '164px';
+  //   // (<HTMLInputElement>document.getElementById('stMain')).innerHTML = 'Central Instument Facility <span class="themeClr" >Portal </span>';
+  //   // (<HTMLInputElement>document.getElementById('imgLogo')).style.width = '164px';
+  // }
+  ngOnInit(): void {
+    this.cookieService.delete('authData');
+    this.AuthSession.clearSession();
+    this.loadForm();
+  }
+  
+  formdata!: FormGroup;
+  submitted = false;
+  showPassword = false;
+  loginError: string | null = null;
+  
+   loadForm(): void {
+    this.formdata = this.fb.group({
+      Email: ['', [Validators.required, Validators.minLength(5)]],
+      password: ['', [Validators.required, Validators.minLength(5)]],
+    });
+    this.submitted = false;
+    this.loginError = null;
   }
 
-
-  formdata = new FormGroup({
-    Email: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(5)]),
-  })
-  get email() {
+  get email(): AbstractControl | null {
     return this.formdata.get('Email');
   }
-  get passwordText() {
-    return this.formdata.get('password')
+
+  get passwordText(): AbstractControl | null {
+    return this.formdata.get('password');
   }
+
+  get userRole(): AbstractControl | null {
+    return this.formdata.get('UserRoleS');
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  // formdata = new FormGroup({
+  //   Email: new FormControl('', [Validators.required, Validators.minLength(5)]),
+  //   password: new FormControl('', [Validators.required, Validators.minLength(5)]),
+  // })
+ 
 
   OnSubmit() {
     var DataX = this.formdata.value;

@@ -159,48 +159,96 @@ export class NewBookingsComponent implements OnInit {
       }
     });
   }
-
+InstrumentName: any;
   getAllAnalysis(event: Event) {
     this.Duration = this.AnalysisId = this.PriceValue = '';
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
 
-    // Parse the selected instrument ID (from the dropdown)
-    const selectedInstrumentId = parseInt(selectedValue, 10);
+    // Split the selected value to get the instrument ID and name
+    const [selectedInstrumentIdStr, ...instrumentNameParts] = selectedValue.split(' ');
+    const selectedInstrumentId = parseInt(selectedInstrumentIdStr, 10);
+    const selectedInstrumentName = instrumentNameParts.join(' '); // Join the remaining parts for the name
+    this.InstrumentName = selectedInstrumentName;
     if (selectedInstrumentId) {
-      // Find the selected instrument using its ID
-      const selectedInstrument = this.InstrumentData?.find(instrument => instrument.instrumentId === selectedInstrumentId);
-      const inactiveInstrument = this.InstrumentDataInactive?.find(instrument => instrument.instrumentId === selectedInstrumentId);
+        // Find the selected instrument using its ID
+        const selectedInstrument = this.InstrumentData?.find(instrument => instrument.instrumentId === selectedInstrumentId);
+        const inactiveInstrument = this.InstrumentDataInactive?.find(instrument => instrument.instrumentId === selectedInstrumentId);
 
-      // Check if the selected instrument is inactive
-      if (inactiveInstrument && this.InActiveInstrumentIds?.includes(selectedInstrumentId.toString())) {
+        // Check if the selected instrument is inactive
+        if (inactiveInstrument && this.InActiveInstrumentIds?.includes(selectedInstrumentId.toString())) {
+            swal.fire({
+                title: 'This instrument is under Maintenance. You cannot proceed with this selection.',
+                icon: 'error',
+            }).then(() => {
+                window.location.reload();
+            });
+            return; // Exit the function to prevent further action
+        }
+
+        // Set the selected instrument values and proceed
+        this.selectedId = selectedInstrumentId;
+        this.InstrumentId = this.selectedId;
+        this.testClick(this.InstrumentId);
+        this.Message = "A Format File is being Downloaded. You need to fill and upload this Excel sheet to send your requirements!";
         swal.fire({
-          title: 'This instrument is under Maintenance. You cannot proceed with this selection.',
-          icon: 'error',
-        }).then(() => {
-          window.location.reload();
+            title: this.Message,
+            icon: 'warning',
         });
-        return; // Exit the function to prevent further action
-      }
 
-      // Set the selected instrument values and proceed
-      this.selectedId = selectedInstrumentId;
-      this.InstrumentId = this.selectedId;
-      this.testClick(this.InstrumentId);
-      this.Message = "A Format File is being Downloaded. You need to fill and upload this Excel sheet to send your requirements!";
-      swal.fire({
-        title: this.Message,
-        icon: 'warning',
-      });
+        if (selectedInstrument) {
+            this.isActive = selectedInstrument.isActive;
+            this.Duration = "Other Cases";
 
-      if (selectedInstrument) {
-        this.isActive = selectedInstrument.isActive;
-        this.Duration = "Other Cases";
+            // Log the selected instrument name for reference
+            console.log('Selected Instrument Name:', selectedInstrumentName);
 
-        this.GetInstrumentIDWiseAnalysisDetails(this.selectedId);
-      }
+            this.GetInstrumentIDWiseAnalysisDetails(this.selectedId);
+        }
     }
-  }
+}
+
+  // getAllAnalysis(event: Event) {
+  //   this.Duration = this.AnalysisId = this.PriceValue = '';
+  //   const selectElement = event.target as HTMLSelectElement;
+  //   const selectedValue = selectElement.value;
+
+  //   // Parse the selected instrument ID (from the dropdown)
+  //   const selectedInstrumentId = parseInt(selectedValue, 10);
+  //   if (selectedInstrumentId) {
+  //     // Find the selected instrument using its ID
+  //     const selectedInstrument = this.InstrumentData?.find(instrument => instrument.instrumentId === selectedInstrumentId);
+  //     const inactiveInstrument = this.InstrumentDataInactive?.find(instrument => instrument.instrumentId === selectedInstrumentId);
+
+  //     // Check if the selected instrument is inactive
+  //     if (inactiveInstrument && this.InActiveInstrumentIds?.includes(selectedInstrumentId.toString())) {
+  //       swal.fire({
+  //         title: 'This instrument is under Maintenance. You cannot proceed with this selection.',
+  //         icon: 'error',
+  //       }).then(() => {
+  //         window.location.reload();
+  //       });
+  //       return; // Exit the function to prevent further action
+  //     }
+
+  //     // Set the selected instrument values and proceed
+  //     this.selectedId = selectedInstrumentId;
+  //     this.InstrumentId = this.selectedId;
+  //     this.testClick(this.InstrumentId);
+  //     this.Message = "A Format File is being Downloaded. You need to fill and upload this Excel sheet to send your requirements!";
+  //     swal.fire({
+  //       title: this.Message,
+  //       icon: 'warning',
+  //     });
+
+  //     if (selectedInstrument) {
+  //       this.isActive = selectedInstrument.isActive;
+  //       this.Duration = "Other Cases";
+
+  //       this.GetInstrumentIDWiseAnalysisDetails(this.selectedId);
+  //     }
+  //   }
+  // }
 
   setAnalysisId(event: Event) {
     const selectElement = event.target as HTMLSelectElement; const selectedValue = selectElement.value;
@@ -373,8 +421,8 @@ export class NewBookingsComponent implements OnInit {
     // }
 
   if (this.formdata.valid) {
-    this.obj = { instrument: this.InstrumentId, analysisId: this.AnalysisId, Duration: this.Duration, PriceValue: this.PriceValue, NumberOfSamples: this.NumberOfSamples, totalAmount: this.totalAmount, Remarks: this.Remarks }
-    this.newDynamic = { instrument: this.InstrumentId, analysisId: this.AnalysisId, Duration: this.Duration, PriceValue: this.PriceValue, NumberOfSamples: this.NumberOfSamples, totalAmount: this.totalAmount, Remarks: this.Remarks, UserEmailId: this.user_Email };
+    this.obj = {instrumentName:this.InstrumentName, instrument: this.InstrumentId ,analysisId: this.AnalysisId, Duration: this.Duration, PriceValue: this.PriceValue, NumberOfSamples: this.NumberOfSamples, totalAmount: this.totalAmount, Remarks: this.Remarks }
+    this.newDynamic = { instrumentName:this.InstrumentName,instrument: this.InstrumentId, analysisId: this.AnalysisId, Duration: this.Duration, PriceValue: this.PriceValue, NumberOfSamples: this.NumberOfSamples, totalAmount: this.totalAmount, Remarks: this.Remarks, UserEmailId: this.user_Email };
     this.Datagrid.push(this.newDynamic);
     this.clear();
   }

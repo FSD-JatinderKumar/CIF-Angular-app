@@ -34,7 +34,7 @@
                                 <tr>
                                     <th class="form-label d-none d-sm-table-cell">Booking Id</th>
                                     <th class="form-label d-none d-md-table-cell">Instrument Name</th>
-                                    <th class="form-label ">Assigned To </th>
+                                    <!-- <th class="form-label ">Assigned To </th> -->
                                     <th class="form-label ">Assigned On</th>
                                     <th class="form-label d-none d-md-table-cell">Number of Samples</th>
                                     <th class="form-label d-none d-md-table-cell">Request Date</th>
@@ -46,11 +46,11 @@
                                     <tr>
                                         <td class="fw-bold d-none d-sm-table-cell"> {{BookingStatusDataRow.bookingId}}</td>
                                         <td class="fw-bold d-none d-md-table-cell"> {{BookingStatusDataRow.instrumentName}}</td>
-                                        <td class="fw-bold text-danger "> {{ BookingStatusDataRow.assignedTo.split('
+                                        <!-- <td class="fw-bold text-danger "> {{ BookingStatusDataRow.assignedTo.split('
                                             ').slice(0, -1).join('
                                             ').length >0 ? BookingStatusDataRow.assignedTo.split('
                                             ').slice(0, -1).join('
-                                            ') :'N/A' }}</td>
+                                            ') :'N/A' }}</td> -->
                                         <td class="fw-bold text-danger ">{{BookingStatusDataRow.assignedOn }} </td>
                                         <td class="fw-bold d-none d-md-table-cell"> {{BookingStatusDataRow.noOfSamples}}</td>
                                         <td class="fw-bold d-none d-md-table-cell">{{ BookingStatusDataRow.bookingRequestDate |

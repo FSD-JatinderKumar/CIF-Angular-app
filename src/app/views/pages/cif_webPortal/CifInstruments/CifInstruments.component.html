@@ -37,7 +37,7 @@
           <div class="main-head align-items-start">
             <h2 id="InstrumentName">{{ instrumentName }}</h2>
             <div class="call-action gap-3">
-              <a class="lpu-btn mr-2" (click)="openChargesModal(InstrumentId)">Charges</a>
+              <!-- <a class="lpu-btn mr-2" (click)="openChargesModal(InstrumentId)">Charges</a> -->
               <a routerLink="/Login" class="lpu-btn">Login/Register</a>
             </div>
             <div class="call-action gap-3 d-none">
@@ -61,7 +61,7 @@
           <strong>{{ isInstrumentActive ? 'Instrument is Active' : 'Instrument is Inactive' }}</strong>
         </div>
         <div class="mb-5">
-          <img [src]="ImageUrl" alt="Instrument Image" />
+          <img [src]="ImageUrl" alt="Instrument Image" class="ImageSizes"/>
         </div>
         <p [innerHTML]="Description"></p>
       </div>
