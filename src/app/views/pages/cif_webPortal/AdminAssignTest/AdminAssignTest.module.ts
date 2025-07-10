@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminAssignTestComponent } from './AdminAssignTest.component';
+
 import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AdminDashboardModule } from '../AdminDashboard/AdminDashboard.module'; 
-
+import { AdminAssignTestComponent } from './AdminAssignTest.component';
 const routes: Routes = [
   {
     path: '',

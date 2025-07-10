@@ -557,4 +557,41 @@ GetAllInstrumentsData(): Observable<any> {
       AUTH_API_LOCAL + 'api/LpuCIF/GetInstrumentChargesDetails?InstrumentID='+Id, { headers }
     );
   }
+
+  NewCifFeedback(newFeedbackData: FormData): Observable<any> {
+    let token = this.storageService.getUser();
+    // "Content-Type": "multipart/form-data"
+    let headers = new HttpHeaders()
+      .set('Authorization', 'Bearer ' + token)
+      // .set('Content-Type', 'multipart/form-data');
+    return this.http.post(
+      AUTH_API_LOCALS + 'api/LpuCIF/NewFeedback', newFeedbackData, { headers }
+      // AUTH_API_LOCAL + 'api/LpuCIF/CreateCIFUserAccount', newUserData, { headers }
+    );
+  }
+
+  NewSAmpleStatus(newSampleStatus: FormData): Observable<any> {
+    let token = this.storageService.getUser();
+    // "Content-Type": "multipart/form-data"
+    let headers = new HttpHeaders()
+      .set('Authorization', 'Bearer ' + token)
+      // .set('Content-Type', 'multipart/form-data');
+    return this.http.post(
+      AUTH_API_LOCALS + 'api/LpuCIF/CIFUpdateSampleStatus', newSampleStatus, { headers }
+      // AUTH_API_LOCAL + 'api/LpuCIF/CreateCIFUserAccount', newUserData, { headers }
+    );
+  }
+
+  // GetAllSampleStatus
+
+  GetAllSampleStatus(): Observable<any> {
+    let token = this.storageService.getUser();
+    let headers = new HttpHeaders()
+      .set('Authorization', 'Bearer ' + this.authToken)
+      .set('Content-Type', 'application/json');
+    return this.http.get(
+      // AUTH_API + 'api/LpuCIF/GetAGetInstrumentChargesDetailsllSpecifications', { headers }
+      AUTH_API_LOCALS + 'api/LpuCIF/GetAllSampleStatus', { headers }
+    );
+  }
 }

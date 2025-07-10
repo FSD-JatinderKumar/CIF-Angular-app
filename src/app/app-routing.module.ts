@@ -103,6 +103,10 @@ const routes: Routes = [
     path: "ResponsePayments",
     loadChildren: () => import('./views/pages/cif_webPortal/payment-response-page/payment-response-page.module').then(m => m.PaymentResponsePageModule),
   },
+  {
+    path: "FeedbackForm",
+    loadChildren: () => import('./views/pages/cif_webPortal/UserFeedbackForm/UserFeedbackForm.module').then(m => m.UserFeedbackFormModule),
+  },
 
 
 
@@ -141,6 +145,11 @@ const routes: Routes = [
   {
     path: "AssignTestCifA",
     loadChildren: () => import('./views/pages/cif_webPortal/AdminAssignTest/AdminAssignTest.module').then(m => m.AdminAssignTestModule),
+    // component:AdminAssignTestComponent
+  },
+  {
+    path: "SampleStatus",
+    loadChildren: () => import('./views/pages/cif_webPortal/AdminUpdateSampleStatus/AdminUpdateSampleStatus.module').then(m => m.AdminUpdateSampleStatusModule),
     // component:AdminAssignTestComponent
   },
   {

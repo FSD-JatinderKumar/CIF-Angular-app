@@ -41,6 +41,7 @@ export class ViewBookingsComponent implements OnInit {
   @ViewChild('verticalCenteredModal') verticalCenteredModal: TemplateRef<any>;
   @ViewChild('viewDescModal') viewDescModal: TemplateRef<any>;
   @ViewChild('viewDescModal2') viewDescModal2: TemplateRef<any>;
+  @ViewChild('ViewUpdateStatusModal') ViewUpdateStatusModal: TemplateRef<any>;
   dataSource: MatTableDataSource<any>;
 
   TypeId: any = 'CIF';
@@ -269,7 +270,6 @@ export class ViewBookingsComponent implements OnInit {
     link.click();
   }
 
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -373,4 +373,30 @@ export class ViewBookingsComponent implements OnInit {
     const url = this.serverUrl + fileName;
     window.open(url, '_blank');
   }
+SampleStatusData: any;dataSourceSample: any;
+  GetStatus(Data: any){
+    this.fetchAllSampleStatus();
+    this.modalService
+      .open(this.ViewUpdateStatusModal, { size: 'sm' })
+      .result.then((result: string) => {
+        console.log('Modal closed' + result);
+      })
+      .catch((res: any) => { });
+  }
+  fetchAllSampleStatus() {
+    this.CIFwebService.GetAllSampleStatus().subscribe({
+      next: (response) => {
+        if (response.item1 && response.item1.length > 0) {
+          this.SampleStatusData = response.item1;
+          this.dataSourceSample = response.item1;
+        } else {
+          this.SampleStatusData = [];
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+   
 }
