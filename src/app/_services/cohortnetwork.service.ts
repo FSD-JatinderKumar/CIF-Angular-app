@@ -9,7 +9,7 @@ export class CohortnetworkService {
   authToken : any;
   constructor(private http: HttpClient, private storageService: StorageService) { }
   getData(url: any)  {
-    console.log('url:  ' +  url);
+    // console.log('url:  ' +  url);
     return this.http.get<HttpResponse<any>>( url); 
   }
 //   getRoadmap(url: string) : Observable<HttpResponse<any>> {

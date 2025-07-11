@@ -1,14 +1,4 @@
-// import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { UserFeedbackFormComponent } from './UserFeedbackForm.component';
 
-// @NgModule({
-//   imports: [
-//     CommonModule
-//   ],
-//   declarations: [UserFeedbackFormComponent]
-// })
-// export class UserFeedbackFormModule { }
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';

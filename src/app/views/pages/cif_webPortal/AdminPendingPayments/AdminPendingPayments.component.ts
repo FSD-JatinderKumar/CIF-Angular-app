@@ -120,7 +120,7 @@ export class AdminPendingPaymentsComponent implements OnInit {
           this.loadingIndicator = false;
 
 
-          console.log("AllPaymentData  Data  " + JSON.stringify(this.AllPaymentData))
+          // console.log("AllPaymentData  Data  " + JSON.stringify(this.AllPaymentData))
         }
         else {
           this.AllPaymentData = [];

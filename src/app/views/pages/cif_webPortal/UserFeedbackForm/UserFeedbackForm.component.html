@@ -20,7 +20,7 @@
             </div>
 
             <!-- Name Field -->
-            <div class="mb-4">
+            <div class="mb-4 d-none">
               <label for="name" class="form-label">Full Name</label>
               <input type="text" class="form-control" id="name" formControlName="name" [(ngModel)]="name"
                 [ngClass]="{ 'is-invalid': (isSubmitted || f['name'].touched) && f['name'].errors }">
@@ -30,7 +30,7 @@
             </div>
 
             <!-- Email Field -->
-            <div class="mb-4">
+            <div class="mb-4 d-none">
               <label for="email" class="form-label">Email Address</label>
               <input type="email" class="form-control" id="email" formControlName="email" [readOnly]="true"
                 [(ngModel)]="user_Email"

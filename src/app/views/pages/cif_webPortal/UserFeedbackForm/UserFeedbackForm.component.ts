@@ -48,7 +48,7 @@ export class UserFeedbackFormComponent implements OnInit {
   }
   loadForm() {
     this.feedbackForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['',],
       email: [this.user_Email, [Validators.required, Validators.email]],
       rating: [null, [Validators.required, Validators.min(1), Validators.max(10)]],
       CifComments: ['', Validators.required],
@@ -72,7 +72,9 @@ export class UserFeedbackFormComponent implements OnInit {
     formData.append("Rating", this.rating);
     formData.append("Comments", this.Comments);
     formData.append("Suggestions", this.Suggestions);
-  
+    //  formData.forEach((value, key) => {
+    //   console.log(key, value);
+    // });
     this.CIFwebService.NewCifFeedback(formData).subscribe({
       next: (data) => {
         let result = data.item1[0]['msg'];

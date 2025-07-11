@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { StorageService } from './storage.service';
-import { environment } from 'src/environments/environment';
 const AUTH_API = 'https://projectsapi.lpu.in/';//'https://projectsapi.lpu.in/';
 const AUTH_API_LOCAL = 'https://projectsapi.lpu.in/';//'https://localhost:7125/';
 const AUTH_API_LOCALS = 'https://projectsapi.lpu.in/';//'https://localhost:7125/';
@@ -50,14 +49,7 @@ export class LpuCIFWebService {
       // AUTH_API_LOCAL + 'api/LpuCIF/GetUserDataIdWise?Email=' + UserEmail + '&PasswordText=' + secreatKeys + '&UserRole=' + userRole,
       { headers }
     );
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Authorization': `Bearer ${this.authToken}`
-    //   })
-    // };
-    // // GetDriveDetails?RegId=11910459&TypeId=S
-    // // GetUserDataIdWise?Email=priyanka.27775%40lpu.co.in&PasswordText=14700147&UserRole=400002
-    // return this.http.get<any>(this.baseUrl + 'LpuCIF/GetUserDataIdWise?Email=' + UserEmail + '&PasswordText=' + secreatKeys + '&UserRole=' + userRole, httpOptions);
+   
   }
 
   GetAllBooksDetails(): Observable<any> {
@@ -560,28 +552,23 @@ export class LpuCIFWebService {
 
   NewCifFeedback(newFeedbackData: FormData): Observable<any> {
     let token = this.storageService.getUser();
-    // "Content-Type": "multipart/form-data"
     let headers = new HttpHeaders()
       .set('Authorization', 'Bearer ' + token)
     // .set('Content-Type', 'multipart/form-data');
     return this.http.post(
       AUTH_API_LOCALS + 'api/LpuCIF/NewFeedback', newFeedbackData, { headers }
-      // AUTH_API_LOCAL + 'api/LpuCIF/CreateCIFUserAccount', newUserData, { headers }
     );
   }
 
   NewSAmpleStatus(newSampleStatus: FormData): Observable<any> {
     let token = this.storageService.getUser();
-    // "Content-Type": "multipart/form-data"
     let headers = new HttpHeaders()
       .set('Authorization', 'Bearer ' + token)
     // .set('Content-Type', 'multipart/form-data');
     return this.http.post(
       AUTH_API_LOCALS + 'api/LpuCIF/CIFUpdateSampleStatus', newSampleStatus, { headers }
-      // AUTH_API_LOCAL + 'api/LpuCIF/CreateCIFUserAccount', newUserData, { headers }
     );
   }
-
   // GetAllSampleStatus
   GetAllSampleStatus(): Observable<any> {
     let token = this.storageService.getUser();
@@ -592,14 +579,6 @@ export class LpuCIFWebService {
       AUTH_API + 'api/LpuCIF/GetAllSampleStatus', { headers }
     );
 
-    // let token = this.storageService.getUser();
-    // let headers = new HttpHeaders()
-    //   .set('Authorization', 'Bearer ' + token)
-    //   .set('Content-Type', 'application/json');
-    // return this.http.get(
-    //   // AUTH_API + 'api/LpuCIF/GetAGetInstrumentChargesDetailsllSpecifications', { headers }
-    //   AUTH_API +'api/LpuCIF/GetAllSampleStatus', { headers }
-    //   // 'https://localhost:7125/api/LpuCIF/GetAllSampleStatus', { headers }
-    // );
+   
   }
 }

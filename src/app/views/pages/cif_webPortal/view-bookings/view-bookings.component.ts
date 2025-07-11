@@ -139,7 +139,7 @@ export class ViewBookingsComponent implements OnInit {
       this.CIFwebService.GetDecodePaymentStatusDetails(formData).subscribe({
         next: data => {
           result = data;
-          console.log("return encoded " + JSON.stringify(result));
+          // console.log("return encoded " + JSON.stringify(result));
 
           if (result?.status == 'failure') {
             Swal.fire({
@@ -366,14 +366,14 @@ export class ViewBookingsComponent implements OnInit {
     this.ToGetSampleforInstrumentId = Data['instrumentId'];   
 
     // Filter the samples based on bookingId and instrumentId
-    this.SampleStatusData = this.dataSourceSamples.find(
+    this.SampleStatusData = this.dataSourceSamples.filter(
       (item: any) =>
         item.bookingId == this.ToGetSampleforId && // Match bookingId
         item.instrumentId == this.ToGetSampleforInstrumentId // Match instrumentId
     );
 
     // Check if any data was found
-    if (this.SampleStatusData.length > 0) {
+    if (this.SampleStatusData?.length > 0) {
       // If found, open the modal
       this.modalService
         .open(this.ViewUpdateStatusModal, { size: 'sm' })

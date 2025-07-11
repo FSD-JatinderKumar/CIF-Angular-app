@@ -36,14 +36,14 @@ export class AdminDashboardComponent implements OnInit {
     private router: Router, private route: ActivatedRoute, private cookieService: CookieService
   ) {
 
-    const GetCookieData = this.cookieService.get('authData');
-    if (GetCookieData.length == 0) {
-      swal.fire({
-        title: 'Login Failed ',
-        icon: 'warning',
-      });
-      this.router.navigate(['/cifWebPortal']);
-    }
+    // const GetCookieData = this.cookieService.get('authData');
+    // if (GetCookieData.length == 0) {
+    //   swal.fire({
+    //     title: 'Login Failed ',
+    //     icon: 'warning',
+    //   });
+    //   this.router.navigate(['/cifWebPortal']);
+    // }
   }
 
   goto(val: any) {

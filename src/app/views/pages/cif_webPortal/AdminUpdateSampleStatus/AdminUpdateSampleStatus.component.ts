@@ -1,5 +1,5 @@
 import { FormBuilder } from '@angular/forms';
-import {  ChangeDetectorRef, Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -83,7 +83,7 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
     this.getAllBookigsDetails()
   }
 
-  searchQuery: string = '';  
+  searchQuery: string = '';
 
   get filteredAllBookingTestsData(): any[] {
     // If search query is empty, return all data
@@ -197,6 +197,59 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
     this.AssignedTo = event.target.value;
   }
   ReceivedDate: any;
+  // VerifyData(AssignTest: any) {
+  //   const formData = new FormData();
+  //   formData.append('BookingId', AssignTest.bookingId);
+  //   formData.append('InstrumentId', AssignTest.instrumentId);
+  //   formData.append('SampleSendBy', AssignTest.userEmailId);
+  //   formData.append('ReceivedByUID', this.user_Email);
+  //   formData.append('SampleCondition', this.AssignedTo);
+  //   formData.append('ReceivedOn', this.ReceivedDate);
+
+  //   this.CIFwebService.NewSAmpleStatus(formData).subscribe({
+  //     next: (data: any) => {
+  //       if (data.item1 && data.item1.length > 0) {
+  //         const result = data.item1[0]['msg'];
+  //         if (result == 'success') {
+  //           swal.fire({
+  //             title: 'Sample Status Updated!',
+  //             icon: 'success'
+  //           }).then(() => {
+  //             window.location.reload();
+  //             // this.router.navigate(['/AssignTestCifA']);
+  //           });
+  //         } else if (result == 'Failed') {
+  //           swal.fire({
+  //             title: 'Test is already Assigned ',
+  //             icon: 'error'
+  //           }).then(() => {
+  //             window.location.reload();
+  //           });
+  //         }
+  //       } else {
+  //         // Handle case where item1 is empty or undefined
+  //         swal.fire({
+  //           title: 'Already Updated',
+  //           icon: 'warning'
+  //         }).then(() => {
+  //           window.location.reload();
+  //         });
+  //       }
+  //     },
+  //     error: (error: any) => {
+  //       swal.fire({
+  //         title: 'Error',
+  //         text: 'Failed to Upload.',
+  //         icon: 'error'
+  //       }).then(() => {
+  //         // Optionally handle error
+  //       });
+  //     },
+  //     complete: () => {
+  //       // Optional: Any cleanup or final actions can be done here
+  //     }
+  //   });
+  // }
 
   VerifyData(AssignTest: any) {
     const formData = new FormData();
@@ -211,6 +264,7 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
       next: (data: any) => {
         const result = data.item1[0]['msg'];
         if (result === 'Success') {
+        // if (data.item1.length>0 && result == 'success') {
           swal.fire({
             title: 'Sample Status Updated!',
             // text: '',
@@ -228,7 +282,7 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
           });
         } else {
           swal.fire({
-            title: 'Something Went Wrong, Try again later',
+            title: 'Already Updated Status',
             icon: 'error'
           }).then(() => {
             window.location.reload();
@@ -244,10 +298,10 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
         }).then(() => {
           // window.location.reload();
           // SampleStatus
-          this.router.navigate(['/AssignTestCifA']);
         });
       },
       complete: () => {
+
       }
     });
   }
