@@ -216,8 +216,8 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
             // text: '',
             icon: 'success'
           }).then(() => {
-            // window.location.reload();
-            this.router.navigate(['/AssignTestCifA']);
+            window.location.reload();
+            // this.router.navigate(['/AssignTestCifA']);
           });
         } else if (result === 'Failed') {
           swal.fire({
@@ -231,8 +231,8 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
             title: 'Something Went Wrong, Try again later',
             icon: 'error'
           }).then(() => {
-            // window.location.reload();
-            this.router.navigate(['/AssignTestCifA']);
+            window.location.reload();
+            // this.router.navigate(['/AssignTestCifA']);
           });
         }
       },
