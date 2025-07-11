@@ -83,7 +83,7 @@ export class ViewBookingsComponent implements OnInit {
     private route: ActivatedRoute,
     private cookieService: CookieService
   ) { }
-    user_Email: any;    qrCodeUrl: string;    sessionData: any[] = [];
+  user_Email: any; qrCodeUrl: string; sessionData: any[] = [];
   getSessionDetails() {
     this.sessionData = this.AuthSession.getSession();
     for (const session of this.sessionData) {
@@ -94,9 +94,9 @@ export class ViewBookingsComponent implements OnInit {
     this.getParams();
     this.ResponseUrl = window.location.origin + '/ViewBookings';//this.location.path(); 
     // alert(this.ResponseUrl)
-    if (this.ResponseUrl.startsWith('https://devums.lpu.in/app/cif/')) {      
+    if (this.ResponseUrl.startsWith('https://devums.lpu.in/app/cif/')) {
       this.ResponseUrl = "https://devums.lpu.in/app/cif/";
-    }  
+    }
     // alert (this.ResponseUrl)
     this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';// https://files.lpu.in/umsweb/Journal/
     const GetCookieData = this.cookieService.get('authData');
@@ -113,6 +113,7 @@ export class ViewBookingsComponent implements OnInit {
     this.candidateName = retrievedCookies.CandidateName;
 
     this.getBookingDetails();
+    this.fetchAllSampleStatus();
   }
   id: any; status: any; type: any; transactionNo: any; hashedValue: any; course: any; keyNote: any;
   getParams(): void {
@@ -138,16 +139,16 @@ export class ViewBookingsComponent implements OnInit {
       this.CIFwebService.GetDecodePaymentStatusDetails(formData).subscribe({
         next: data => {
           result = data;
-          // console.log("return encoded "+JSON.stringify(result));
+          console.log("return encoded " + JSON.stringify(result));
 
-          if (result.status == 'failure') {
+          if (result?.status == 'failure') {
             Swal.fire({
               title: 'Payment Failed ',
               // text: 'Payment URL not found!',
               icon: 'error',
             });
           }
-          else if (result.status == 'success') {
+          else if (result?.status == 'success') {
             Swal.fire({
               title: 'Payment Made Successfully',
               // text: 'Payment URL not found!',
@@ -157,23 +158,6 @@ export class ViewBookingsComponent implements OnInit {
         },
       });
     });
-
-    // Loop through each parameter key
-    // Object.keys(params).forEach(paramKey => {
-    //   const paramValue = params[paramKey];
-    //   console.log(`Parameter Name: ${paramKey}, Value: ${paramValue}`);
-
-    //   // You can perform specific logic based on the key or value here
-    //   if (paramKey === 'id') {
-    //     console.log('Processing Id:', paramValue);
-    //   } else if (paramKey === 'status') {
-    //     console.log('Processing Status:', paramValue);
-    //   } else if (paramKey === 'type') {
-    //     console.log('Processing Type:', paramValue);
-    //   } else if (paramKey === 'hashedValue') {
-    //     console.log('Processing HashValue:', paramValue);
-    //   }
-    // });
   }
   searchQuery: any = '';
 
@@ -373,22 +357,48 @@ export class ViewBookingsComponent implements OnInit {
     const url = this.serverUrl + fileName;
     window.open(url, '_blank');
   }
-SampleStatusData: any;dataSourceSample: any;
-  GetStatus(Data: any){
-    this.fetchAllSampleStatus();
-    this.modalService
-      .open(this.ViewUpdateStatusModal, { size: 'sm' })
-      .result.then((result: string) => {
-        console.log('Modal closed' + result);
-      })
-      .catch((res: any) => { });
+  ToGetSampleforId: any;
+  ToGetSampleforInstrumentId: any;
+  SampleStatusData: any; dataSourceSamples: any;
+ 
+  GetStatus(Data: any) {
+    this.ToGetSampleforId = Data['bookingId']; // Use bookingId
+    this.ToGetSampleforInstrumentId = Data['instrumentId'];   
+
+    // Filter the samples based on bookingId and instrumentId
+    this.SampleStatusData = this.dataSourceSamples.find(
+      (item: any) =>
+        item.bookingId == this.ToGetSampleforId && // Match bookingId
+        item.instrumentId == this.ToGetSampleforInstrumentId // Match instrumentId
+    );
+
+    // Check if any data was found
+    if (this.SampleStatusData.length > 0) {
+      // If found, open the modal
+      this.modalService
+        .open(this.ViewUpdateStatusModal, { size: 'sm' })
+        .result.then((result: string) => {
+          console.log('Modal closed: ' + result);
+        })
+        .catch((res: any) => { });
+    } else {
+      // Handle case where no data is found
+      this.SampleStatusData = []; // Ensure it's an empty array
+      swal.fire({
+        title: 'No Data Found',
+        text: 'No sample status data available for the selected booking and instrument.',
+        icon: 'info'
+      });
+    }
   }
+
   fetchAllSampleStatus() {
     this.CIFwebService.GetAllSampleStatus().subscribe({
       next: (response) => {
         if (response.item1 && response.item1.length > 0) {
           this.SampleStatusData = response.item1;
-          this.dataSourceSample = response.item1;
+          this.dataSourceSamples = response.item1;
+          // console.log(JSON.stringify(this.SampleStatusData))
         } else {
           this.SampleStatusData = [];
         }
@@ -398,5 +408,5 @@ SampleStatusData: any;dataSourceSample: any;
       },
     });
   }
-   
+
 }

@@ -206,19 +206,18 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
     formData.append('ReceivedByUID', this.user_Email);
     formData.append('SampleCondition', this.AssignedTo);
     formData.append('ReceivedOn', this.ReceivedDate);
-    // formData.forEach((value, key) => {
-    //   console.log(`${key}: ${value}`);
-    // });
+
     this.CIFwebService.NewSAmpleStatus(formData).subscribe({
       next: (data: any) => {
         const result = data.item1[0]['msg'];
         if (result === 'Success') {
           swal.fire({
-            title: 'Action Planned Stored Successfully!',
+            title: 'Sample Status Updated!',
             // text: '',
             icon: 'success'
           }).then(() => {
-            window.location.reload();
+            // window.location.reload();
+            this.router.navigate(['/AssignTestCifA']);
           });
         } else if (result === 'Failed') {
           swal.fire({
@@ -232,7 +231,8 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
             title: 'Something Went Wrong, Try again later',
             icon: 'error'
           }).then(() => {
-            window.location.reload();
+            // window.location.reload();
+            this.router.navigate(['/AssignTestCifA']);
           });
         }
       },
@@ -242,7 +242,9 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
           text: 'Failed to Upload.',
           icon: 'error'
         }).then(() => {
-          window.location.reload();
+          // window.location.reload();
+          // SampleStatus
+          this.router.navigate(['/AssignTestCifA']);
         });
       },
       complete: () => {

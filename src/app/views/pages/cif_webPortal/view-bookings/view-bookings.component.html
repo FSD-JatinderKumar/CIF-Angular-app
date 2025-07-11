@@ -263,7 +263,7 @@
                                             </ng-template>
                                         </td>
                                             <td><button type="submit" class="btn btn-dark me-2"
-                                                (click)="GetStatus(BookingDataRow);">Get Status</button></td>
+                                                (click)="GetStatus(BookingDataRow);">Check Sample Status</button></td>
                                     </tr>
                                 </ng-container>
                             </tbody>
@@ -346,40 +346,107 @@
 </ng-template>
 
 
-<ng-template #ViewUpdateStatusModal let-modal>
-  <div class="modal-header">
-    <h2 class="modal-title fs-2" id="exampleModalLabel">Sample Status</h2>
-    <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
-  </div>
-  <div class="modal-body">
 
-    <div class="col-md-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <div class="row mb-4">
-            <div class="col-sm">
-              <table id="dataTableAllClosedRemarks" class="table">
-                <thead>
-                  <tr>
-                    <th class="fs-5 text-dark">Booking Id</th>
-                    <th class="fs-5 text-dark">Instrument Id</th>
-                    <th class="fs-5 text-dark">Sample Condition</th>
-                    <th class="fs-5 text-dark">Received on</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="fs-5 p-4" style="width: 20%;">{{BookingCase.bookingId}}</td>
-                    <td class="fs-5 p-4" style="width: 20%;">{{BookingCase.instrumentId}}</td>
-                    <td class="fs-5 p-4" style="width: 20%;">{{BookingCase.sampleCondition}}</td>
-                    <td class="fs-5 p-4" style="width: 20%;">{{BookingCase.receivedOn}}</td>
-                  </tr>
-                </tbody>
-              </table>
+
+
+
+
+<ng-template #ViewUpdateStatusModal let-modal>
+    <div class="modal-header">
+      <h2 class="modal-title fs-2" id="exampleModalLabel">Sample Status</h2>
+      <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-4" *ngIf="SampleStatusData && SampleStatusData.length > 0; else NoSampleData">
+              <div class="col-sm">
+                <table id="dataTableAllClosedRemarks" class="table">
+                  <thead>
+                    <tr>
+                      <th class="fs-5 text-dark">Booking Id</th>
+                      <th class="fs-5 text-dark">Instrument Id</th>
+                      <th class="fs-5 text-dark">Sample Condition</th>
+                      <th class="fs-5 text-dark">Received on</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="fs-5 p-4" style="width: 20%;">{{SampleStatusData[0].bookingId}}</td>
+                      <td class="fs-5 p-4" style="width: 20%;">{{SampleStatusData[0].instrumentId}}</td>
+                      <td class="fs-5 p-4" style="width: 20%;">{{SampleStatusData[0].sampleCondition}}</td>
+                      <td class="fs-5 p-4" style="width: 20%;">{{SampleStatusData[0].receivedOn}}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
+            </div>
+            <ng-template #NoSampleData>
+              <div class="text-center p-2 mb-4 vh-100">
+                <div class="row mt-4 mb-4 rounded border border-primary">
+                  <h3 class="fs-2 pt-5">No Record!</h3>
+                  <div class="col-sm-12 text-center">
+                    <div class="mb-3 p-4 mb-5 mt-5">
+                      <h3 class="fs-3 fw-bolder" style="color: #ef7d00 !important;">No Status Updates Found</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>
+  
+<!-- 
+<ng-template #ViewUpdateStatusModal let-modal>
+    <div class="modal-header">
+      <h2 class="modal-title fs-2" id="exampleModalLabel">Sample Status</h2>
+      <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-4" *ngIf="SampleStatusData?.length>0; else NoSampleData">
+              <div class="col-sm">
+                <table id="dataTableAllClosedRemarks" class="table">
+                  <thead>
+                    <tr>
+                      <th class="fs-5 text-dark">Booking Id</th>
+                      <th class="fs-5 text-dark">Instrument Id</th>
+                      <th class="fs-5 text-dark">Sample Condition</th>
+                      <th class="fs-5 text-dark">Received on</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr >
+                      <td class="fs-5 p-4" style="width: 20%;">{{SampleStatusData[0].bookingId}}</td>
+                      <td class="fs-5 p-4" style="width: 20%;">{{SampleStatusData[0].instrumentId}}</td>
+                      <td class="fs-5 p-4" style="width: 20%;">{{SampleStatusData[0].sampleCondition}}</td>
+                      <td class="fs-5 p-4" style="width: 20%;">{{SampleStatusData[0].receivedOn}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <ng-template #NoSampleData>
+                <div class="text-center  p-2 mb-4 vh-100">
+                    <div class="row mt-4 mb-4 rounded border border-primary">
+                        <h3 class="fs-2 pt-5">No Record!</h3>
+                        <div class="col-sm-12 text-center">
+                            <div class="mb-3 p-4 mb-5 mt-5">
+                                <h3 class="fs-3 fw-bolder" style="color: #ef7d00 !important;">No Status Updates Found</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+   -->
