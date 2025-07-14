@@ -566,7 +566,7 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + token)
     // .set('Content-Type', 'multipart/form-data');
     return this.http.post(
-      AUTH_API_LOCALS + 'api/LpuCIF/CIFUpdateSampleStatus', newSampleStatus, { headers }
+      AUTH_API + 'api/LpuCIF/CIFUpdateSampleStatus', newSampleStatus, { headers }
     );
   }
   // GetAllSampleStatus

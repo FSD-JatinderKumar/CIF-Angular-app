@@ -20,33 +20,36 @@
             <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text" class="form-control"
               placeholder="Search Your Text Here" aria-label="Search" aria-describedby="basic-addon1" />
           </div>
-        </div>
+        </div>      
         <ng-container *ngIf="tmpsAllBookingTestsData.length > 0; else noRecords">
           <div class="table-responsive mt-4 mb-4">
             <table id="AdminAssignTest" #table>
               <thead>
                 <tr>
-                  <th class="fw-bold ">Candidate Name</th>
-                  <th class="fw-bold  ">Candidate Email</th>
-                  <th class="fw-bold  ">Instrument Name</th>
-                  <th class="fw-bold  ">Request Date</th>
-                  <th class="fw-bold  ">Update Sample Status</th>
+                  <th class="fw-bold">Candidate Name</th>
+                  <th class="fw-bold">Candidate Email</th>
+                  <th class="fw-bold">Instrument Name</th>
+                  <th class="fw-bold">Request Date</th>
+                  <th class="fw-bold">Update Sample Status</th>
                 </tr>
               </thead>
               <tbody>
                 <ng-container *ngFor="let AllBookingTestsDataRow of getCurrentPageData(); let i = index">
                   <tr>
-                    <td class="fw-bold ">{{AllBookingTestsDataRow.candidateName?.length<1 ? 'Internal User' :
-                        AllBookingTestsDataRow.candidateName }}</td>
-                    <td class="fw-bold ">{{AllBookingTestsDataRow.userEmailId?.length>0 ?
-                      AllBookingTestsDataRow.userEmailId : 'Internal User' }}</td>
-                    <td class="fw-bold ">{{AllBookingTestsDataRow.instrumentName}}-
-                      {{AllBookingTestsDataRow.instrumentId}}</td>
-                    <td class="fw-bold ">{{AllBookingTestsDataRow.bookingRequestDate | date:'dd/MM/yyyy' }}</td>
-                    <td class="fw-bold ">
-                      <button class="btn btn-dark" (click)="openUpdateStatusModal(AllBookingTestsDataRow)">Update
-                        Status</button>
+                    <td class="fw-bold">{{ AllBookingTestsDataRow.candidateName?.length < 1 ? 'Internal User' : AllBookingTestsDataRow.candidateName }}</td>
+                    <td class="fw-bold">{{ AllBookingTestsDataRow.userEmailId?.length > 0 ? AllBookingTestsDataRow.userEmailId : 'Internal User' }}</td>
+                    <td class="fw-bold">{{ AllBookingTestsDataRow.instrumentName }} - {{ AllBookingTestsDataRow.instrumentId }}</td>
+                    <td class="fw-bold">{{ AllBookingTestsDataRow.bookingRequestDate | date:'dd/MM/yyyy' }}</td>
+                    <td class="fw-bold">
+                      <button 
+                        class="btn btn-dark" 
+                        (click)="!isStatusDisabled(AllBookingTestsDataRow.bookingId, AllBookingTestsDataRow.instrumentId) && openUpdateStatusModal(AllBookingTestsDataRow)"
+                        [disabled]="isStatusDisabled(AllBookingTestsDataRow.bookingId, AllBookingTestsDataRow.instrumentId)"
+                      >
+                        Update Status
+                      </button>
                     </td>
+                    
                   </tr>
                 </ng-container>
               </tbody>
@@ -55,13 +58,14 @@
               <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1">
                 <i class="mdi mdi-chevron-left fs-2"></i>
               </a>
-              <span class=" p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+              <span class="p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
               <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()">
                 <i class="mdi mdi-chevron-right fs-2"></i>
               </a>
             </div>
           </div>
         </ng-container>
+        
         <ng-template #noRecords>
           <p class="fs-2  text-center">No Grid Data Available.</p>
         </ng-template>

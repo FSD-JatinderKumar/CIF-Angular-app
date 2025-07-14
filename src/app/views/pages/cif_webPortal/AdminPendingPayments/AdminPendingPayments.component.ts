@@ -73,7 +73,6 @@ export class AdminPendingPaymentsComponent implements OnInit {
   user_Email: any;
   sessionData: any[] = [];
   getSessionDetails() {
-    debugger;
     this.sessionData = this.AuthSession.getSession();
     for (const session of this.sessionData) {
       this.user_Email = session[0]['userEmail']

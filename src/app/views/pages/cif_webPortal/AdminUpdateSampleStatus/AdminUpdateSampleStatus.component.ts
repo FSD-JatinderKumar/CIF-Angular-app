@@ -53,6 +53,8 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
   AssignedTo: any = '';
   serverUrl: string;
   candidateName: any;
+  user_Email: any;
+  sessionData: any[] = [];
 
   constructor(
     private CIFwebService: LpuCIFWebService,
@@ -64,25 +66,44 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
     private AuthSession: LoginSessionService,
     private router: Router, private route: ActivatedRoute,
     private cookieService: CookieService) { }
-  user_Email: any;
-  sessionData: any[] = [];
+
   getSessionDetails() {
+    debugger;
     this.sessionData = this.AuthSession.getSession();
     for (const session of this.sessionData) {
       this.user_Email = session[0]['userEmail']
     }
   }
+  disabledStatusSet: Set<string>;
   ngOnInit(): void {
     this.serverUrl = 'https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
-    // this.getSessionDetails();
     const GetCookieData = this.cookieService.get('authData');
-    const retrievedCookies = JSON.parse(GetCookieData);
-    this.UserRole = retrievedCookies.UserRole;
-    this.user_Email = retrievedCookies.EmailId;
-    this.candidateName = retrievedCookies.CandidateName;
-    this.getAllBookigsDetails()
+    if (GetCookieData) {
+      const retrievedCookies = JSON.parse(GetCookieData);
+      this.UserRole = retrievedCookies.UserRole;
+      this.user_Email = retrievedCookies.EmailId;
+      this.candidateName = retrievedCookies.CandidateName;
+    } else {
+       swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+      this.router.navigate(['/cifWebPortal']);
+    }
+    this.getAllBookigsDetails();
+    this.GetAllSampleStatus();
+    this.disabledStatusSet = new Set(
+      this.AllStatusData.map((status: { instrumentId: any; bookingId: any; }) => `${status.instrumentId}-${status.bookingId}`)
+    );
   }
-
+// Utility function to check if booking exists in status data
+isStatusDisabled(bookingId: string, instrumentId: string): boolean {
+  return this.AllStatusData.some(
+    (    status: { bookingId: any; instrumentId: any; }) => 
+      String(status.bookingId) === String(bookingId) && 
+      String(status.instrumentId) === String(instrumentId)
+  );
+}
   searchQuery: string = '';
 
   get filteredAllBookingTestsData(): any[] {
@@ -105,10 +126,12 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
     });
   }
   getAllBookigsDetails() {
+    this.loadingIndicator = true;
     this.CIFwebService.GetAllBookingTests().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.AllBookingTestsData = response.item1;
+          // console.log(this.AllBookingTestsData)
           this.dataSource = response.item1;
           this.tmpsAllBookingTestsData = response.item1;
           this.headHtmlData = this.tmpsAllBookingTestsData[0];
@@ -197,61 +220,9 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
     this.AssignedTo = event.target.value;
   }
   ReceivedDate: any;
-  // VerifyData(AssignTest: any) {
-  //   const formData = new FormData();
-  //   formData.append('BookingId', AssignTest.bookingId);
-  //   formData.append('InstrumentId', AssignTest.instrumentId);
-  //   formData.append('SampleSendBy', AssignTest.userEmailId);
-  //   formData.append('ReceivedByUID', this.user_Email);
-  //   formData.append('SampleCondition', this.AssignedTo);
-  //   formData.append('ReceivedOn', this.ReceivedDate);
 
-  //   this.CIFwebService.NewSAmpleStatus(formData).subscribe({
-  //     next: (data: any) => {
-  //       if (data.item1 && data.item1.length > 0) {
-  //         const result = data.item1[0]['msg'];
-  //         if (result == 'success') {
-  //           swal.fire({
-  //             title: 'Sample Status Updated!',
-  //             icon: 'success'
-  //           }).then(() => {
-  //             window.location.reload();
-  //             // this.router.navigate(['/AssignTestCifA']);
-  //           });
-  //         } else if (result == 'Failed') {
-  //           swal.fire({
-  //             title: 'Test is already Assigned ',
-  //             icon: 'error'
-  //           }).then(() => {
-  //             window.location.reload();
-  //           });
-  //         }
-  //       } else {
-  //         // Handle case where item1 is empty or undefined
-  //         swal.fire({
-  //           title: 'Already Updated',
-  //           icon: 'warning'
-  //         }).then(() => {
-  //           window.location.reload();
-  //         });
-  //       }
-  //     },
-  //     error: (error: any) => {
-  //       swal.fire({
-  //         title: 'Error',
-  //         text: 'Failed to Upload.',
-  //         icon: 'error'
-  //       }).then(() => {
-  //         // Optionally handle error
-  //       });
-  //     },
-  //     complete: () => {
-  //       // Optional: Any cleanup or final actions can be done here
-  //     }
-  //   });
-  // }
 
-  VerifyData(AssignTest: any) {
+  VerifyData(AssignTest: any): void {
     const formData = new FormData();
     formData.append('BookingId', AssignTest.bookingId);
     formData.append('InstrumentId', AssignTest.instrumentId);
@@ -259,54 +230,86 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
     formData.append('ReceivedByUID', this.user_Email);
     formData.append('SampleCondition', this.AssignedTo);
     formData.append('ReceivedOn', this.ReceivedDate);
-
+  
     this.CIFwebService.NewSAmpleStatus(formData).subscribe({
-      next: (data: any) => {
-        const result = data.item1[0]['msg'];
-        if (result === 'Success') {
-        // if (data.item1.length>0 && result == 'success') {
-          swal.fire({
-            title: 'Sample Status Updated!',
-            // text: '',
-            icon: 'success'
-          }).then(() => {
-            window.location.reload();
-            // this.router.navigate(['/AssignTestCifA']);
-          });
-        } else if (result === 'Failed') {
-          swal.fire({
-            title: 'Test is already Assigned ',
-            icon: 'error'
-          }).then(() => {
-            window.location.reload();
-          });
-        } else {
-          swal.fire({
-            title: 'Already Updated Status',
-            icon: 'error'
-          }).then(() => {
-            window.location.reload();
-            // this.router.navigate(['/AssignTestCifA']);
-          });
+      next: (response: any) => {
+        console.log('VerifyData Response:', response);
+  
+        // Validate response structure
+        const isValidResponse = response && Array.isArray(response.item1) && response.item1.length > 0;
+        if (!isValidResponse) {
+          this.showAlert('Something went wrong', 'Unexpected server response. Please try again.', 'error', true);
+          return;
+        }
+  
+        const message = response.item1[0]?.msg;
+  
+        switch (message) {
+          case 'Success':
+            this.showAlert('Sample Status Updated!', '', 'success', true);
+            break;
+  
+          case 'Failed':
+            this.showAlert('Test is already assigned', 'You cannot assign it again.', 'warning', true);
+            break;
+  
+          default:
+            this.showAlert('Status already updated', 'No further action is required.', 'info', true);
+            break;
         }
       },
-      error: (error: any) => {
-        swal.fire({
-          title: 'Error',
-          text: 'Failed to Upload.',
-          icon: 'error'
-        }).then(() => {
-          // window.location.reload();
-          // SampleStatus
-        });
-      },
-      complete: () => {
-
+      error: (err: any) => {
+        console.error('VerifyData API Error:', err);
+        this.showAlert('Upload Failed', 'A server error occurred. Please try again later.', 'error');
+      }
+    });
+  }
+  
+  /**
+   * Utility method to show SweetAlert messages.
+   * @param title Alert title
+   * @param text Optional alert body
+   * @param icon SweetAlert icon ('success' | 'error' | 'warning' | 'info')
+   * @param reload Whether to reload the page after confirmation
+   */
+  private showAlert(title: string, text: string = '', icon: 'success' | 'error' | 'warning' | 'info', reload: boolean = false): void {
+    swal.fire({ title, text, icon }).then(() => {
+      if (reload) {
+        window.location.reload();
       }
     });
   }
   downloadFile(fileName: string): void {
     const url = this.serverUrl + fileName;
     window.open(url, '_blank');
+  }
+  AllStatusData: any;
+  GetAllSampleStatus(){
+    this.CIFwebService.GetAllSampleStatus().subscribe({
+      next: response => {
+        if (response.item1 && response.item1.length > 0) {
+          this.AllStatusData = response.item1;
+          // console.log(JSON.stringify(this.AllStatusData))
+        }
+        else {
+          this.AllStatusData = [];
+        }
+      },
+      error: err => {
+        console.log(err)
+      }
+    });
+  }
+
+  CheckUserStatus(){
+
+     const GetCookieData = this.cookieService.get('authData');
+    if (GetCookieData.length == 0) {
+      swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+     this.router.navigate(['/cifWebPortal']);
+    }
   }
 }
