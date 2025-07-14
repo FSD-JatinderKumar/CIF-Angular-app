@@ -10,7 +10,17 @@ import * as XLSX from 'xlsx';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { DOCUMENT } from '@angular/common';
-
+ 
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import swal from 'sweetalert2';
+ 
+ 
+ 
+import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { LoginSessionService } from 'src/app/_services/login-session.service';
+import { warn } from 'console';
+import { FormArray } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-HomePage',
@@ -36,7 +46,23 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.getAllInstruments();
   }
-
+  openSampleInstructions() {
+    swal.fire({
+      title: 'Sample Submission Instructions',
+      html: `<p>Send samples to:</p>
+           <address>
+             LOVELY PROFESSIONAL UNIVERSITY
+Block-38, Room No.106
+Jalandhar - Delhi G.T. Road, Phagwara, Punjab (India) - 144411,
+Telephone no: 01824-444021
+Email-id: cif@lpu.co.in
+           </address>`,
+      icon: 'info'
+    });
+ 
+   // Option 2: Navigate to a page
+   // this.router.navigate(['/sample-instructions']);
+ }
   goto(val: any): void {
     this.router.navigateByUrl(val);
   }

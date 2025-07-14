@@ -1,4 +1,9 @@
 <app-AdminDashboard></app-AdminDashboard>
+<!-- Full Screen Loader -->
+<div *ngIf="showLoader" class="fullscreen-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Fetching details, please wait...</div>
+</div>
 <div class="row" *ngIf="UserDetailsData.length > 0 ;else NoData">
     <div class="col-12 stretch-card">
         <div class="card">

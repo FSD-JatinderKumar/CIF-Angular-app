@@ -126,7 +126,8 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
     });
   }
   getAllBookigsDetails() {
-    this.loadingIndicator = true;
+    this.loadingIndicator = true; 
+    const startTime = new Date().getTime();
     this.CIFwebService.GetAllBookingTests().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -137,11 +138,17 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
           this.headHtmlData = this.tmpsAllBookingTestsData[0];
           this.columns = Object.keys(this.tmpsAllBookingTestsData[0]);
           this.columns.push()
-          this.loadingIndicator = false;
+          
         }
         else {
           this.AllBookingTestsData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(5000 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)
@@ -223,6 +230,8 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
 
 
   VerifyData(AssignTest: any): void {
+    loadingIndicator: true;
+    const startTime = new Date().getTime();
     const formData = new FormData();
     formData.append('BookingId', AssignTest.bookingId);
     formData.append('InstrumentId', AssignTest.instrumentId);
@@ -233,7 +242,7 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
   
     this.CIFwebService.NewSAmpleStatus(formData).subscribe({
       next: (response: any) => {
-        console.log('VerifyData Response:', response);
+        // console.log('VerifyData Response:', response);
   
         // Validate response structure
         const isValidResponse = response && Array.isArray(response.item1) && response.item1.length > 0;
@@ -243,7 +252,12 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
         }
   
         const message = response.item1[0]?.msg;
-  
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
         switch (message) {
           case 'Success':
             this.showAlert('Sample Status Updated!', '', 'success', true);
@@ -257,6 +271,7 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
             this.showAlert('Status already updated', 'No further action is required.', 'info', true);
             break;
         }
+        
       },
       error: (err: any) => {
         console.error('VerifyData API Error:', err);

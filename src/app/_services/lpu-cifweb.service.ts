@@ -577,8 +577,17 @@ export class LpuCIFWebService {
       .set('Content-Type', 'application/json');
     return this.http.get(
       AUTH_API + 'api/LpuCIF/GetAllSampleStatus', { headers }
-    );
-
-   
+    );   
   }
+  GetAllFeedbackdetails(): Observable<any> {
+    let token = this.storageService.getUser();
+    let headers = new HttpHeaders()
+      .set('Authorization', 'Bearer ' + this.authToken)
+      .set('Content-Type', 'application/json');
+    return this.http.get(
+      AUTH_API + 'api/LpuCIF/GetAllUserFeedbacks', { headers }
+      // 'https://localhost:7125/api/LpuCIF/GetAllUserFeedbacks', { headers }
+    );   
+  }
+
 }

@@ -53,15 +53,18 @@ export class AdminActionInstrumentsComponent implements OnInit {
     'totalCharges', 'remarks', 'bookingRequestDate', //'bookingrequestDate'
   ];
   BookingCase: any;
-  InstrumentData: any[]=[];
+  InstrumentData: any[] = [];
   currentPage = 1;
   itemsPerPage = 10; // 
-  tmpsInstrumentData: any[]=[];
+  tmpsInstrumentData: any[] = [];
   InstrumentId: any;
   UserRole: any;
   UserId: any;
   uploadEnabled: boolean;
-  
+  supervisorName: any;
+  departmentName: any;
+  candidateName: any;
+
   constructor(
     private CIFwebService: LpuCIFWebService,
     private storageService: StorageService,
@@ -84,9 +87,20 @@ export class AdminActionInstrumentsComponent implements OnInit {
   ngOnInit(): void {
     // this.getSessionDetails();
     const GetCookieData = this.cookieService.get('authData');
-    const retrievedCookies = JSON.parse(GetCookieData);
-    this.UserRole = retrievedCookies.UserRole;
-    this.UserId = retrievedCookies.EmailId;
+    if (GetCookieData) {
+      const retrievedCookies = JSON.parse(GetCookieData);
+      this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+      this.user_Email = retrievedCookies.EmailId;
+      this.supervisorName = retrievedCookies.SupervisorName;
+      this.departmentName = retrievedCookies.DepartmentName;
+      this.candidateName = retrievedCookies.CandidateName;
+    } else {
+      swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+      this.router.navigate(['/cifWebPortal']);
+    }
     this.GetAllInstruments()
   }
 
@@ -97,15 +111,17 @@ export class AdminActionInstrumentsComponent implements OnInit {
     if (!this.searchQuery.trim()) {
       return this.InstrumentData;
     }
-    
+
     // Otherwise, filter data based on search query
     const searchTerm = this.searchQuery.toLowerCase();
     return this.InstrumentData.filter((booking: { instrumentName: string; analysisType: string; }) =>
-      booking.instrumentName.toLowerCase().includes(searchTerm) ||     booking.analysisType.toLowerCase().includes(searchTerm) 
-      
+      booking.instrumentName.toLowerCase().includes(searchTerm) || booking.analysisType.toLowerCase().includes(searchTerm)
+
     );
   }
   GetAllInstruments() {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetAllInstruments().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -115,11 +131,17 @@ export class AdminActionInstrumentsComponent implements OnInit {
 
           this.headHtmlData = this.tmpsInstrumentData[0];
           this.columns = Object.keys(this.tmpsInstrumentData[0]);
-          this.loadingIndicator = false;
+
         }
         else {
           this.InstrumentData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)
@@ -176,55 +198,57 @@ export class AdminActionInstrumentsComponent implements OnInit {
   OpenModalWindow(a: any) {
     this.BookingCase = a;
     let InstrumentID = a['instrumentId'];
-      const formData = new FormData();
-      formData.append('Id', InstrumentID);
-      swal.fire({
-        title: 'Are you sure you want to Change State of Device ?',
-        // text: 'Kindly confirm if the document is valid!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, accept current changes!',
-        cancelButtonText: 'No, do not change it'
-      }).then((result: any) => {
-        if (result.value) {
-          this.handleStatusChange(formData, 'Approve');
-        } else {
-          this.showCancelledSwal();
-        }
-      });
-    }
-    private handleStatusChange(formData: FormData, action: string) {
-      this.CIFwebService.CIFUpdateStatusInstruments(formData).subscribe((data: any) => {
+    const formData = new FormData();
+    formData.append('Id', InstrumentID);
+    swal.fire({
+      title: 'Are you sure you want to Change State of Device ?',
+      // text: 'Kindly confirm if the document is valid!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, accept current changes!',
+      cancelButtonText: 'No, do not change it'
+    }).then((result: any) => {
+      if (result.value) {
+        this.handleStatusChange(formData, 'Approve');
+      } else {
+        this.showCancelledSwal();
+      }
+    });
+  }
+  private handleStatusChange(formData: FormData, action: string) {
+    this.CIFwebService.CIFUpdateStatusInstruments(formData).subscribe((data: any) => {
       // this.mouDocumentsService.ApproveMouActionTakenDocument(formData).subscribe((data: any) => {
-        if (action === 'Approve' && data.responseData === 'Cancel') {
-          swal.fire(
-            'No Change!',
-            ' ',
-            'error'
-          );
-        } else {
-          swal.fire(
-            ' Status Changed Successfully !',
-            '',
-            'success'
-          ).then(() => {
-            window.location.reload();
-          });
-        }
-      });
-    }
-  
-    private showCancelledSwal() {
-      swal.fire(
-        'Cancelled',
-        ' ',
-        'error'
-      );
-    }
-  
+      if (action === 'Approve' && data.responseData === 'Cancel') {
+        swal.fire(
+          'No Change!',
+          ' ',
+          'error'
+        );
+      } else {
+        swal.fire(
+          ' Status Changed Successfully !',
+          '',
+          'success'
+        ).then(() => {
+          window.location.reload();
+        });
+      }
+    });
+  }
+
+  private showCancelledSwal() {
+    swal.fire(
+      'Cancelled',
+      ' ',
+      'error'
+    );
+  }
+
 
 
   VerifyData(InstrumentData: any) {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     const formData = new FormData();
     formData.append('BookingId', InstrumentData.bookingId);
     formData.append('UserEmailId', InstrumentData.userEmailId);
@@ -252,6 +276,12 @@ export class AdminActionInstrumentsComponent implements OnInit {
             icon: 'error'
           });
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: (error: any) => {
         swal.fire({
@@ -261,14 +291,10 @@ export class AdminActionInstrumentsComponent implements OnInit {
         });
       },
       complete: () => {
-      window.location.reload();
+        window.location.reload();
       }
     });
-    // swal.fire({
-    //   title: 'Processing Wait..',
-    //   text: 'Payment Gateway Error!',
-    //   icon: 'warning',
-    // })
+
   }
 
   onFileSelected(event: any): void {
@@ -319,53 +345,13 @@ export class AdminActionInstrumentsComponent implements OnInit {
         this.FileData = ssssArray[1];
         this.fileName = file.name;
 
-       
+
       };
     }
   }
 
   UploadDocument() {
 
-    const formData = new FormData();
-    // formData.append('UID', this.user_Email);
-    // formData.append('MouTitle', this.MouPartner);
-    // formData.append('MouPartnerName', this.MouPartner);
-    // formData.append('FacultyName', this.EmployeeName);
-    // formData.append('FilePath', this.fileName);
-    // formData.append('File', this.FileData);
-    // formData.append('CreatedBy', this.EmployeeCode);
-    // formData.append('SchoolDivisionInvolved', this.SchoolInvolved);
-    // formData.append('SPOCName', this.SOPCName);
-    // formData.append('SPOCEmail', this.SOPCEmail);
-    // formData.append('SPOCContact', this.SOPCNumber);
-    // this.mouDocumentsService.MouDocumentUpload(formData).subscribe({
-    //   next: (data: any) => {
-    //     const result = data.item1[0]['msg'];
-    //     if (result === 'ok') {
-    //       swal.fire({
-    //         title: 'Uploaded Successfully!',
-    //         // text: '',
-    //         icon: 'success'
-    //       }).then(() => {
-    //         window.location.reload();
-    //       });
-    //     } else {
-    //       swal.fire({
-    //         title: 'Error Occured, Try Again Later',
-    //         icon: 'error'
-    //       });
-    //     }
-    //   },
-    //   error: (error: any) => {
-    //     swal.fire({
-    //       title: 'Error',
-    //       text: 'Failed to Upload.',
-    //       icon: 'error'
-    //     });
-    //   },
-    //   complete: () => {
-    //   }
-    // });
   }
 
 
@@ -374,7 +360,7 @@ export class AdminActionInstrumentsComponent implements OnInit {
 
   @ViewChild('viewDescModal') viewDescModals: TemplateRef<any>;
 
-  
+
   validationForm1: FormGroup;
   isForm1Submitted: boolean = false;
   ITitle: string = '';
@@ -388,10 +374,10 @@ export class AdminActionInstrumentsComponent implements OnInit {
 
   AllInstrumentsDetails: any[] = []; TempAllInstrumentsDetails: any[] = [];
   headHtmlDatas: never[]; isInputDisabled: boolean = true; InstrumentIds: any; InstrumentTitles: any;
-  fileNamesX: string; ColumnModes = ColumnMode; FileDataX: string; searchQueryx: any; StatusInstrument: any =false;
-  fileDataX: File;  
+  fileNamesX: string; ColumnModes = ColumnMode; FileDataX: string; searchQueryx: any; StatusInstrument: any = false;
+  fileDataX: File;
 
-  ChangeStatus(event:any){
+  ChangeStatus(event: any) {
     this.StatusInstrument = event.target.checked;
     // alert(this.StatusInstrument);
   }
@@ -512,13 +498,15 @@ export class AdminActionInstrumentsComponent implements OnInit {
 
 
   UpdateFileDocument(Id: any) {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     if (this.fileChosen[Id]) {
       const formData = new FormData();
       formData.append('InstrumentId', Id);
       formData.append('IsActive', this.StatusInstrument);
       formData.append('FilePath', this.fileName);
       formData.append('File', this.FileDataX);
-  
+
       this.CIFwebService.UpdateInstrumentImageFile(formData).subscribe({
         next: (data: any) => {
           const result = data.item1[0]['msg'];
@@ -541,6 +529,13 @@ export class AdminActionInstrumentsComponent implements OnInit {
               showConfirmButton: false,
             });
           }
+
+          const elapsed = new Date().getTime() - startTime;
+          const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+          setTimeout(() => {
+            this.loadingIndicator = false;
+          }, remainingDelay);
         },
         error: (error: any) => {
           swal.fire({
@@ -552,11 +547,11 @@ export class AdminActionInstrumentsComponent implements OnInit {
           });
         },
         complete: () => {
-           
+
         },
       });
     }
   }
-  
-  
+
+
 }

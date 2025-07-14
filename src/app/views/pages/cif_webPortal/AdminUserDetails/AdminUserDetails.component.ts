@@ -61,7 +61,8 @@ export class AdminUserDetailsComponent implements OnInit {
   UserRole: any;
   UserId: any;
   uploadEnabled: boolean;
-Remarks: any;
+  Remarks: any;
+  candidateName: any;
   
   constructor(
     private CIFwebService: LpuCIFWebService,
@@ -83,9 +84,18 @@ Remarks: any;
   }
   ngOnInit(): void {
     const GetCookieData = this.cookieService.get('authData');
-    const retrievedCookies = JSON.parse(GetCookieData);
-    this.UserRole = retrievedCookies.UserRole;
-    this.UserId = retrievedCookies.EmailId;
+    if (GetCookieData) {
+      const retrievedCookies = JSON.parse(GetCookieData);
+      this.UserRole = retrievedCookies.UserRole;
+      this.user_Email = retrievedCookies.EmailId;
+      this.candidateName = retrievedCookies.CandidateName;
+    } else {
+       swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+      this.router.navigate(['/cifWebPortal']);
+    }
     this.getBookingDetails()
   }
 
@@ -137,7 +147,10 @@ Remarks: any;
       booking.instrumentName.toLowerCase().includes(searchTerm) ||     booking.analysisType.toLowerCase().includes(searchTerm)       
     );
   }
+ showLoader = true;
   getBookingDetails() {
+    this.showLoader = true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetAllUserData().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -154,6 +167,12 @@ Remarks: any;
         else {
           this.UserDetailsData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.showLoader = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)

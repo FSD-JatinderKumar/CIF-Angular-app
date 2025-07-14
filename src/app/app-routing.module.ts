@@ -133,6 +133,11 @@ const routes: Routes = [
     // component:AdminNewInstrumentsComponent
   },
   {
+    path: "UserFeedbackdetails",
+    loadChildren: () => import('./views/pages/cif_webPortal/AdminUserFeedbackDetails/AdminUserFeedbackDetails.module').then(m => m.AdminUserFeedbackDetailsModule),
+    // component:AdminNewInstrumentsComponent
+  },
+  {
     path: "UserDetail",// Add Module file 
     loadChildren: () => import('./views/pages/cif_webPortal/AdminUserDetails/AdminUserDetails.module').then(m => m.AdminUserDetailsModule),
     // component:AdminUserDetailsComponent
@@ -177,12 +182,13 @@ const routes: Routes = [
   },
   {
     path: 'error',
-    component: ErrorPageComponent,
-    data: {
-      'type': 404,
-      'title': 'Page Not Found',
-      'desc': 'Oopps!! The page you were looking for doesn\'t exist.'
-    }
+    loadChildren: () => import('./views/pages/cif_webPortal/HomePage/HomePage.module').then(m => m.HomePageModule),
+    // component: ErrorPageComponent,
+    // data: {
+    //   'type': 404,
+    //   'title': 'Page Not Found',
+    //   'desc': 'Oopps!! The page you were looking for doesn\'t exist.'
+    // }
   },
   {
     path: 'error/:type',

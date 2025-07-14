@@ -1,0 +1,88 @@
+<app-AdminDashboard></app-AdminDashboard>
+<!-- Full Screen Loader -->
+<div *ngIf="showLoader" class="fullscreen-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Fetching details, please wait...</div>
+</div>
+  
+<div class="row" *ngIf="AllFeedbackData.length > 0 ;else NoData">
+    <div class="col-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <hr />
+                <div class="row d-flex justify-content-center">
+                    <div class="col-sm-2">
+                        <div class="mb-3">
+                            <button (click)="exportToExcel()" class="btn btn-dark "
+                                [disabled]="tmpsAllFeedbackData.length ===0">Export to
+                                Excel</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="mb-3 text-center">
+                            <Label class="fs-4 ">All User Feedback Details </Label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 mb-4 ">
+                        <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text"
+                            class="form-control " placeholder="Search" aria-label="Search"
+                            aria-describedby="basic-addon1" />
+                    </div>
+                    <hr />
+                </div>
+                <ng-container *ngIf="tmpsAllFeedbackData.length > 0; else noRecords">
+                    <div class="table-responsive mt-4 mb-4">
+                        <table id="BookingDetailsDataTable" #table >
+                            <thead>
+                                <tr class=" bg-primary">
+                                    <th class="text-dark">Candidate Name</th>
+                                    <th class="text-dark">Email Id</th>
+                                    <th class="text-dark">Address</th>
+                                    <th class="text-dark">Ratings</th>
+                                    <th class="text-dark">Comments</th>
+                                    <th class="text-dark">Feedback Details</th>
+                                    <th class="text-dark">Feedback Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let AllFeedbackDataRow of getCurrentPageData(); let i = index">
+                                  <tr>
+                                        <td class="fw-bold"> {{AllFeedbackDataRow.candidateName}}</td>
+                                        <td class="fw-bold "> {{AllFeedbackDataRow.emailId.length>0 || AllFeedbackDataRow.emailId != null ? AllFeedbackDataRow.emailId: 'NA' }} </td>
+                                        <td class="fw-bold"> {{AllFeedbackDataRow.address.length>0? AllFeedbackDataRow.address : 'NA'}}</td>
+                                        <td class="fw-bold">{{AllFeedbackDataRow.rating>0? AllFeedbackDataRow.rating :'NA'}}</td>
+                                        <td class="fw-bold">{{AllFeedbackDataRow.comments!= null? AllFeedbackDataRow.comments:'NA'}}</td>
+                                        <td class="fw-bold">{{AllFeedbackDataRow.suggestions.length>0?AllFeedbackDataRow.suggestions: 'NA'}} </td>
+                                        <td class="fw-bold"> {{AllFeedbackDataRow.feedbackDate != null? AllFeedbackDataRow.feedbackDate:'NA'}}</td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                                    class="mdi mdi-chevron-left  fs-2"> </i> </a>
+                            <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                            <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #noRecords>
+                    <p class="fs-2 text-danger text-center ">No Grid Data Available.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #NoData>
+    <div class="text-center bg-info">
+        <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
+        <div class="row mt-4 mb-4">
+            <div class="col-sm-12 text-center">
+                <div class="mb-3 p-4">
+                    <Label class="form-label fs-4 text-danger ">No Data Found.</Label>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

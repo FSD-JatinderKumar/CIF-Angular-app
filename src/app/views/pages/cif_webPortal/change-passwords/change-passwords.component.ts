@@ -42,20 +42,21 @@ export class ChangePasswordsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     if (this.changePasswordForm.valid) {
       // console.log('Form Submitted', this.changePasswordForm.value);
       const currentPassword = this.changePasswordForm.get('currentPassword')?.value;
       const newPassword = this.changePasswordForm.get('newPassword')?.value;
       const confirmPassword = this.changePasswordForm.get('confirmPassword')?.value;
       const ProofNameText = this.changePasswordForm.get('ProofNameText')?.value;
-      if(ProofNameText=== atob(this.ProofNumber) && currentPassword===atob(this.SecretKey) && newPassword===confirmPassword)
-      {
+     
+      // console.log((ProofNameText + "==="+ atob(this.ProofNumber) + "==="+ currentPassword + "==="+ atob(this.SecretKey) + "==="+ newPassword + "==="+ confirmPassword) )
+      if (ProofNameText === atob(this.ProofNumber) && currentPassword === atob(this.SecretKey) && newPassword === confirmPassword) {
         const formData = new FormData();
         formData.append('UserId', this.UserId);
         formData.append('Password', newPassword);
-        // formData.forEach((value, key) => {
-        //   console.log(`${key}: ${value}`);
-        // });
+     
         this.CIFwebService.CIFUpdateUserDetails(formData).subscribe({
           next: (data: any) => {
             const result = data.item1[0]['msg'];
@@ -65,7 +66,8 @@ export class ChangePasswordsComponent implements OnInit {
                 text: 'You will be logeed out ',
                 icon: 'success'
               }).then(() => {
-                this.router.navigate(['/cifWebPortal']);
+                this.router.navigateByUrl('cifWebPortal');
+                // this.router.navigate(['/cifWebPortal']);
               });
             } else if (result === 'Failed') {
               swal.fire({
@@ -82,6 +84,7 @@ export class ChangePasswordsComponent implements OnInit {
                 window.location.reload();
               });
             }
+      
           },
           error: (error: any) => {
             swal.fire({
@@ -96,8 +99,7 @@ export class ChangePasswordsComponent implements OnInit {
           }
         });
       }
-      else
-      {
+      else {
         Swal.fire({
           title: 'Invalid Details provided, Try Later!',
           icon: 'error'
@@ -106,7 +108,12 @@ export class ChangePasswordsComponent implements OnInit {
         });
       }
 
+      const elapsed = new Date().getTime() - startTime;
+            const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
 
+            setTimeout(() => {
+              this.loadingIndicator = false;
+            }, remainingDelay);
 
 
     } else {
@@ -124,6 +131,7 @@ export class ChangePasswordsComponent implements OnInit {
   ServerUrl: any;
   ProofName: any;
   ProofNumber: any;
+  loadingIndicator = true;
 
   constructor(
     private CIFwebService: LpuCIFWebService,
@@ -136,13 +144,13 @@ export class ChangePasswordsComponent implements OnInit {
     private router: Router, private route: ActivatedRoute,
     private cookieService: CookieService) {
 
-      this.changePasswordForm = this.fb.group({
-        currentPassword: ['', [Validators.required, Validators.minLength(5)]],
-        ProofNameText: ['', [Validators.required, Validators.minLength(5)]],
-        newPassword: ['', [Validators.required, Validators.minLength(8)]],
-        confirmPassword: ['', [Validators.required]]
-      }, { validator: this.passwordsMatch });
-    }
+    this.changePasswordForm = this.fb.group({
+      currentPassword: ['', [Validators.required, Validators.minLength(5)]],
+      ProofNameText: ['', [Validators.required, Validators.minLength(5)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]]
+    }, { validator: this.passwordsMatch });
+  }
   user_Email: any;
   sessionData: any[] = [];
   getSessionDetails() {
@@ -152,7 +160,7 @@ export class ChangePasswordsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.ServerUrl ='https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
+    this.ServerUrl = 'https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
     // console.log(JSON.stringify(retrievedCookies))
@@ -169,6 +177,6 @@ export class ChangePasswordsComponent implements OnInit {
       });
       this.router.navigate(['/cifWebPortal']);
     }
-
+this.loadingIndicator=false;
   }
 }

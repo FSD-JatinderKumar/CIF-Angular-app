@@ -1,5 +1,11 @@
 <nav class="navbar navbar-light navbar-expand-lg mb-4">
   <div class="container-fluid">
+    <div class="w-100 text-center py-1 promo-banner">
+      <span class="badge bg-light text-dark ms-2">Get Address for </span> 
+      <strong class="blinking-text"> <a class="w-100 d-block text-decoration-none" 
+        (click)="openSampleInstructions()"
+        style="cursor: pointer; margin-left: 0.8rem;">Sample sending </a> </strong>
+    </div>
     <button
       class="navbar-toggler bg-light"
       type="button"
@@ -12,6 +18,7 @@
 
     <div [ngClass]="{'collapse': isNavbarCollapsed, 'navbar-collapse': true}"  id="navbarNav"    >
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 bg-transparent" >
+  
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle custom-nav-link"
@@ -123,11 +130,12 @@
     </div>
   </div>
 </nav>
-
+ 
 <div class="text-center mt-4">
   <h2 class="mb-0 text-center mb-4">Central Instrumentation Facility</h2>
 </div>
  
+
 
 <!-- 
 <nav class="navbar navbar-light bg-light navbar-expand-lg mb-4">

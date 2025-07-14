@@ -82,8 +82,18 @@ export class BookingStatusComponent implements OnInit {
     this.ServerUrl ='https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
-    this.UserRole = retrievedCookies.UserRole;
-    this.UserId = retrievedCookies.EmailId;
+    if (GetCookieData) {
+      const retrievedCookies = JSON.parse(GetCookieData);
+      this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+      this.user_Email = retrievedCookies.EmailId;
+    } else {
+       swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+      this.router.navigate(['/cifWebPortal']);
+    }
+
     this.getBookingDetails()
   }
 
@@ -110,22 +120,27 @@ export class BookingStatusComponent implements OnInit {
     );
   }
   getBookingDetails() {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetUserBookingStatus(this.UserId).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
-          this.BookingStatusData = response.item1;
-          this.dataSource = response.item1;
-          // console.log(JSON.stringify(this.BookingStatusData))
-          this.tmpsBookingStatusData = response.item1;
+          this.dataSource = this.BookingStatusData = this.tmpsBookingStatusData = response.item1;
           this.headHtmlData = this.tmpsBookingStatusData[0];
           this.columns = Object.keys(this.tmpsBookingStatusData[0]);
           this.columns = this.columns.filter((item: any) => item !== 'ResultFile' && item !== 'userId' && item !== 'id' && item !== 'analysisId');
           this.columns.push()
-          this.loadingIndicator = false;
+
         }
         else {
           this.BookingStatusData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)

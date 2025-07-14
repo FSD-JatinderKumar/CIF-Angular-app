@@ -113,22 +113,28 @@ Remarks: any;
     );
   }
   getBookingDetails() {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetAllBookingTests().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.BookingData = response.item1;
           this.dataSource = response.item1;
-
           this.tmpsBookingData = response.item1;
           this.headHtmlData = this.tmpsBookingData[0];
           this.columns = Object.keys(this.tmpsBookingData[0]);
           this.columns = this.columns.filter((item: any) => item !== 'candidateName' && item !== 'userEmail' && item !== 'id' && item !== 'analysisId');
           this.columns.push()
-          this.loadingIndicator = false;
         }
         else {
           this.BookingData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)
@@ -205,102 +211,60 @@ Remarks: any;
   }
 
   VerifyData(BookingData: any) {
-    if(this.FileData){
-    const formData = new FormData();
-    formData.append('BookingId', BookingData.bookingId);
-    formData.append('UserEmailId', BookingData.userEmailId);
-    formData.append('CreatedBy', this.user_Email);
-    formData.append('FilePath', this.fileName);
-    formData.append('File', this.FileData);
-    this.CIFwebService.CIFResultsUploads(formData).subscribe({
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
+    if (this.FileData) {
+      const formData = new FormData();
+      formData.append('BookingId', BookingData.bookingId);
+      formData.append('UserEmailId', BookingData.userEmailId);
+      formData.append('CreatedBy', this.user_Email);
+      formData.append('FilePath', this.fileName);
+      formData.append('File', this.FileData);
+      this.CIFwebService.CIFResultsUploads(formData).subscribe({
         next: (data: any) => {
-            const result = data.item1[0]['msg']; // Adjusted to match your stored procedure
-            const returnId = data.item1[0]['ReturnId'];
+          const result = data.item1[0]['msg']; // Adjusted to match your stored procedure
+          const returnId = data.item1[0]['ReturnId'];
 
-            if (result === 'Success' && returnId !== '0') {
-                Swal.fire({
-                    title: 'Uploaded Successfully!',
-                    icon: 'success'
-                }).then(() => {
-                    window.location.reload();
-                });
-            } else {
-                Swal.fire({
-                    title: 'Already Uploaded Results for this Test',
-                    icon: 'error'
-                }).then(() => {
-                    window.location.reload();
-                });
-            }
+          if (result === 'Success' && returnId !== '0') {
+            Swal.fire({
+              title: 'Uploaded Successfully!',
+              icon: 'success'
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire({
+              title: 'Already Uploaded Results for this Test',
+              icon: 'error'
+            }).then(() => {
+              window.location.reload();
+            });
+          }
+          const elapsed = new Date().getTime() - startTime;
+          const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+          setTimeout(() => {
+            this.loadingIndicator = false;
+          }, remainingDelay);
         },
         error: (error: any) => {
-            Swal.fire({
-                title: 'Error',
-                text: 'Failed to Upload.',
-                icon: 'error'
-            });
+          Swal.fire({
+            title: 'Error',
+            text: 'Failed to Upload.',
+            icon: 'error'
+          });
         }
-    });
+      });
+    }
+    else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Kindly Upload File.',
+        icon: 'error'
+      });
+    }
   }
-  else
-  {
-    Swal.fire({
-      title: 'Error',
-      text: 'Kindly Upload File.',
-      icon: 'error'
-  });
-  }
-}
 
-  // VerifyData(BookingData: any) {
-  //   const formData = new FormData();
-
-  //   // param.Add("BookingId", obj.BookingId);    // param.Add("UserEmailId", obj.UserEmailId);
-  //   // param.Add("FilePath", obj.FilePath);
-  //   // param.Add("CreatedBy", obj.UserId);
-  //   // param.Add("Remarks", obj.Remarks);
-  //   formData.append('BookingId', BookingData.bookingId);
-  //   formData.append('UserEmailId', BookingData.userEmailId);
-  //   formData.append('FilePath', this.fileName);
-  //   formData.append('File', this.FileData);
-  //   // formData.append('UserId', this.UserId);
-  //   // formData.append('Remarks', this.Remarks.length>0? this.Remarks: 'NA');
-  //   // formData.forEach((value, key) => {
-  //   //   console.log(`${key}: ${value}`);
-  //   // });
-  //   this.CIFwebService.CIFResultsUploads(formData).subscribe({
-  //     next: (data: any) => {
-  //       const result = data.item1[0]['msg'];
-  //       if (result === 'Success') {
-  //         swal.fire({
-  //           title: 'Uploaded Successfully!',
-  //           // text: '',
-  //           icon: 'success'
-  //         }).then(() => {
-  //           window.location.reload();
-  //         });
-  //       } else {
-  //         swal.fire({
-  //           title: 'Error Occured, Try Again Later',
-  //           icon: 'error'
-  //         }).then(() => {
-  //           window.location.reload();
-  //         });
-  //       }
-  //     },
-  //     error: (error: any) => {
-  //       swal.fire({
-  //         title: 'Error',
-  //         text: 'Failed to Upload.',
-  //         icon: 'error'
-  //       });
-  //     },
-  //     complete: () => {
-  //     window.location.reload();
-  //     }
-  //   });
-
-  // }
 
   onFileSelected(event: any): void {
     this.fileStatus= false;
@@ -355,46 +319,6 @@ Remarks: any;
   }
 
   UploadDocument() {
-
-    const formData = new FormData();
-    // formData.append('UID', this.user_Email);
-    // formData.append('MouTitle', this.MouPartner);
-    // formData.append('MouPartnerName', this.MouPartner);
-    // formData.append('FacultyName', this.EmployeeName);
-    // formData.append('FilePath', this.fileName);
-    // formData.append('File', this.FileData);
-    // formData.append('CreatedBy', this.EmployeeCode);
-    // formData.append('SchoolDivisionInvolved', this.SchoolInvolved);
-    // formData.append('SPOCName', this.SOPCName);
-    // formData.append('SPOCEmail', this.SOPCEmail);
-    // formData.append('SPOCContact', this.SOPCNumber);
-    // this.mouDocumentsService.MouDocumentUpload(formData).subscribe({
-    //   next: (data: any) => {
-    //     const result = data.item1[0]['msg'];
-    //     if (result === 'ok') {
-    //       swal.fire({
-    //         title: 'Uploaded Successfully!',
-    //         // text: '',
-    //         icon: 'success'
-    //       }).then(() => {
-    //         window.location.reload();
-    //       });
-    //     } else {
-    //       swal.fire({
-    //         title: 'Error Occured, Try Again Later',
-    //         icon: 'error'
-    //       });
-    //     }
-    //   },
-    //   error: (error: any) => {
-    //     swal.fire({
-    //       title: 'Error',
-    //       text: 'Failed to Upload.',
-    //       icon: 'error'
-    //     });
-    //   },
-    //   complete: () => {
-    //   }
-    // });
+    const formData = new FormData();   
   }
 }

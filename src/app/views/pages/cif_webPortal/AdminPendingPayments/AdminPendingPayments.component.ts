@@ -79,11 +79,18 @@ export class AdminPendingPaymentsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    // this.getSessionDetails();
     const GetCookieData = this.cookieService.get('authData');
-    const retrievedCookies = JSON.parse(GetCookieData);
-    this.UserRole = retrievedCookies.UserRole;
-    this.user_Email = retrievedCookies.EmailId;
+    if (GetCookieData) {
+      const retrievedCookies = JSON.parse(GetCookieData);
+      this.UserRole = retrievedCookies.UserRole;
+      this.user_Email = retrievedCookies.EmailId;
+    } else {
+       swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+      this.router.navigate(['/cifWebPortal']);
+    }
     this.getAllPaymentDetails()
   }
 
@@ -103,6 +110,8 @@ export class AdminPendingPaymentsComponent implements OnInit {
     );
   }
   getAllPaymentDetails() {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetAllPaymentDetails().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -116,14 +125,16 @@ export class AdminPendingPaymentsComponent implements OnInit {
           this.columns = this.columns.filter((item: any) => item !== 'bookingRequestDate' && item !== 'instrumentId' && item !== 'id' && item !== 'analysisId');
           // debugger;
           this.columns.push()
-          this.loadingIndicator = false;
-
-
-          // console.log("AllPaymentData  Data  " + JSON.stringify(this.AllPaymentData))
         }
         else {
           this.AllPaymentData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)

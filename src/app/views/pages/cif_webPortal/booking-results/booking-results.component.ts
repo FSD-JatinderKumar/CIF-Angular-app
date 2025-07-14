@@ -60,6 +60,7 @@ export class BookingResultsComponent implements OnInit {
   Remarks: any;
   dataSource: any;
   ServerUrl: any;
+  candidateName: any;
 
   constructor(
     private CIFwebService: LpuCIFWebService,
@@ -82,9 +83,18 @@ export class BookingResultsComponent implements OnInit {
   ngOnInit(): void {
     this.ServerUrl ='https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     const GetCookieData = this.cookieService.get('authData');
-    const retrievedCookies = JSON.parse(GetCookieData);
-    this.UserRole = retrievedCookies.UserRole;
-    this.UserId = retrievedCookies.EmailId;
+   if (GetCookieData) {
+      const retrievedCookies = JSON.parse(GetCookieData);
+      this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+      this.user_Email = retrievedCookies.EmailId;
+      this.candidateName = retrievedCookies.CandidateName;
+    } else {
+       swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+      this.router.navigate(['/cifWebPortal']);
+    }
     this.getBookingDetails()
   }
 
@@ -111,23 +121,29 @@ export class BookingResultsComponent implements OnInit {
     );
   }
   getBookingDetails() {
-    // this.CIFwebService.GetAllBookingSlot(this.UserId).subscribe({
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
+
+
     this.CIFwebService.GetUserAllBookingSlot(this.UserId).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
-          this.BookingData = response.item1;
-          this.dataSource = response.item1;
-
-          this.tmpsBookingData = response.item1;
+          this.tmpsBookingData = this.dataSource = this.BookingData = response.item1;
           this.headHtmlData = this.tmpsBookingData[0];
           this.columns = Object.keys(this.tmpsBookingData[0]);
           this.columns = this.columns.filter((item: any) => item !== 'candidateName' && item !== 'userEmail' && item !== 'id' && item !== 'analysisId');
           this.columns.push()
-          this.loadingIndicator = false;
+        ;
         }
         else {
           this.BookingData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)
@@ -190,19 +206,18 @@ export class BookingResultsComponent implements OnInit {
 
 
   openPaymentModal(a: any) {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     this.BookingCase = a;
     // alert(JSON.stringify(a))
     this.CIFwebService.GetUserResultsDetails(this.UserId, a.bookingId).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
-          this.ResultData = response.item1;
-          this.dataSource = response.item1;
-          this.tmpsResultData = response.item1;
+          this.ResultData = this.dataSource = this.tmpsResultData = response.item1;
           this.headHtmlData = this.tmpsResultData[0];
           this.columns = Object.keys(this.tmpsResultData[0]);
           this.columns = this.columns.filter((item: any) => item !== 'candidateName' && item !== 'userEmail' && item !== 'id' && item !== 'analysisId');
           this.columns.push()
-          this.loadingIndicator = false;
 
           this.modalService.open(this.viewDescModal2, { size: 'sm' }).result.then(
             (result: string) => {
@@ -221,6 +236,13 @@ export class BookingResultsComponent implements OnInit {
             });
           }
         }
+
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)

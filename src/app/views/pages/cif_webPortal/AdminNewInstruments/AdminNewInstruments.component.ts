@@ -64,6 +64,9 @@ export class AdminNewInstrumentsComponent implements OnInit {
   UserId: any;
   uploadEnabled: boolean;
   fileDataX: File;
+  supervisorName: any;
+  departmentName: any;
+  candidateName: any;
 
 
 
@@ -94,12 +97,21 @@ export class AdminNewInstrumentsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-
     const GetCookieData = this.cookieService.get('authData');
-    const retrievedCookies = JSON.parse(GetCookieData);
-    this.UserRole = retrievedCookies.UserRole;
-    this.UserId = retrievedCookies.EmailId;
-    // this.GetAllInstruments();
+    if (GetCookieData) {
+      const retrievedCookies = JSON.parse(GetCookieData);
+      this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+      this.user_Email = retrievedCookies.EmailId;
+      this.supervisorName = retrievedCookies.SupervisorName;
+      this.departmentName = retrievedCookies.DepartmentName;
+      this.candidateName = retrievedCookies.CandidateName;
+    } else {
+       swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+      this.router.navigate(['/cifWebPortal']);
+    }
     this.getAllInstrumentsDetail();
     this.LoadForm();
   }
@@ -107,21 +119,31 @@ export class AdminNewInstrumentsComponent implements OnInit {
 
 
   getAllInstrumentsDetail(): void {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
+
+
     this.LpuCIFWebInstrumentService.GetAllInstruments().subscribe((response) => {
       if (response.item1 && response.item1.length > 0) {
         this.AllInstrumentsDetails = response.item1;
         this.TempAllInstrumentsDetails = this.AllInstrumentsDetails;
-        this.loadingIndicator = false;
+        
         this.columns = []; this.headHtmlData = [];
         this.headHtmlData = this.TempAllInstrumentsDetails[0];
         this.columns = Object.keys(this.TempAllInstrumentsDetails[0]);
         this.columns = this.columns.filter((item: any) => item !== 'imageUrl' && item !== 'instrumentStatus' && item !== 'description' && item !== 'isActive' && item !== 'id' && item !== 'labId' && item !== 'labName' && item !== 'isHourly');
         this.columns.push()
-        this.loadingIndicator = false;
+        
       }
       else {
         this.TempAllInstrumentsDetails = [];
       }
+      const elapsed = new Date().getTime() - startTime;
+      const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+      setTimeout(() => {
+        this.loadingIndicator = false;
+      }, remainingDelay);
     });
   }
   LoadForm(): void {
@@ -263,6 +285,10 @@ export class AdminNewInstrumentsComponent implements OnInit {
 
 
   UpdateFileDocument(Id: any) {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
+
+
     if (this.fileChosen[Id]) {
       const formData = new FormData();
       formData.append('InstrumentId', Id);
@@ -280,9 +306,9 @@ export class AdminNewInstrumentsComponent implements OnInit {
               icon: 'success',
               showConfirmButton: true,
             })
-            .then(() => {
-              window.location.reload();
-            });
+              .then(() => {
+                window.location.reload();
+              });
           } else if (result === 'Failed') {
             swal.fire({
               title: 'Failed to Upload',
@@ -292,13 +318,18 @@ export class AdminNewInstrumentsComponent implements OnInit {
               showConfirmButton: false,
             });
           }
+          const elapsed = new Date().getTime() - startTime;
+          const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+  
+          setTimeout(() => {
+            this.loadingIndicator = false;
+          }, remainingDelay);
         },
         error: (error: any) => {
           swal.fire({
             title: 'Error',
             text: 'Internal Server error',
             icon: 'error',
-            timer: 10000,
             showConfirmButton: false,
           });
         },

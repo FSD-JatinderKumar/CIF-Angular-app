@@ -1,4 +1,8 @@
 <app-AdminDashboard></app-AdminDashboard>
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Loading, please wait...</div>
+</div>
 <div class="row">
     <div class="  mb-5 mt-4 ">
         <div class="row">
@@ -58,22 +62,6 @@
                             </ng-template>
                         </ng-template>
                     </ngx-datatable-column>
-
-                    <!-- <ngx-datatable-column name="Description" [sortable]="false" prop="Id">
-                            <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
-                                ngx-datatable-cell-template>
-                                <ng-container *ngIf="row.description != null">
-                                    <span class="text-truncate d-block">
-                                        {{ row.description | slice: 0:120 }} {{ row.description.length > 20 ? '...' : ''
-                                        }}
-                                    </span>
-                                </ng-container>
-                                <ng-container *ngIf="row.description == null">
-                                    <span class="text-muted fw-bold">No Description</span>
-                                </ng-container>
-                            </ng-template>
-                        </ngx-datatable-column> -->
-
                     <ngx-datatable-column name="Actions" [sortable]="false" prop="Id">
                         <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex"
                             ngx-datatable-cell-template>
@@ -86,68 +74,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div class="container vh-100">
-    <div class="row">
-        <h6 class="card-title d-flex justify-content-center fs-4 text-success">All Instrument </h6>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="mb-3">
-                   
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="mb-3">
-                    <input [(ngModel)]="searchQueryx" (keyup)="searchx()" id="searchx" type="text"
-                        style=" width: 21rem;" class="form-control" placeholder="Type Search Text " aria-label="Search"
-                        aria-describedby="basic-addon1" />
-                </div>
-            </div>
-        </div>
-        <div class="table-responsive">
-            <ngx-datatable class="bootstrap table table-striped material" [rows]="this.TempAllInstrumentsDetails"
-                [loadingIndicator]="loadingIndicator" [columnMode]="ColumnMode.force" [footerHeight]="50" [limit]="10"
-                [headerHeight]="80" rowHeight="auto">
-                <ngx-datatable-column *ngFor="let col of columns" [prop]="col"></ngx-datatable-column>
-                <ngx-datatable-column name="Download Image" [sortable]="false" prop="Id">
-                    <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        <ng-container *ngIf="row.imageUrl != null">
-                            <button class="btn btn-dark" (click)="onSelectFile(row)">
-                                Download
-                            </button>
-                        </ng-container>
-                        <ng-container *ngIf="row.imageUrl == null">
-                            <span style="margin: auto;float: left;
-                        font-weight: bold;padding: 10px 10px 10px 10px;">No FIle</span>
-                        </ng-container>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Description" [sortable]="false" prop="Id">
-                    <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                        <ng-container *ngIf="row.description != null ">
-                            <span style="margin: auto;float: left;
-                        font-weight: bold;padding: 10px 10px 10px 10px;"> {{row.description | slice:0:120 }} {{
-                                row.description.length > 20 ? '...' : '' }}</span>
-                        </ng-container>
-                        <ng-container *ngIf="row.description== null">
-                            <span style="margin: auto;float: left;
-                        font-weight: bold;padding: 10px 10px 10px 10px;">No Description </span>
-                        </ng-container>
-                    </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Actions" [sortable]="false" prop="Id">
-                    <ng-template let-row="row" let-value="value" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-
-                        <button class="btn btn-dark" (click)="onSelect(row)">
-                            Take Action
-                        </button><br />
-
-                    </ng-template>
-                </ngx-datatable-column>
-            </ngx-datatable>
-        </div>
-    </div>
-</div> -->
     <ng-template #loginFailed>
         <div class="text-center bg-danger" *ngIf="isLoginFailed">
             <h3 class="text-center fs-2 m-5 text-warn pt-5 "> Error in User Login . </h3>
