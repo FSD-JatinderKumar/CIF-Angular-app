@@ -101,8 +101,7 @@ export class LoginPageNComponent implements OnInit {
         }
       });
     }
-    else if(Role === 'Student')
-    {
+    else if (Role === 'Student') {
       // alert(Role);
       this.authService.loginInternalUser(id, key).subscribe({
         next: data => {
@@ -125,7 +124,7 @@ export class LoginPageNComponent implements OnInit {
     })
     this.formdata.reset();
   }
-  getStudentById(regNo:any) {
+  getStudentById(regNo: any) {
     this.CIFwebService.getStudentById(regNo).subscribe({
       next: response => {
         if (response.item1.length > 0) {
@@ -161,11 +160,11 @@ export class LoginPageNComponent implements OnInit {
             PasswordText: this.SecretKey,
           };
           this.cookieService.set('authData', JSON.stringify(userCookiesData));
-          swal.fire({
-            title: 'Login Successful',
-            text: 'Login details are Valid!',
-            icon: 'success',
-          })
+          // swal.fire({
+          //   title: 'Login Successful',
+          //   text: 'Login details are Valid!',
+          //   icon: 'success',
+          // })
           this.AuthSession.addToSession(this.EmployeeDetails);
 
           this.StoreInternalUserInDataBase().then(() => {
@@ -227,20 +226,39 @@ export class LoginPageNComponent implements OnInit {
             PasswordText: this.SecretKey,
           };
           this.cookieService.set('authData', JSON.stringify(userCookiesData));
-          swal.fire({
-            title: 'Login Successful',
-            text: 'Login details are Valid!',
-            icon: 'success',
-          })
+
           this.AuthSession.addToSession(this.EmployeeDetails);
 
           this.StoreInternalUserInDataBase().then(() => {
             // Check the storeResult after the async operation
             if (this.storeResult == 1 || this.storeResult == 2) {
               // this.router.navigate(['/PendingPayments']);
-              this.router.navigateByUrl('/ViewBookings').then(() => {
-                window.location.reload();
-              });;
+
+              swal.fire({
+                title: 'Terms Conditions',
+                text: 'Do you agree with terms Conditions?',
+                html: `Do you agree with our <a href="/CifTermsConditions" target="_blank" style="text-decoration: underline;">Terms & Conditions</a>?`,
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Agreed',
+                cancelButtonText: 'No',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.AuthSession.addToSession(this.UserData);
+
+                  this.router.navigateByUrl('/CifTermsConditions').then(() => {
+                    window.location.reload();
+                  });
+                } else {
+                  swal.fire({
+                    title: 'Agreement Required',
+                    text: 'You must agree to proceed further.',
+                    icon: 'warning',
+                  }).then(() => {
+                    this.LogoutUser(); // implement this to clear session/cookies and redirect to login
+                  });
+                }
+              });
             } else {
               this.LoginFailed('Error in Login');
             }
@@ -309,6 +327,11 @@ export class LoginPageNComponent implements OnInit {
     });
   }
 
+  LogoutUser() {
+    this.cookieService.delete('authData');
+    this.AuthSession.clearSession(); // if you have a method like this
+    this.router.navigateByUrl('/login'); // adjust to your login path
+  }
 
 }
 

@@ -52,14 +52,14 @@ export class HomePageComponent implements OnInit {
       html: `
            <address>
             <div class="contact-text">
-            Central Instrumentation Facility (CIF) <br/>
-            Lovely Professional University <br/>
-            Block-38, Room No.106 <br/>
-            Jalandhar - Delhi G.T. Road, <br/>
-             Phagwara, Punjab (India) - 144411 <br/>
-            <a href="tel:+911824444021">+91 1824-444021</a><br>
-            cif@lpu.co.in<br>
-            </div>
+           Central Instrumentation Facility (CIF) <br/>
+          Lovely Professional University <br/>
+          Block-38, Room No.106 <br/>
+          Jalandhar - Delhi G.T. Road, <br/>
+          Phagwara, Punjab (India) - 144411 <br/>
+          Phone : <a href="tel:+911824444021">+91 1824-444021</a><br>
+          Email : cif@lpu.co.in<br>
+          </div>
            </address>`,
       icon: 'info'
     });
@@ -82,6 +82,8 @@ export class HomePageComponent implements OnInit {
   }
 
   getAllInstruments(): void {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetAllInstrumentsData().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -91,6 +93,12 @@ export class HomePageComponent implements OnInit {
         } else {
           this.InstrumentsDataData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.error(err);
