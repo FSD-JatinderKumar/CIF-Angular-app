@@ -3,9 +3,9 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-          <h3 class="mb-0">Feedback Form</h3>
-          <p class="mb-0">We value your opinion!</p>
+        <div class="card-header bg-primary text-white" style="background: #ff9219 !important;">
+          <h3 class="mb-2">Feedback Form</h3>
+          <p class="mb-2">We value your opinion!</p>
         </div>
 
         <div class="card-body">
@@ -70,7 +70,7 @@
 
             <!-- Suggestions Field -->
             <div class="mb-4">
-              <label for="suggestions" class="form-label">Suggestions for Improvement </label>
+              <label for="suggestions" class="form-label">Suggestions (if Any)</label>
               <textarea class="form-control" id="suggestions" rows="4" formControlName="suggestions"
                 [(ngModel)]="Suggestions"
                 [ngClass]="{ 'is-invalid': (isSubmitted || f['suggestions'].touched) && f['suggestions'].errors }"></textarea>

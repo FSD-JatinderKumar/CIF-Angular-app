@@ -272,7 +272,7 @@ export class CifLoginPageComponent implements OnInit {
         } else {
           this.showNoDataFoundMessage = true;
           swal.fire({
-            text: 'Check if you have selected the same Journal!',
+            text: 'Login Failed',
             title: 'Invalid Login Details',
             icon: 'warning',
           });
@@ -348,32 +348,8 @@ SetUserData(response: any) {
     icon: 'success',
   });
   this.AuthSession.addToSession(this.UserData);
-  //  console.log(" Session Data = "+ JSON.stringify(this.AuthSession.getSession()));
-  // this.router.navigate(['/ViewBookings']);
-  // this.router.navigate(['/cifUserProfile']);
+ 
   this.router.navigate(['/CifTermsConditions']);
-// } else {
-//   this.showNoDataFoundMessage = true;
-
-//   // this.loginError = 'Invalid credentials. Please try again.';
-//   swal.fire({
-//     title: 'Invalid Login Details ',
-//     text: 'Login details are Invalid!',
-//     icon: 'warning',
-//   });
-
-//   this.cookieService.set('authData', JSON.stringify(userCookiesData));
-
-//   swal.fire({
-//     title: 'Login Successful',
-//     text: '..',
-//     icon: 'success',
-//     confirmButtonText: 'OK'
-//   }).then((result) => {
-//     if (result.isConfirmed) {
-//       this.AuthSession.addToSession(this.UserData);
-//     }
-//   });
  
 }
 

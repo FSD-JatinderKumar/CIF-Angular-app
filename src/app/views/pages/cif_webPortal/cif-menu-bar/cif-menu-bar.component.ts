@@ -46,20 +46,37 @@ export class CifMenuBarComponent implements OnInit {
       this.router.navigate(['']);
     }
    }
-   openSampleInstructions() {
-     swal.fire({
-       title: 'Sample Submission Instructions',
-       html: `<p>Send samples to:</p>
-            <address>
-              LOVELY PROFESSIONAL UNIVERSITY
-Block-38, Room No.106
-Jalandhar - Delhi G.T. Road, Phagwara, Punjab (India) - 144411,
-Telephone no: 01824-444021
-Email-id: cif@lpu.co.in
-            </address>`,
-       icon: 'info'
-     });
-  
+//    openSampleInstructions() {
+//      swal.fire({
+//        title: 'Sample Submission Instructions',
+//        html: `<p>Send samples to:</p>
+//             <address>
+//               LOVELY PROFESSIONAL UNIVERSITY
+// Block-38, Room No.106
+// Jalandhar - Delhi G.T. Road, Phagwara, Punjab (India) - 144411,
+// Telephone no: 01824-444021
+// Email-id: cif@lpu.co.in
+//             </address>`,
+//        icon: 'info'
+//      });
+openSampleInstructions() {
+  swal.fire({
+    title: 'Send Samples at the following Address :',
+    html: `
+         <address>
+          <div class="contact-text">
+           Central Instrumentation Facility (CIF) <br/>
+          Lovely Professional University <br/>
+          Block-38, Room No.106 <br/>
+          Jalandhar - Delhi G.T. Road, <br/>
+          Phagwara, Punjab (India) - 144411 <br/>
+          Phone : <a href="tel:+911824444021">+91 1824-444021</a><br>
+          Email : cif@lpu.co.in<br>
+          </div>
+         </address>`,
+    icon: 'info'
+  });
+
     // Option 2: Navigate to a page
     // this.router.navigate(['/sample-instructions']);
   }
