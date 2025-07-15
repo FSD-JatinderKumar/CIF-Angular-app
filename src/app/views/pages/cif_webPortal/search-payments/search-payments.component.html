@@ -1,4 +1,11 @@
 <app-cif-menu-bar></app-cif-menu-bar>
+
+
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Loading, please wait...</div>
+</div>
+
 <div class=" container-fluid"  >
     <div class="row" *ngIf="BookingStatusData.length > 0 ;else NoData">
         <div class="col-12 stretch-card">

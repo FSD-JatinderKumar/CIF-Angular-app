@@ -113,6 +113,7 @@ export class SearchPaymentsComponent implements OnInit {
   getBookingDetails() {
     this.CIFwebService.GetUserPaymentStatusDetails(this.UserId).subscribe({
       next: response => {
+        
         if (response.item1 && response.item1.length > 0) {
           // this.BookingStatusData = response.item1;
           this.dataSource = response.item1;

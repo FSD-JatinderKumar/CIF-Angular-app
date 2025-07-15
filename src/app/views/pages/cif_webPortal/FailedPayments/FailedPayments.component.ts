@@ -135,6 +135,10 @@ export class FailedPaymentsComponent implements OnInit {
     );
   }
   getBookingDetails() {
+    
+this.loadingIndicator=true;
+const startTime = new Date().getTime();
+
     this.CIFwebService.GetUserPaymentStatusDetails(this.UserId).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -149,12 +153,18 @@ export class FailedPaymentsComponent implements OnInit {
           this.columns = Object.keys(this.tmpsBookingStatusData[0]);
           this.columns = this.columns.filter((item: any) => item !== 'ResultFile' && item !== 'userId' && item !== 'id' && item !== 'analysisId');
           this.columns.push()
-          this.loadingIndicator = false;
           }
         }
         else {
           this.BookingStatusData = [];
         }
+        
+const elapsed = new Date().getTime() - startTime;
+const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+
+setTimeout(() => {
+  this.loadingIndicator = false;
+}, remainingDelay);
       },
       error: err => {
         console.log(err)

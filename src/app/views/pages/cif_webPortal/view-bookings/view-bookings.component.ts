@@ -84,6 +84,7 @@ export class ViewBookingsComponent implements OnInit {
     private cookieService: CookieService
   ) { }
   user_Email: any; qrCodeUrl: string; sessionData: any[] = [];
+  
   getSessionDetails() {
     this.sessionData = this.AuthSession.getSession();
     for (const session of this.sessionData) {
@@ -173,6 +174,8 @@ export class ViewBookingsComponent implements OnInit {
     );
   }
   getBookingDetails() {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetUserAllBookingSlot(this.user_Email).subscribe({
       next: (response) => {
         if (response.item1 && response.item1.length > 0) {
@@ -196,6 +199,12 @@ export class ViewBookingsComponent implements OnInit {
         } else {
           this.BookingData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(2500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: (err) => {
         console.log(err);
@@ -270,6 +279,8 @@ export class ViewBookingsComponent implements OnInit {
   }
 
   VerifyData(BookingCase: any) {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
     const formData = new FormData();
     formData.append('BookingId', BookingCase.id);
     formData.append('InstrumentId', BookingCase.instrumentId);
@@ -307,6 +318,12 @@ export class ViewBookingsComponent implements OnInit {
             icon: 'error',
           });
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(2500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: (error: any) => {
         console.error('Error during API call: ', error);

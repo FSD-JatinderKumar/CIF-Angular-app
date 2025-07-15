@@ -89,7 +89,7 @@ export class NewBookingsComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router, private route: ActivatedRoute, private cookieService: CookieService
   ) { }
-
+  loadingIndicator: any;
   ngOnInit(): void {
 
     const GetCookieData = this.cookieService.get('authData');
@@ -118,6 +118,10 @@ export class NewBookingsComponent implements OnInit {
     }
   }
   getDurationData(AnalysisId: any) {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
+
+
     this.CIFwebService.GetAnalysisData(AnalysisId, this.UserId).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -127,6 +131,12 @@ export class NewBookingsComponent implements OnInit {
         else {
           this.InstrumentsDuration = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1000 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)
@@ -136,6 +146,8 @@ export class NewBookingsComponent implements OnInit {
 
 
   getInstrumentData() {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetInstrumentsDetails().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -153,13 +165,19 @@ export class NewBookingsComponent implements OnInit {
         else {
           this.InstrumentData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1000 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)
       }
     });
   }
-InstrumentName: any;
+  InstrumentName: any;
   getAllAnalysis(event: Event) {
     this.Duration = this.AnalysisId = this.PriceValue = '';
     const selectElement = event.target as HTMLSelectElement;
@@ -171,86 +189,45 @@ InstrumentName: any;
     const selectedInstrumentName = instrumentNameParts.join(' '); // Join the remaining parts for the name
     this.InstrumentName = selectedInstrumentName;
     if (selectedInstrumentId) {
-        // Find the selected instrument using its ID
-        const selectedInstrument = this.InstrumentData?.find(instrument => instrument.instrumentId === selectedInstrumentId);
-        const inactiveInstrument = this.InstrumentDataInactive?.find(instrument => instrument.instrumentId === selectedInstrumentId);
+      // Find the selected instrument using its ID
+      const selectedInstrument = this.InstrumentData?.find(instrument => instrument.instrumentId === selectedInstrumentId);
+      const inactiveInstrument = this.InstrumentDataInactive?.find(instrument => instrument.instrumentId === selectedInstrumentId);
 
-        // Check if the selected instrument is inactive
-        if (inactiveInstrument && this.InActiveInstrumentIds?.includes(selectedInstrumentId.toString())) {
-            swal.fire({
-                title: 'This instrument is under Maintenance. You cannot proceed with this selection.',
-                icon: 'error',
-            }).then(() => {
-                window.location.reload();
-            });
-            return; // Exit the function to prevent further action
-        }
-
-        // Set the selected instrument values and proceed
-        this.selectedId = selectedInstrumentId;
-        this.InstrumentId = this.selectedId;
-        this.testClick(this.InstrumentId);
-        this.Message = "A Format File is being Downloaded. You need to fill and upload this Excel sheet to send your requirements!";
+      // Check if the selected instrument is inactive
+      if (inactiveInstrument && this.InActiveInstrumentIds?.includes(selectedInstrumentId.toString())) {
         swal.fire({
-            title: this.Message,
-            icon: 'warning',
+          title: 'This instrument is under Maintenance. You cannot proceed with this selection.',
+          icon: 'error',
+        }).then(() => {
+          window.location.reload();
         });
+        return; // Exit the function to prevent further action
+      }
 
-        if (selectedInstrument) {
-            this.isActive = selectedInstrument.isActive;
-            this.Duration = "Other Cases";
+      // Set the selected instrument values and proceed
+      this.selectedId = selectedInstrumentId;
+      this.InstrumentId = this.selectedId;
+      this.testClick(this.InstrumentId);
+      this.Message = "A Format File is being Downloaded. You need to fill and upload this Excel sheet to send your requirements!";
+      swal.fire({
+        title: this.Message,
+        icon: 'warning',
+      });
 
-            // Log the selected instrument name for reference
-            console.log('Selected Instrument Name:', selectedInstrumentName);
+      if (selectedInstrument) {
+        this.isActive = selectedInstrument.isActive;
+        this.Duration = "Other Cases";
 
-            this.GetInstrumentIDWiseAnalysisDetails(this.selectedId);
-        }
+        // Log the selected instrument name for reference
+        console.log('Selected Instrument Name:', selectedInstrumentName);
+
+        this.GetInstrumentIDWiseAnalysisDetails(this.selectedId);
+      }
     }
-}
-
-  // getAllAnalysis(event: Event) {
-  //   this.Duration = this.AnalysisId = this.PriceValue = '';
-  //   const selectElement = event.target as HTMLSelectElement;
-  //   const selectedValue = selectElement.value;
-
-  //   // Parse the selected instrument ID (from the dropdown)
-  //   const selectedInstrumentId = parseInt(selectedValue, 10);
-  //   if (selectedInstrumentId) {
-  //     // Find the selected instrument using its ID
-  //     const selectedInstrument = this.InstrumentData?.find(instrument => instrument.instrumentId === selectedInstrumentId);
-  //     const inactiveInstrument = this.InstrumentDataInactive?.find(instrument => instrument.instrumentId === selectedInstrumentId);
-
-  //     // Check if the selected instrument is inactive
-  //     if (inactiveInstrument && this.InActiveInstrumentIds?.includes(selectedInstrumentId.toString())) {
-  //       swal.fire({
-  //         title: 'This instrument is under Maintenance. You cannot proceed with this selection.',
-  //         icon: 'error',
-  //       }).then(() => {
-  //         window.location.reload();
-  //       });
-  //       return; // Exit the function to prevent further action
-  //     }
-
-  //     // Set the selected instrument values and proceed
-  //     this.selectedId = selectedInstrumentId;
-  //     this.InstrumentId = this.selectedId;
-  //     this.testClick(this.InstrumentId);
-  //     this.Message = "A Format File is being Downloaded. You need to fill and upload this Excel sheet to send your requirements!";
-  //     swal.fire({
-  //       title: this.Message,
-  //       icon: 'warning',
-  //     });
-
-  //     if (selectedInstrument) {
-  //       this.isActive = selectedInstrument.isActive;
-  //       this.Duration = "Other Cases";
-
-  //       this.GetInstrumentIDWiseAnalysisDetails(this.selectedId);
-  //     }
-  //   }
-  // }
+  }
 
   setAnalysisId(event: Event) {
+
     const selectElement = event.target as HTMLSelectElement; const selectedValue = selectElement.value;
     const AnalysisIndex = Array.from(selectElement.options).findIndex(option => option.value === selectedValue);
     this.Duration = this.PriceValue = '';
@@ -263,6 +240,8 @@ InstrumentName: any;
     }
   }
   GetInstrumentIDWiseAnalysisDetails(selectedId: number) {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     this.CIFwebService.GetAnalysisDetails(selectedId).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -272,6 +251,12 @@ InstrumentName: any;
         else {
           this.AnalysisData = [];
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1000 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: err => {
         console.log(err)
@@ -280,6 +265,8 @@ InstrumentName: any;
 
   }
   getPrice(event: Event) {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     this.NumberOfSamples = '';
     this.totalAmount = '';
     const selectElement = event.target as HTMLSelectElement;
@@ -319,6 +306,12 @@ InstrumentName: any;
             this.AnalysisData = [];
             // console.log('No analysis data found');
           }
+          const elapsed = new Date().getTime() - startTime;
+          const remainingDelay = Math.max(1000 - elapsed, 0); // wait at least 5s
+  
+          setTimeout(() => {
+            this.loadingIndicator = false;
+          }, remainingDelay);
         },
         error: err => {
           console.log('Error:', err);
@@ -340,6 +333,8 @@ InstrumentName: any;
 
 
   Onsubmit() {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
     const AnalysisCharge = this.PriceValue === 'N/A' ? 0 : parseInt(this.PriceValue);
     const TotalPrice = this.totalAmount === 'NA' ? 0 : parseInt(this.totalAmount);
     const formData = new FormData();
@@ -373,6 +368,12 @@ InstrumentName: any;
             icon: 'error'
           });
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1000 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
         // window.location.reload();
       },
     });
@@ -420,12 +421,12 @@ InstrumentName: any;
     //   this.formdata.reset();
     // }
 
-  if (this.formdata.valid) {
-    this.obj = {instrumentName:this.InstrumentName, instrument: this.InstrumentId ,analysisId: this.AnalysisId, Duration: this.Duration, PriceValue: this.PriceValue, NumberOfSamples: this.NumberOfSamples, totalAmount: this.totalAmount, Remarks: this.Remarks }
-    this.newDynamic = { instrumentName:this.InstrumentName,instrument: this.InstrumentId, analysisId: this.AnalysisId, Duration: this.Duration, PriceValue: this.PriceValue, NumberOfSamples: this.NumberOfSamples, totalAmount: this.totalAmount, Remarks: this.Remarks, UserEmailId: this.user_Email };
-    this.Datagrid.push(this.newDynamic);
-    this.clear();
-  }
+    if (this.formdata.valid) {
+      this.obj = { instrumentName: this.InstrumentName, instrument: this.InstrumentId, analysisId: this.AnalysisId, Duration: this.Duration, PriceValue: this.PriceValue, NumberOfSamples: this.NumberOfSamples, totalAmount: this.totalAmount, Remarks: this.Remarks }
+      this.newDynamic = { instrumentName: this.InstrumentName, instrument: this.InstrumentId, analysisId: this.AnalysisId, Duration: this.Duration, PriceValue: this.PriceValue, NumberOfSamples: this.NumberOfSamples, totalAmount: this.totalAmount, Remarks: this.Remarks, UserEmailId: this.user_Email };
+      this.Datagrid.push(this.newDynamic);
+      this.clear();
+    }
   }
   clear() {
 
@@ -433,42 +434,45 @@ InstrumentName: any;
       InstrumentName: 'Select',
       AnalysisId: 'Select',
       Duration: 'Select',
-      Charges:'',
-      NoOfSample:'',
-      TotalAmount:'',
-      Remarks:'',
+      Charges: '',
+      NoOfSample: '',
+      TotalAmount: '',
+      Remarks: '',
 
-    });  
- 
+    });
+
 
     this.Remarks = '';
     this.PriceValue = '';
     this.NumberOfSamples = '';
     this.totalAmount = '';
-    this.fileInput.nativeElement.value = ''; 
-  
-  
+    this.fileInput.nativeElement.value = '';
+
+
   }
   deleteEntry(index: number) {
     this.Datagrid.splice(index, 1);
   }
   saveAllRecords() {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
+
     const apiCalls = this.Datagrid.map(item => {
       const formData = new FormData();
       formData.append('InstrumentId', item.instrument.toString()); // InstrumentId
       formData.append('analysisId', item.analysisId.toString()); // BookingId
-      formData.append('Duration', item.Duration); 
+      formData.append('Duration', item.Duration);
       formData.append('AnalysisCharges', item.PriceValue.toString()); // Amount
-      formData.append('NoOfSamples', item.NumberOfSamples.toString()); 
+      formData.append('NoOfSamples', item.NumberOfSamples.toString());
       formData.append('TotalCharges', item.totalAmount.toString());
       formData.append('Remarks', item.Remarks);
       formData.append('UserEmailId', this.user_Email);
       formData.append('FilePath', this.fileName);
       formData.append('File', this.FileData);
- 
+
       return this.CIFwebService.addBookingSlot(formData);
     });
-  
+
     forkJoin(apiCalls).subscribe({
       next: results => {
         let allSuccess = true;
@@ -492,6 +496,12 @@ InstrumentName: any;
             this.router.navigateByUrl("ViewBookings");
           });
         }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(1000 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
       },
       error: error => {
         swal.fire({
@@ -502,7 +512,7 @@ InstrumentName: any;
       }
     });
   }
- 
+
   getTotalPayment(): number {
     return this.Datagrid.reduce((sum, item) => sum + item.totalAmount, 0);
   }
@@ -564,7 +574,7 @@ InstrumentName: any;
       };
     }
   }
-  paymentData: any;   MobileNo: any;    departmentName: any;    candidateName: any;   supervisorName: any;    serverUrl: any;
+  paymentData: any; MobileNo: any; departmentName: any; candidateName: any; supervisorName: any; serverUrl: any;
   TypeId: any = 'CIF';
 
   VerifyData(BookingCase: any) {
@@ -618,15 +628,15 @@ InstrumentName: any;
   }
 
 
-openQRCodeScreen(url: string): Promise<any>  {
-  window.open(url, '_blank');
-  return Swal.fire({
-    title: 'Scan the QR Code to Proceed with Payment',
-    html: `<qrcode [qrdata]="this.qrCodeUrl" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>`,
-    showCancelButton: true,
-    confirmButtonText: 'Proceed to Payment',
-    cancelButtonText: 'Cancel',
-  });
-}
+  openQRCodeScreen(url: string): Promise<any> {
+    window.open(url, '_blank');
+    return Swal.fire({
+      title: 'Scan the QR Code to Proceed with Payment',
+      html: `<qrcode [qrdata]="this.qrCodeUrl" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>`,
+      showCancelButton: true,
+      confirmButtonText: 'Proceed to Payment',
+      cancelButtonText: 'Cancel',
+    });
+  }
 
 }
