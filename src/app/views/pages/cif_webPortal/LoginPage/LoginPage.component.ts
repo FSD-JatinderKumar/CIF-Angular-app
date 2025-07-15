@@ -237,7 +237,33 @@ export class LoginPageNComponent implements OnInit {
               swal.fire({
                 title: 'Terms Conditions',
                 text: 'Do you agree with terms Conditions?',
-                html: `Do you agree with our <a href="/CifTermsConditions" target="_blank" style="text-decoration: underline;">Terms & Conditions</a>?`,
+                html: `
+                <div style="max-height: 400px; overflow-y: auto; text-align: left; padding: 10px;">
+                  <p>
+                    Welcome to Lovely Professional University. These terms and conditions outline the rules and regulations for the use of Lovely Professional University's Website, located at lpu.co.in
+                  </p>
+              
+                  <p style="font-weight: bold;">You specifically agree to all of the following undertakings:</p>
+              
+                  <ul style="list-style-type: disc; padding-left: 20px; font-size: 14px; line-height: 1.6;">
+                    <p style="margin-bottom: 8px;">
+                      <span style="background: #ff9219; padding: 5px 10px; color: #000; border-radius: 4px; display: inline-block;">
+                        •    We agree to acknowledge CIF, LPU in our publications and thesis if the results from CIF instrumentation are incorporated/used in them.
+                      </span>
+                    </p>
+                    <p style="margin-bottom: 8px;">• I/We undertake to abide by the safety, standard sample preparation guidelines and precautions during testing of samples.</p>
+                    <p style="margin-bottom: 8px;">• I/We do understand the possibility of samples getting damaged during handling and analysis. I/We shall not claim for any loss/damage of the sample submitted to CIF and agreed to resubmit the new sample requested by CIF for analysis.</p>
+                    <p style="margin-bottom: 8px;">• CIF, LPU reserves the rights to return the samples without performing analysis and will refund the analytical charges (after deduction of GST, if applicable) under special circumstances.</p>
+                    <p style="margin-bottom: 8px;">• I/we do agree to maintain the decorum during the visit in CIF labs for sample analysis and fully agreed that CIF has full right to take action, if decorum of CIF’s labs functionality is disturbed/hampered by me.</p>
+                    <p style="margin-bottom: 8px;">• CIF shall not take any responsibility about the analysis, interpretation and publication of data acquired by the end user.</p>
+                    <p style="margin-bottom: 8px;">• I/We hereby declare that the results of the analysis will not be used for the settlement of any legal issue.</p>
+                  </ul>
+                </div>
+              `,
+              
+              customClass: {
+                popup: 'swal-wide'
+              },
                 icon: 'success',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, Agreed',

@@ -49,13 +49,13 @@
     <div class="container">
         <div class="heading-wraper mb-5">
             <div class="main-head">
-                <h1>Centeral Instrumentation <br>
+                <h1>Centeral Instrumentation 
                     Facility - Login </h1>
             </div>
 
         </div>
         <div class="row">
-            <div class="col-md-6 d-none d-lg-block">
+            <div class="col-md-6 d-none d-lg-block mt-5 ">
                 <img src="https://www.lpu.in/lpu-assets/images/cif/login-left.png" />
             </div>
             <div class="col-md-6 login-div">
@@ -191,6 +191,30 @@
     </div>
 </section>
 
+
+<ng-template #ViewTermsModal let-modal>
+    <div class="modal-header">
+        <h2 class="modal-title fs-2" id="exampleModalLabel">Our Terms and Conditions</h2>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-sm">
+                            <p>Your terms and conditions content goes here.</p>
+                            <p>1. Acceptance of Terms...</p>
+                            <p>2. User Conduct...</p>
+                            <p>3. Privacy Policy...</p>
+                            <p>4. Limitations...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
 
 <!-- 
 <section class="section">
