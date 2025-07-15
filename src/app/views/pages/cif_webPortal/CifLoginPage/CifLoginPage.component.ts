@@ -99,8 +99,6 @@ export class CifLoginPageComponent implements OnInit {
 
     if (DataX.UserRoleS !== null && DataX.UserRoleS !== undefined) {
       userRoleX = parseInt(DataX.UserRoleS as string);
-      // this.AuthoriseUser(encodeduid, encodedPassword, userRoleX);
-      // this.AuthoriseUser(uid, password, userRoleX);
       this.AuthoriseUserNewWay(uid, password, userRoleX);
     }
 
@@ -120,69 +118,6 @@ export class CifLoginPageComponent implements OnInit {
     });
 
   }
-
-
-  // GetEmployeeDetails() {
-  //   this.mouDocumentsService.GetEmployeeDetails().subscribe({
-  //     next: (response) => {
-  //       if (response.item1.length > 0) {
-  //         this.EmployeeDetails = response.item1;
-
-  //         this.CandidateName = this.EmployeeName =
-  //         response.item1[0].employeeName;
-  //         this.UserId = this.EmployeeCode = response.item1[0].employeeCode;
-  //         this.Department = response.item1[0].department;
-  //         this.DepartmentName = response.item1[0].departmentName;
-  //         this.Designation = response.item1[0].department;
-  //         this.EmailId = response.item1[0].email;
-  //         this.MobileNo = response.item1[0].contactNo;
-  //         this.UserRole = 'Internal User';
-  //         this.SupervisorName = response.item1[0].department; // Assuming supervisorName is in response.item1[0]
-
-  //         this.loadingIndicator = false;
-  //         this.showNoDataFoundMessage = false;
-  //         this.isLoginFailed = false;
-
-  //         const userCookiesData = {
-  //           CandidateName: this.CandidateName,
-  //           UserId: this.UserId,
-  //           Department: this.Department,
-  //           DepartmentName: this.DepartmentName,
-  //           Designation: this.Designation,
-  //           EmailId: this.EmailId,
-  //           MobileNo: this.MobileNo,
-  //           UserRole: this.UserRole,
-  //           SupervisorName: this.SupervisorName,
-  //         };
-
-  //         // Stringify and store the object in cookies
-  //         this.cookieService.set('authData', JSON.stringify(userCookiesData));
-
-  //         swal.fire({
-  //           title: 'Login Successful',
-  //           text: 'Login details are Valid!',
-  //           icon: 'success',
-  //         });
-  //         this.AuthSession.addToSession(this.EmployeeDetails);
-  //         //  console.log(" Session Data = "+ JSON.stringify(this.AuthSession.getSession()));
-  //         // this.router.navigate(['/cifDashboards']);
-  //         this.router.navigateByUrl('/cifDashboards').then(() => {
-  //           window.location.reload();
-  //         });
-  //       } else {
-  //         this.EmployeeDetails = [];
-  //         this.showNoDataFoundMessage = true;
-  //         this.isLoginFailed = true;
-  //       }
-  //     },
-  //     error: (err) => {
-  //       this.LoginFailed(err);
-  //     },
-  //   });
-
-  //   this.formdata.reset();
-  // }
-
 
   AuthoriseUserNewWay(Id: any, Key: any, Role: any): void {
     this.CIFwebService.GetAuthoriseUserData(Id, Key, Role).subscribe({
@@ -310,8 +245,6 @@ export class CifLoginPageComponent implements OnInit {
       if (result.isConfirmed) {
         this.AuthSession.addToSession(this.UserData);
 
-        // this.router.navigate(['/CifTermsConditions']);
-
         this.router.navigateByUrl('/CifTermsConditions').then(() => {
           window.location.reload();
         });
@@ -358,86 +291,6 @@ export class CifLoginPageComponent implements OnInit {
     this.AuthSession.clearSession(); // if you have a method like this
     this.router.navigateByUrl('/login'); // adjust to your login path
   }
-
-
-  // AuthoriseUser(Id: any, Key: any, Role: number): void{
-  //   this.CIFwebService.GetAuthoriseUserData(Id, Key, Role).subscribe({
-  //     next: response => {
-  //       if (response.item1 && response.item1.length > 0) {
-  //         this.UserData = response.item1;
-  //         this.CandidateName = this.EmployeeName = response.item1[0].candidateName;
-  //         this.UserId = this.EmployeeCode = Id;
-  //         this.Department = response.item1[0].department;
-  //         this.DepartmentName = response.item1[0].departmentName;
-  //         this.Designation = response.item1[0].department;
-  //         this.EmailId = response.item1[0].emailId;
-  //         this.MobileNo = response.item1[0].mobileNumber;
-  //         this.UserRole = response.item1[0].userRole;
-  //         this.SupervisorName = response.item1[0].supervisorName;
-  //         this.ProofNumber = btoa(response.item1[0].idProofNumber);
-  //         this.ProofName = response.item1[0].idProofType;
-  //         this.SecretKey = btoa(response.item1[0].passwordText);
-
-  //         this.loadingIndicator = false;
-  //         this.showNoDataFoundMessage = false;
-  //         this.isLoginFailed = false;
-
-  //         const userCookiesData = {
-  //           CandidateName: this.CandidateName,
-  //           UserId: Id,
-  //           Department: this.Department,
-  //           DepartmentName: this.DepartmentName,
-  //           Designation: this.Designation,
-  //           EmailId: this.EmailId,
-  //           MobileNo: this.MobileNo,
-  //           UserRole: this.UserRole,
-  //           SupervisorName: this.SupervisorName,
-  //           ProofNumber:this.ProofNumber,
-  //           ProofName: this.ProofName,
-  //           PasswordText: this.SecretKey,
-  //         };
-
-  //         // this.cookieService.set('authData', JSON.stringify(userCookiesData));
-  //         // console.log("DATA " + JSON.stringify(userCookiesData))
-  //         const UserCookies = JSON.stringify(userCookiesData);
-  //         this.cookieService.set('authData', UserCookies);
-  //         swal.fire({
-  //           title: 'Login Successful',
-  //           text: 'Login details are Valid!',
-  //           icon: 'success',
-  //         });
-  //         this.AuthSession.addToSession(this.UserData);
-  //         //  console.log(" Session Data = "+ JSON.stringify(this.AuthSession.getSession()));
-  //         // this.router.navigate(['/ViewBookings']);
-  //         // this.router.navigate(['/cifUserProfile']);
-  //         this.router.navigate(['/CifTermsConditions']);
-  //       } else {
-  //         this.showNoDataFoundMessage = true;
-
-  //         // this.loginError = 'Invalid credentials. Please try again.';
-  //         swal.fire({
-  //           title: 'Invalid Login Details ',
-  //           text: 'Login details are Invalid!',
-  //           icon: 'warning',
-  //         });
-  //       }
-  //     },
-  //     error: (err) => {
-  //       // console.log(err);
-  //       // this.loginError = 'Invalid credentials. Please try again.';
-  //       swal.fire({
-  //         title: 'Login Failed',
-  //         text: 'Login details are Invalid!',
-  //         icon: 'warning',
-  //       });
-  //     },
-  //   });
-  //   // this.formdata.reset();
-  //   this.formdata.reset(); // Clear all form fields
-  //   this.formdata.patchValue({
-  //     UserRoleS: 'select', // Reset to default "Select Role" placeholder
-  //   });
-  // }
 
 
 }

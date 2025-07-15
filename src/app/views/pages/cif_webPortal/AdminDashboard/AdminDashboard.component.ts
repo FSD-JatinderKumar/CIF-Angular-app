@@ -58,4 +58,10 @@ export class AdminDashboardComponent implements OnInit {
     }
 
   }
+
+  LogoutUser() {
+    this.cookieService.delete('authData');
+    this.AuthSession.clearSession(); // if you have a method like this
+    this.router.navigateByUrl('/login'); // adjust to your login path
+  }
 }
