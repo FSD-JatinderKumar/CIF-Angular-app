@@ -125,7 +125,7 @@ export class BookingResultsComponent implements OnInit {
     const startTime = new Date().getTime();
 
 
-    this.CIFwebService.GetUserAllBookingSlot(this.UserId).subscribe({
+    this.CIFwebService.GetUserAllBookingSlot(this.user_Email).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.tmpsBookingData = this.dataSource = this.BookingData = response.item1;
@@ -210,7 +210,7 @@ export class BookingResultsComponent implements OnInit {
     const startTime = new Date().getTime();
     this.BookingCase = a;
     // alert(JSON.stringify(a))
-    this.CIFwebService.GetUserResultsDetails(this.UserId, a.bookingId).subscribe({
+    this.CIFwebService.GetUserResultsDetails(this.user_Email, a.bookingId).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.ResultData = this.dataSource = this.tmpsResultData = response.item1;

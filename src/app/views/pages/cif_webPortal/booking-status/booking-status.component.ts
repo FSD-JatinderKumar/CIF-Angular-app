@@ -122,7 +122,7 @@ export class BookingStatusComponent implements OnInit {
   getBookingDetails() {
     this.loadingIndicator = true;
     const startTime = new Date().getTime();
-    this.CIFwebService.GetUserBookingStatus(this.UserId).subscribe({
+    this.CIFwebService.GetUserBookingStatus(this.user_Email).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.dataSource = this.BookingStatusData = this.tmpsBookingStatusData = response.item1;
@@ -208,7 +208,7 @@ export class BookingStatusComponent implements OnInit {
   openPaymentModal(a: any) {
     this.BookingCase = a;
     // alert(JSON.stringify(a))
-    this.CIFwebService.GetUserResultsDetails(this.UserId, a.bookingId).subscribe({
+    this.CIFwebService.GetUserResultsDetails(this.user_Email, a.bookingId).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.ResultData = response.item1;
