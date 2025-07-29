@@ -101,6 +101,7 @@ export class HomePageComponent implements OnInit {
         }, remainingDelay);
       },
       error: err => {
+        this.loadingIndicator = false;
         console.error(err);
       }
     });
