@@ -43,22 +43,21 @@ export class CifMenuBarComponent implements OnInit {
         title: 'Login Failed ',
         icon: 'warning',
       });
-      this.router.navigate(['']);
+      this.router.navigate(['/cifWebPortal']);
     }
-   }
+  }
   ngOnInit(): void {
-
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
-
-    this.UserRole = retrievedCookies.UserRole ;//?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+    this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
     this.user_Email = retrievedCookies.EmailId;
     this.supervisorName = retrievedCookies.SupervisorName;
     this.departmentName = retrievedCookies.DepartmentName;
     this.candidateName = retrievedCookies.CandidateName;
 
-
   }
+
+  
   handleChangePassword(event: Event) {
     if (this.CheckUser()) {
       event.preventDefault(); // Prevent link navigation

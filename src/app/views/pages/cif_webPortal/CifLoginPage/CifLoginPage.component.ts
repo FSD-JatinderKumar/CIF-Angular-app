@@ -166,7 +166,7 @@ export class CifLoginPageComponent implements OnInit {
           this.AuthSession.addToSession(this.EmployeeDetails);
           //  console.log(" Session Data = "+ JSON.stringify(this.AuthSession.getSession()));
           // this.router.navigate(['/cifDashboards']);
-          this.router.navigateByUrl('/cifDashboards').then(() => {
+          this.router.navigateByUrl('/ViewBookings').then(() => {
             window.location.reload();
           });
         } else {
@@ -234,7 +234,6 @@ AuthoriseUserNewWay(Id: any, Key: any, Role: any): void {
         this.Email = response.item1[0].email;
         this.CreateToken(this.Email, response);
 
-        // ✅ Reset form on success
         this.formdata.reset();
         this.submitted = false;
         this.loginError = null;
@@ -250,7 +249,6 @@ AuthoriseUserNewWay(Id: any, Key: any, Role: any): void {
           icon: 'warning',
         });
 
-        // ✅ Reset form even on login failure
         this.formdata.reset();
         this.formdata.patchValue({
           UserRoleS: '', // Reset to default "Select Role" placeholder
