@@ -35,6 +35,14 @@ export class AdminDashboardComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router, private route: ActivatedRoute, private cookieService: CookieService
   ) {
+    const GetCookieData = this.cookieService.get('authData');
+    if (GetCookieData.length == 0) {
+      swal.fire({
+        title: 'Login Failed ',
+        icon: 'warning',
+      });
+      this.router.navigateByUrl('/login');
+    }
   }
 
   goto(val: any) {
@@ -42,21 +50,13 @@ export class AdminDashboardComponent implements OnInit {
   }
   ngOnInit(): void {
     const GetCookieData = this.cookieService.get('authData');
-    if (GetCookieData) {
-      const retrievedCookies = JSON.parse(GetCookieData);
-      this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
-      this.user_Email = retrievedCookies.EmailId;
-      this.supervisorName = retrievedCookies.SupervisorName;
-      this.departmentName = retrievedCookies.DepartmentName;
-      this.candidateName = retrievedCookies.CandidateName;
-    } else {
-       swal.fire({
-        title: 'Login Failed ',
-        icon: 'warning',
-      });
-      this.router.navigate(['/cifWebPortal']);
-    }
-
+    const retrievedCookies = JSON.parse(GetCookieData);
+    this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+    this.user_Email = retrievedCookies.EmailId;
+    this.supervisorName = retrievedCookies.SupervisorName;
+    this.departmentName = retrievedCookies.DepartmentName;
+    this.candidateName = retrievedCookies.CandidateName;
+   
   }
 
   LogoutUser() {

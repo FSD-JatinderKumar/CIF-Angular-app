@@ -243,7 +243,10 @@ isAlreadyAssigned(row: any): boolean {
         // If result is not a valid key, fall back to 'Default'
         const alert = alertMap[result as keyof typeof alertMap] || alertMap.Default;
   
-        swal.fire({ title: alert.title, icon: alert.icon }).then(() => window.location.reload());
+        swal.fire({ title: alert.title, icon: alert.icon }).then(() =>
+          this.router.navigate(['/AssignTestCifA'])
+          // window.location.reload()
+        );
       },
       error: () => {
         swal.fire({

@@ -271,7 +271,7 @@ customClass: {
       if (result.isConfirmed) {
         this.AuthSession.addToSession(this.UserData);
 
-        this.router.navigateByUrl('/CifTermsConditions').then(() => {
+        this.router.navigateByUrl('/NewBookings').then(() => {
           window.location.reload();
         });
       } else {

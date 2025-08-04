@@ -45,7 +45,7 @@
               <label class="form-label">Overall Satisfaction Rating</label>
               <div class="rating-group mb-2">
                 <div class="btn-group btn-group-toggle" role="group">
-                  <label *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" class="btn btn-outline-primary rating-star"
+                  <label *ngFor="let i of [1,2,3,4,5]" class="btn btn-outline-primary rating-star"
                     [ngClass]="{ 'active': feedbackForm.get('rating')?.value === i }">
                     <input type="radio" formControlName="rating" [value]="i" [(ngModel)]="rating">{{i}}
                   </label>

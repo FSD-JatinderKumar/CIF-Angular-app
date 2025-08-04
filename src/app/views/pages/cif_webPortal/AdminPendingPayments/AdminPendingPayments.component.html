@@ -51,7 +51,14 @@
                                         <td class="fw-bold ">{{AllPaymentDataRow.candidateName}} </td>
                                         <!-- <td class="fw-bold "> {{AllPaymentDataRow.noOfSamples}}</td> -->
                                         <td class="fw-bold ">{{ AllPaymentDataRow.requestDate }}</td>
-                                        <td class="fw-bold "> {{AllPaymentDataRow.amount | currency:'INR':'symbol'}}</td>                                        
+                                        <td class="fw-bold">
+                                            {{
+                                              AllPaymentDataRow?.amount && AllPaymentDataRow.amount!='null'
+                                                ? (AllPaymentDataRow.amount )
+                                                : 'NA'
+                                            }}
+                                          </td>
+                                          
                                         <!-- <ng-container *ngIf="AllPaymentDataRow.paymentDate?.length>0; else NoPayment">
                                             <td> <span class="badge text-bg-danger ms-3 fs-5 ">{{AllPaymentDataRow.paymentStatus}} </span>
                                                 <span class="badge text-bg-info ms-3 fs-5 "> Payment Date
