@@ -6,23 +6,19 @@
 <section class="section  bg-dark-yellow pb-0">
     <div class="container">
         <div class="heading-wraper mb-4">
-            <div class="main-head">
-                <h1>Central Instrumentation Facility</h1>
-                
-                <div class="w-100 text-center py-1 promo-banner">
+            <div class="container  d-flex justify-content-between">
+                <div class="col-md-6 "><h1>Central Instrumentation Facility</h1>
+                </div>
+                <div class="col-md-4 ms-2">
                     
-                    <strong class="blinking-text"> <a class="w-100 d-block text-decoration-none" (click)="openSampleInstructions()"
-                            style="cursor: pointer;"><span class="badge bg-info text-dark m-2 p-3 fs-5" style="background: #ff9219 !important;">
+                    <strong class="blinking-text  text-end">
+                         <a style=" cursor: pointer; margin-left: 8rem !important;"  (click)="openSampleInstructions()"
+                            ><span class="badge bg-info text-dark m-2 p-2 fs-5" style="background: #ff9219 !important;">
                                 Address for Sending Samples   </span></a> </strong>
                 </div>
-                <div class="call-action">
-                    <br />
-                    <div class="call-action gap-3">
-                        <a routerLink="/Login" class="lpu-btn">CIF Login</a>
+                    <div class="col-md-2 text-end">
+                        <a routerLink="/Login" class="btn btn-sm " style="background: #ff9219 !important; color: #000 !important;">CIF Login</a>
                       </div>
-               
-                    <a href="#" class="d-none"><img src="https://www.lpu.in/lpu-assets/images/cif/login.svg" /></a>
-                </div>
 
             </div>
 
