@@ -41,6 +41,7 @@
                                     <th class="text-dark">Amount</th>
                                     <!-- <th class="text-dark">Payment Status</th> -->
                                     <th class="text-dark">Receipt </th>
+                                    <!-- <th class="text-dark">Action </th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +76,11 @@
                                                     (click)="paymentReceiptScreen(AllPaymentDataRow)"> Print Receipt</button>
 
                                         </td>
+                                        <!-- <td>
+                                            <button class="btn btn-success btn-sm"
+                                                    (click)="PendingPayment(AllPaymentDataRow)"> Print Receipt</button>
+
+                                        </td> -->
                                     </tr>
                                 </ng-container>
                             </tbody>                            
@@ -199,3 +205,60 @@
         </div>
     </div>
 </ng-template>
+
+
+<ng-template #PendingPaymentModal let-modal>
+    <form [formGroup]="paymentForm" (ngSubmit)="onUpdatePayment()">
+      <div class="modal-header">
+        <h5 class="modal-title">Additional Payment Screen</h5>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+      </div>
+  
+      <div class="modal-body">
+        <div class="container-fluid">
+          <p class="text-center mb-4 border border-dark p-2 fs-4 fw-bold">Additional Payment</p>
+  
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Booking ID</label>
+              <input class="form-control" [value]="CurrentbookingId" readonly />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Instrument Name</label>
+              <input class="form-control" [value]="CurrentinstrumentName" readonly />
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Candidate Name</label>
+              <input class="form-control" [value]="CurrentcandidateName" readonly />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Request Date</label>
+              <input class="form-control" [value]="CurrentrequestDate" readonly />
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Amount (₹)</label>
+              <input type="number" class="form-control" formControlName="amount" placeholder="Enter amount" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Remarks</label>
+              <input type="text" class="form-control" formControlName="remarks" placeholder="Enter remarks" required />
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" [disabled]="paymentForm.invalid">
+          Update Payment
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close()">Close</button>
+      </div>
+    </form>
+  </ng-template>
+  

@@ -35,6 +35,7 @@ export class AdminPendingPaymentsComponent implements OnInit {
   @ViewChild('verticalCenteredModal') verticalCenteredModal: TemplateRef<any>;
   @ViewChild('viewDescModal') viewDescModal: TemplateRef<any>;
   @ViewChild('viewDescModal2') viewDescModal2: TemplateRef<any>;
+  @ViewChild('PendingPaymentModal') PendingPaymentModal: TemplateRef<any>;
   dataSource: MatTableDataSource<any>;
 
 
@@ -206,7 +207,6 @@ export class AdminPendingPaymentsComponent implements OnInit {
 
 
   openPaymentModal(a: any) {
-    debugger;
     this.BookingCase = a;
     this.modalService.open(this.viewDescModal2, { size: 'sm' }).result.then(
       (result: string) => {
@@ -234,6 +234,8 @@ export class AdminPendingPaymentsComponent implements OnInit {
       }
     ).catch((res: any) => { });
   }
+
+
   printReceipt(): void {
     const modalContent = document.getElementById("ReceiptData");  // Get the modal content by its ID
 
@@ -290,4 +292,37 @@ export class AdminPendingPaymentsComponent implements OnInit {
       console.error('Modal content not found');
     }
   }
+  CurrentUserPaymentData: any;
+CurrentbookingId: any;
+CurrentinstrumentName: any;
+CurrentcandidateName: any;
+CurrentrequestDate: any;
+  PendingPayment(data: any) {
+    var currentUserPaymentData = data;
+    this.CurrentbookingId = currentUserPaymentData['bookingId']
+    this.CurrentinstrumentName = currentUserPaymentData['instrumentName']
+    this.CurrentcandidateName = currentUserPaymentData['candidateName']
+    this.CurrentrequestDate = currentUserPaymentData['requestDate']
+
+    this.modalService.open(this.PendingPaymentModal, { size: 'sm' }).result.then(
+      (result: string) => {
+        console.log("Modal closed" + result);
+      }
+    ).catch((res: any) => { });
+  }
+
+  paymentForm = this.fb.group({
+    amount: [null, [Validators.required, Validators.min(0)]],
+    remarks: ['', Validators.required]
+  });
+  
+  
+  onUpdatePayment() {
+    if (this.paymentForm.valid) {
+      const paymentDetails = this.paymentForm.value;
+      console.log("Payment details to update:", paymentDetails);
+      // Perform your update logic here...
+    }
+  }
+  
 }

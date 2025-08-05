@@ -1,0 +1,22 @@
+{
+        "/php-header": {
+          "target": "https://www.lpu.in",
+          "secure": true,
+          "changeOrigin": true,
+          "logLevel": "debug",
+          "pathRewrite": {
+            "^/php-header": "/includepages/newlpu/header.php"
+          }
+        },
+  
+    "/php-footer": {
+      "target": "https://www.lpu.in",
+      "secure": true,
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "pathRewrite": {
+        "^/php-footer": "/includepages/newlpu/footer.php"
+      }
+    }
+  }
+  

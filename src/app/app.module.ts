@@ -32,6 +32,9 @@ import { AFooterBarComponent } from './views/pages/cif_webPortal/afooter-bar/afo
 import { CifInstrumentsComponent } from './views/pages/cif_webPortal/CifInstruments/CifInstruments.component';
 import { CifLoginPageComponent } from './views/pages/cif_webPortal/CifLoginPage/CifLoginPage.component';
 import { CifLoginPageModule } from './views/pages/cif_webPortal/CifLoginPage/CifLoginPage.component.module';
+import { HeaderComponent } from "./views/pages/cif_webPortal/header/header.component";
+import { FooterComponent } from "./views/pages/cif_webPortal/footer/footer.component";
+import { ClickToCallComponent } from './views/pages/cif_webPortal/click-to-call/click-to-call.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +46,10 @@ import { CifLoginPageModule } from './views/pages/cif_webPortal/CifLoginPage/Cif
     ATopHeaderComponent,
     AFooterBarComponent,
     CifInstrumentsComponent,
-    CifLoginPageComponent
+    CifLoginPageComponent,
+    HeaderComponent,
+    FooterComponent,
+    ClickToCallComponent
   ],
   imports: [
     BrowserModule,
@@ -55,16 +61,16 @@ import { CifLoginPageModule } from './views/pages/cif_webPortal/CifLoginPage/Cif
     SucessDialogModule,
     ReactiveFormsModule,
     NgxDatatableModule,
-    MatCardModule,            
-    MatFormFieldModule,      
-    MatInputModule,          
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatButtonModule,
     ATopHeaderModule,
-    AFooterBarModule ,
-    CifInstrumentsModule, 
+    AFooterBarModule,
+    CifInstrumentsModule,
     CifRegisterPageModule,
     
-  ],
+],
   providers: [
     httpInterceptorProviders,
     AuthGuard,

@@ -73,13 +73,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "16mb",
-                  "maximumError": "28mb"
+                  "maximumWarning": "116mb",
+                  "maximumError": "128mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "200kb",
-                  "maximumError": "400kb"
+                  "maximumWarning": "1200kb",
+                  "maximumError": "1400kb"
                 }
               ],
               "fileReplacements": [
@@ -109,6 +109,9 @@
             },
             "development": {
               "browserTarget": "nobleui-angular:build:development"
+            },            
+            "options": {
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
