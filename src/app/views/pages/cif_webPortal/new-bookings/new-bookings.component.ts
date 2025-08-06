@@ -219,7 +219,7 @@ export class NewBookingsComponent implements OnInit {
         this.Duration = "Other Cases";
 
         // Log the selected instrument name for reference
-        console.log('Selected Instrument Name:', selectedInstrumentName);
+        // console.log('Selected Instrument Name:', selectedInstrumentName);
 
         this.GetInstrumentIDWiseAnalysisDetails(this.selectedId);
       }

@@ -107,9 +107,6 @@ const routes: Routes = [
     path: "FeedbackForm",
     loadChildren: () => import('./views/pages/cif_webPortal/UserFeedbackForm/UserFeedbackForm.module').then(m => m.UserFeedbackFormModule),
   },
-
-
-
   // {path:"Refunds",component:RefundStatusComponent},
   {
     path: "ChangePassword",
@@ -118,34 +115,19 @@ const routes: Routes = [
   },
 
   {
-    path: "AdminLoginX", // Add Module file 
+    path: "AdminLoginX",  
     loadChildren: () => import('./views/pages/cif_webPortal/internalUser-login/internalUser-login.module').then(m => m.InternalUserLoginModule),
     // component:InternalUserLoginComponent
   },
   {
-    path: "AdminInstrumentAction", // Add Module file 
+    path: "ViewBookingsAdmins",
+    loadChildren: () => import('./views/pages/cif_webPortal/AdminActionBookings/AdminActionBookings.module').then(m => m.AdminActionBookingsModule),
+    // component:AdminActionBookingsComponent
+  },
+  {
+    path: "AdminInstrumentAction", 
     loadChildren: () => import('./views/pages/cif_webPortal/AdminActionInstruments/AdminActionInstruments.mdoule').then(m => m.AdminActionInstrumentsModule),
     // component:AdminActionInstrumentsComponent
-  },
-  {
-    path: "AdminUploadImage",
-    loadChildren: () => import('./views/pages/cif_webPortal/AdminNewInstruments/AdminActionInstruments.mdoule').then(m => m.AdminNewInstrumentsModule),
-    // component:AdminNewInstrumentsComponent
-  },
-  {
-    path: "UserFeedbackdetails",
-    loadChildren: () => import('./views/pages/cif_webPortal/AdminUserFeedbackDetails/AdminUserFeedbackDetails.module').then(m => m.AdminUserFeedbackDetailsModule),
-    // component:AdminNewInstrumentsComponent
-  },
-  {
-    path: "UserDetail",// Add Module file 
-    loadChildren: () => import('./views/pages/cif_webPortal/AdminUserDetails/AdminUserDetails.module').then(m => m.AdminUserDetailsModule),
-    // component:AdminUserDetailsComponent
-  },
-  {
-    path: "cifUserProfile",
-    loadChildren: () => import('./views/pages/cif_webPortal/Cifprofile/Cifprofile.module').then(m => m.CifprofileModule),
-    // component: CifPorfileComponent
   },
   {
     path: "AssignTestCifA",
@@ -153,9 +135,9 @@ const routes: Routes = [
     // component:AdminAssignTestComponent
   },
   {
-    path: "SampleStatus",
-    loadChildren: () => import('./views/pages/cif_webPortal/AdminUpdateSampleStatus/AdminUpdateSampleStatus.module').then(m => m.AdminUpdateSampleStatusModule),
-    // component:AdminAssignTestComponent
+    path: "AdminUploadImage",
+    loadChildren: () => import('./views/pages/cif_webPortal/AdminNewInstruments/AdminActionInstruments.mdoule').then(m => m.AdminNewInstrumentsModule),
+    // component:AdminNewInstrumentsComponent
   },
   {
     path: "PendingPaymentsA",
@@ -163,10 +145,26 @@ const routes: Routes = [
     // component:AdminPendingPaymentsComponent
   },
   {
-    path: "ViewBookingsAdmins",
-    loadChildren: () => import('./views/pages/cif_webPortal/AdminActionBookings/AdminActionBookings.module').then(m => m.AdminActionBookingsModule),
-    // component:AdminActionBookingsComponent
+    path: "SampleStatus",
+    loadChildren: () => import('./views/pages/cif_webPortal/AdminUpdateSampleStatus/AdminUpdateSampleStatus.module').then(m => m.AdminUpdateSampleStatusModule),
+    // component:AdminAssignTestComponent
   },
+  {
+    path: "UserDetail",// Add Module file 
+    loadChildren: () => import('./views/pages/cif_webPortal/AdminUserDetails/AdminUserDetails.module').then(m => m.AdminUserDetailsModule),
+    // component:AdminUserDetailsComponent
+  },
+  {
+    path: "UserFeedbackdetails",
+    loadChildren: () => import('./views/pages/cif_webPortal/AdminUserFeedbackDetails/AdminUserFeedbackDetails.module').then(m => m.AdminUserFeedbackDetailsModule),
+    // component:AdminNewInstrumentsComponent
+  },
+  {
+    path: "cifUserProfile",
+    loadChildren: () => import('./views/pages/cif_webPortal/Cifprofile/Cifprofile.module').then(m => m.CifprofileModule),
+    // component: CifPorfileComponent
+  },
+ 
   {
     path: "MyTestDataXXXXXXXXXXXX/:loginName",
     loadChildren: () => import('./views/pages/cif_webPortal/ViewBookingAdmin/ViewBookingAdmin.module').then(m => m.ViewBookingAdminModule),

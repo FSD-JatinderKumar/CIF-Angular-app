@@ -81,17 +81,9 @@ export class AdminPendingPaymentsComponent implements OnInit {
   }
   ngOnInit(): void {
     const GetCookieData = this.cookieService.get('authData');
-    if (GetCookieData) {
-      const retrievedCookies = JSON.parse(GetCookieData);
-      this.UserRole = retrievedCookies.UserRole;
-      this.user_Email = retrievedCookies.EmailId;
-    } else {
-       swal.fire({
-        title: 'Login Failed ',
-        icon: 'warning',
-      });
-      this.router.navigate(['/cifWebPortal']);
-    }
+    const retrievedCookies = JSON.parse(GetCookieData);
+    this.UserRole = retrievedCookies.UserRole;
+    this.user_Email = retrievedCookies.EmailId;
     this.getAllPaymentDetails()
   }
 
@@ -111,15 +103,17 @@ export class AdminPendingPaymentsComponent implements OnInit {
     );
   }
   getAllPaymentDetails() {
-    this.loadingIndicator=true;
+    this.loadingIndicator = true;
     const startTime = new Date().getTime();
     this.CIFwebService.GetAllPaymentDetails().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.AllPaymentData = response.item1;
           this.dataSource = response.item1;
-
-          this.tmpsAllPaymentData = response.item1;
+          // console.log(JSON.stringify(this.dataSource))
+          this.originalData = [...this.AllPaymentData];  
+          this.tmpsAllPaymentData = [...this.AllPaymentData];  
+          this.filteredData = [...this.AllPaymentData];  
 
           this.headHtmlData = this.tmpsAllPaymentData[0];
           this.columns = Object.keys(this.tmpsAllPaymentData[0]);
@@ -293,10 +287,10 @@ export class AdminPendingPaymentsComponent implements OnInit {
     }
   }
   CurrentUserPaymentData: any;
-CurrentbookingId: any;
-CurrentinstrumentName: any;
-CurrentcandidateName: any;
-CurrentrequestDate: any;
+  CurrentbookingId: any;
+  CurrentinstrumentName: any;
+  CurrentcandidateName: any;
+  CurrentrequestDate: any;
   PendingPayment(data: any) {
     var currentUserPaymentData = data;
     this.CurrentbookingId = currentUserPaymentData['bookingId']
@@ -315,8 +309,8 @@ CurrentrequestDate: any;
     amount: [null, [Validators.required, Validators.min(0)]],
     remarks: ['', Validators.required]
   });
-  
-  
+
+
   onUpdatePayment() {
     if (this.paymentForm.valid) {
       const paymentDetails = this.paymentForm.value;
@@ -324,5 +318,29 @@ CurrentrequestDate: any;
       // Perform your update logic here...
     }
   }
+
+
+  originalData: any[] = []; // Loaded from API
+  filteredData: any[] = [];
+  selectedStatus: string = '';
+
+  filterData(): void {
+    if (this.selectedStatus === '') {
+      this.tmpsAllPaymentData = [...this.originalData]; // Show all data
+    } else if (this.selectedStatus === 'null') {
+      this.tmpsAllPaymentData = this.originalData.filter(item => item.paymentStatus === null);
+    } else {
+      this.tmpsAllPaymentData = this.originalData.filter(item => item.paymentStatus === this.selectedStatus);
+    }
+    this.currentPage = 1; // Reset to first page after filtering
+  }
+
+  statusOptions = [
+    { label: 'All', value: '' }, 
+    { label: 'Success', value: 'success' },
+    { label: 'Failure', value: 'failure' },
+    { label: 'Pending', value: 'null' }
+  ];
+  
   
 }

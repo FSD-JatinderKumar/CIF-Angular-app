@@ -98,20 +98,27 @@ export class AdminNewInstrumentsComponent implements OnInit {
   }
   ngOnInit(): void {
     const GetCookieData = this.cookieService.get('authData');
-    if (GetCookieData) {
-      const retrievedCookies = JSON.parse(GetCookieData);
-      this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
-      this.user_Email = retrievedCookies.EmailId;
-      this.supervisorName = retrievedCookies.SupervisorName;
-      this.departmentName = retrievedCookies.DepartmentName;
-      this.candidateName = retrievedCookies.CandidateName;
-    } else {
-       swal.fire({
-        title: 'Login Failed ',
-        icon: 'warning',
-      });
-      this.router.navigate(['/cifWebPortal']);
-    }
+    const retrievedCookies = JSON.parse(GetCookieData);
+    this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+    this.user_Email = retrievedCookies.EmailId;
+    this.supervisorName = retrievedCookies.SupervisorName;
+    this.departmentName = retrievedCookies.DepartmentName;
+    this.candidateName = retrievedCookies.CandidateName;
+
+    // if (GetCookieData) {
+    //   const retrievedCookies = JSON.parse(GetCookieData);
+    //   this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+    //   this.user_Email = retrievedCookies.EmailId;
+    //   this.supervisorName = retrievedCookies.SupervisorName;
+    //   this.departmentName = retrievedCookies.DepartmentName;
+    //   this.candidateName = retrievedCookies.CandidateName;
+    // } else {
+    //    swal.fire({
+    //     title: 'Login Failed ',
+    //     icon: 'warning',
+    //   });
+    //   this.router.navigate(['/cifWebPortal']);
+    // }
     this.getAllInstrumentsDetail();
     this.LoadForm();
   }

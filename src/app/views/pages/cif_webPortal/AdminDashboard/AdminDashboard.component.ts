@@ -38,10 +38,10 @@ export class AdminDashboardComponent implements OnInit {
     const GetCookieData = this.cookieService.get('authData');
     if (GetCookieData.length == 0) {
       swal.fire({
-        title: 'Login Failed ',
+        title: 'Login Failed',
         icon: 'warning',
       });
-      this.router.navigateByUrl('/login');
+      this.router.navigate(['/login']);
     }
   }
 

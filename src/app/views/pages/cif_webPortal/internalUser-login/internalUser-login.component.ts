@@ -136,21 +136,24 @@ export class InternalUserLoginComponent implements OnInit {
             PasswordText: this.SecretKey,
           };
 
-          // this.cookieService.set(
-          //   'authData',
-          //   JSON.stringify(userCookiesData),
-          //   undefined,            // Expiration in days
-          //   '/',            // Path
-          //   undefined,      // Domain
-          //   true,           // Secure: should be true in production
-          //   'Lax'           // SameSite policy
-          // );
+        
 
           this.AuthSession.addToSession(this.EmployeeDetails);
 
           const UserCookies = JSON.stringify(userCookiesData);
-          this.cookieService.set('authData', UserCookies);
-
+          // this.cookieService.set('authData', UserCookies);
+          const expirationMinutes = 15; // Set expiration time in minutes
+          const expirationDate = new Date();
+          expirationDate.setMinutes(expirationDate.getMinutes() + expirationMinutes); // Set expiration time
+          this.cookieService.set(
+            'authData',
+            UserCookies,
+            expirationDate, // Set the expiration date
+            '/',           // Path
+            undefined,     // Domain
+            true,          // Secure: should be true in production
+            'Lax'          // SameSite policy
+          );
           this.router.navigate(['/AssignTestCifA']);
         } else {
           this.EmployeeDetails = [];

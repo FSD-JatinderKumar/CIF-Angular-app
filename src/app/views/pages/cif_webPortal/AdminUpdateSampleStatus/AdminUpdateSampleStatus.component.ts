@@ -78,18 +78,22 @@ export class AdminUpdateSampleStatusComponent implements OnInit {
   ngOnInit(): void {
     this.serverUrl = 'https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     const GetCookieData = this.cookieService.get('authData');
-    if (GetCookieData) {
-      const retrievedCookies = JSON.parse(GetCookieData);
-      this.UserRole = retrievedCookies.UserRole;
-      this.user_Email = retrievedCookies.EmailId;
-      this.candidateName = retrievedCookies.CandidateName;
-    } else {
-       swal.fire({
-        title: 'Login Failed ',
-        icon: 'warning',
-      });
-      this.router.navigate(['/cifWebPortal']);
-    }
+    const retrievedCookies = JSON.parse(GetCookieData);
+    this.UserRole = retrievedCookies.UserRole;
+    this.user_Email = retrievedCookies.EmailId;
+    this.candidateName = retrievedCookies.CandidateName;
+    // if (GetCookieData) {
+    //   const retrievedCookies = JSON.parse(GetCookieData);
+    //   this.UserRole = retrievedCookies.UserRole;
+    //   this.user_Email = retrievedCookies.EmailId;
+    //   this.candidateName = retrievedCookies.CandidateName;
+    // } else {
+    //    swal.fire({
+    //     title: 'Login Failed ',
+    //     icon: 'warning',
+    //   });
+    //   this.router.navigate(['/cifWebPortal']);
+    // }
     this.getAllBookigsDetails();
     this.GetAllSampleStatus();
     this.disabledStatusSet = new Set(

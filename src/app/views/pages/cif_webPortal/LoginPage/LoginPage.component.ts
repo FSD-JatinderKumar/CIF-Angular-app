@@ -222,7 +222,7 @@ export class LoginPageNComponent implements OnInit {
             UserRole: this.UserRole,
             SupervisorName: this.SupervisorName,
             ProofNumber: this.MobileNo,
-            ProofName: 'Mobile ',
+            ProofName: 'Mobile',
             PasswordText: this.SecretKey,
           };
           this.cookieService.set('authData', JSON.stringify(userCookiesData));
