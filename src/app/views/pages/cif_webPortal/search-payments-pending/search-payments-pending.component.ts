@@ -364,43 +364,43 @@ export class SearchPaymentsPendingComponent implements OnInit {
     formData.append('MobileNo', this.MobileNo);
     formData.append('FacultyCode', this.user_Email);
     formData.append('ResponseUrl', this.ResponseUrl);
-    // forkJoin({
-    //   payment: this.CIFwebService.MakePaymentforTest(formData),
-    // }).subscribe({
-    //   next: (results: any) => {
-    //     this.paymentData = results;
-    //     if (results) {
-    //       const paymentUrlData = results.payment.item1[0].url;
-    //       if (paymentUrlData && paymentUrlData.length > 0) {
-    //         window.location.href = paymentUrlData;
-    //         // this.router.navigateByUrl(paymentUrlData);
-    //         // window.open(paymentUrlData,"_blank");
+    forkJoin({
+      payment: this.CIFwebService.MakePaymentforTest(formData),
+    }).subscribe({
+      next: (results: any) => {
+        this.paymentData = results;
+        if (results) {
+          const paymentUrlData = results.payment.item1[0].url;
+          if (paymentUrlData && paymentUrlData.length > 0) {
+            window.location.href = paymentUrlData;
+            // this.router.navigateByUrl(paymentUrlData);
+            // window.open(paymentUrlData,"_blank");
 
-    //         // this.openQRCodeScreen(paymentUrlData);
-    //       } else {
-    //         Swal.fire({
-    //           title: 'Error Occurred, Try Again Later',
-    //           text: 'Payment URL not found!',
-    //           icon: 'error',
-    //         });
-    //       }
-    //     } else {
-    //       Swal.fire({
-    //         title: 'Error',
-    //         text: 'No data received from the API!',
-    //         icon: 'error',
-    //       });
-    //     }
-    //   },
-    //   error: (error: any) => {
-    //     console.error('Error during API call: ', error);
-    //     Swal.fire({
-    //       title: 'Error',
-    //       text: 'Payment Gateway Failed!',
-    //       icon: 'error',
-    //     });
-    //   },
-    // });
+            // this.openQRCodeScreen(paymentUrlData);
+          } else {
+            Swal.fire({
+              title: 'Error Occurred, Try Again Later',
+              text: 'Payment URL not found!',
+              icon: 'error',
+            });
+          }
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'No data received from the API!',
+            icon: 'error',
+          });
+        }
+      },
+      error: (error: any) => {
+        console.error('Error during API call: ', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'Payment Gateway Failed!',
+          icon: 'error',
+        });
+      },
+    });
   }
 
 

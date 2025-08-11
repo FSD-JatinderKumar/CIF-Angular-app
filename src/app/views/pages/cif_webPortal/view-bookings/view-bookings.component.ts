@@ -84,7 +84,7 @@ export class ViewBookingsComponent implements OnInit {
     private cookieService: CookieService
   ) { }
   user_Email: any; qrCodeUrl: string; sessionData: any[] = [];
-  
+
   getSessionDetails() {
     this.sessionData = this.AuthSession.getSession();
     for (const session of this.sessionData) {
@@ -94,11 +94,20 @@ export class ViewBookingsComponent implements OnInit {
   ngOnInit(): void {
     this.getParams();
     this.ResponseUrl = window.location.origin + '/ViewBookings';//this.location.path(); 
-    // alert(this.ResponseUrl)
-    if (this.ResponseUrl.startsWith('https://devums.lpu.in/app/cif/')) {
-      this.ResponseUrl = "https://devums.lpu.in/app/cif/";
-    }
+    // start code added on 9-aug-25
+    // Build dynamic base URL from current location
+    const baseUrl = `${window.location.origin}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
+
+    // Add your desired endpoint
+    const responseUrl = this.ResponseUrl = `${baseUrl}/ViewBookings`;
+    alert(this.ResponseUrl);
+
+    // // alert(this.ResponseUrl)
+    // if (this.ResponseUrl.startsWith('https://devums.lpu.in/app/cif/')) {
+    //   this.ResponseUrl = "https://devums.lpu.in/app/cif/";
+    // }
     // alert (this.ResponseUrl)
+    // end code on 9-aug-25
     this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';// https://files.lpu.in/umsweb/Journal/
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
@@ -279,7 +288,7 @@ export class ViewBookingsComponent implements OnInit {
   }
 
   VerifyData(BookingCase: any) {
-    this.loadingIndicator=true;
+    this.loadingIndicator = true;
     const startTime = new Date().getTime();
     const formData = new FormData();
     formData.append('BookingId', BookingCase.id);
@@ -300,10 +309,7 @@ export class ViewBookingsComponent implements OnInit {
           const paymentUrlData = results.payment.item1[0].url;
           if (paymentUrlData && paymentUrlData.length > 0) {
             window.location.href = paymentUrlData;
-            // this.router.navigateByUrl(paymentUrlData);
-            // window.open(paymentUrlData,"_blank");
 
-            // this.openQRCodeScreen(paymentUrlData);
           } else {
             Swal.fire({
               title: 'Error Occurred, Try Again Later',
@@ -351,14 +357,7 @@ export class ViewBookingsComponent implements OnInit {
         window.open(url);
       }
     });
-    // window.open(url, '_blank');
-    // return Swal.fire({
-    //   title: 'Scan the QR Code to Proceed with Payment',
-    //   html: `<qrcode [qrdata]="this.qrCodeUrl" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>`,
-    //   showCancelButton: true,
-    //   confirmButtonText: 'Proceed to Payment',
-    //   cancelButtonText: 'Cancel',
-    // });
+
   }
 
   search() {
@@ -377,10 +376,10 @@ export class ViewBookingsComponent implements OnInit {
   ToGetSampleforId: any;
   ToGetSampleforInstrumentId: any;
   SampleStatusData: any; dataSourceSamples: any;
- 
+
   GetStatus(Data: any) {
     this.ToGetSampleforId = Data['bookingId']; // Use bookingId
-    this.ToGetSampleforInstrumentId = Data['instrumentId'];   
+    this.ToGetSampleforInstrumentId = Data['instrumentId'];
 
     // Filter the samples based on bookingId and instrumentId
     this.SampleStatusData = this.dataSourceSamples.filter(
