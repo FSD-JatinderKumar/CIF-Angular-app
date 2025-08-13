@@ -99,8 +99,8 @@ export class ViewBookingsComponent implements OnInit {
     const baseUrl = `${window.location.origin}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
 
     // Add your desired endpoint
-    const responseUrl = this.ResponseUrl = `${baseUrl}/ViewBookings`;
-    alert(this.ResponseUrl);
+     this.ResponseUrl = `${baseUrl}/ViewBookings`;
+    // alert(this.ResponseUrl);
 
     // // alert(this.ResponseUrl)
     // if (this.ResponseUrl.startsWith('https://devums.lpu.in/app/cif/')) {

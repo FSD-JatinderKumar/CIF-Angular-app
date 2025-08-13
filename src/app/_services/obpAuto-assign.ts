@@ -65,7 +65,7 @@ export class ObpAutoAssignService {
   }
 
   CallWebApiInsertData(DataValues: FormData): Observable<any> {
-    console.log("Form Values in API HIT Services" + DataValues)
+    // console.log("Form Values in API HIT Services" + DataValues)
     let token = this.storageService.getUser();
     let headers = new HttpHeaders()
       .set('Authorization', 'Bearer ' + token)

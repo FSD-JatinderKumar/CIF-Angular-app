@@ -86,6 +86,11 @@ export class PendingPaymentsComponent implements OnInit {
     if (this.ResponseUrl.startsWith('https://devums.lpu.in/app')) {
       this.ResponseUrl = "https://devums.lpu.in/app/cif/" + 'PendingPayments';
     }
+    const baseUrl = `${window.location.origin}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
+    
+    // Add your desired endpoint
+    // this.ResponseUrl = "https://lpu.in/cif/cifDemo/PendingPayments";//   
+    this.ResponseUrl = `${baseUrl}/PendingPayments`;
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';

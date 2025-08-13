@@ -97,6 +97,13 @@ export class FailedPaymentsComponent implements OnInit {
     if (this.ResponseUrl.startsWith('https://devums.lpu.in/app/cif/')) {
       this.ResponseUrl = "https://devums.lpu.in/app/cif/FailedPayments";
     }  
+
+    const baseUrl = `${window.location.origin}${window.location.pathname.split('/').slice(0, -1).join('/')}`;
+    
+     // Add your desired endpoint
+    this.ResponseUrl = `${baseUrl}/FailedPayments`;
+
+
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
