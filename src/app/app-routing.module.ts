@@ -12,6 +12,39 @@ import { CifRegisterPageComponent } from './views/pages/cif_webPortal/CifRegiste
 
 const routes: Routes = [
 
+
+  // Staff Dashboard for Upload results
+
+  {
+    path: "ABCDEFGHIJ",
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffUserlogin/StaffUser-login.module').then(m => m.StaffUserLoginModule),
+    // component:AdminPendingPaymentsComponent
+  },
+  {
+    path: "StaffActionBookings",
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffActionBookings/StaffActionBookings.module').then(m => m.StaffActionBookingsModule),
+    // component:AdminPendingPaymentsComponent
+  },
+  {
+    path: "PendingPaymentsS",
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffPendingPayments/StaffPendingPayments.module').then(m => m.StaffPendingPaymentsModule),
+    // component:AdminPendingPaymentsComponent
+  },
+  {
+    path: "SampleStatusS",
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffUpdateSampleStatus/StaffUpdateSampleStatus.module').then(m => m.StaffUpdateSampleStatusModule),
+    // component:AdminAssignTestComponent
+  },
+  {
+    path: "UserFeedbackdetailsS",// Add Module file 
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffUserFeedbackDetails/StaffUserFeedbackDetails.module').then(m => m.StaffUserFeedbackDetailsModule),
+    // component:AdminUserDetailsComponent
+  },
+  {
+    path: "UserDetailSS",// Add Module file 
+    loadChildren: () => import('./views/pages/StaffDashboard/UserDetails/StaffUserDetails.module').then(m => m.StaffUserDetailsModule),
+    // component:AdminUserDetailsComponent
+  },
   {
     path: 'ourInstruments',
     // component: CifInstrumentsComponent,// done with module
@@ -196,29 +229,6 @@ const routes: Routes = [
 
 
 
-
-  // Staff Dashboard for Upload results
-
-  {
-    path: "StaffLoginS",
-    loadChildren: () => import('./views/pages/StaffDashboard/StaffUserlogin/StaffUser-login.module').then(m => m.StaffUserLoginModule),
-    // component:AdminPendingPaymentsComponent
-  },
-  {
-    path: "PendingPaymentsS",
-    loadChildren: () => import('./views/pages/StaffDashboard/StaffPendingPayments/StaffPendingPayments.module').then(m => m.StaffPendingPaymentsModule),
-    // component:AdminPendingPaymentsComponent
-  },
-  {
-    path: "SampleStatusS",
-    loadChildren: () => import('./views/pages/StaffDashboard/StaffUpdateSampleStatus/StaffUpdateSampleStatus.module').then(m => m.StaffUpdateSampleStatusModule),
-    // component:AdminAssignTestComponent
-  },
-  {
-    path: "UserFeedbackdetailsS",// Add Module file 
-    loadChildren: () => import('./views/pages/StaffDashboard/StaffUserFeedbackDetails/StaffUserFeedbackDetails.module').then(m => m.StaffUserFeedbackDetailsModule),
-    // component:AdminUserDetailsComponent
-  },
  
 ];
 

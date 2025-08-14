@@ -1,0 +1,168 @@
+<app-StaffMenu></app-StaffMenu>
+<!-- Full Screen Loader -->
+<div *ngIf="showLoader" class="fullscreen-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Fetching details, please wait...</div>
+</div>
+<div class="row" *ngIf="UserDetailsData.length > 0 ;else NoData">
+    <div class="col-12 stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <hr />
+                <div class="row d-flex justify-content-center">
+                    <div class="col-sm-2">
+                        <div class="mb-3">
+                            <button (click)="exportToExcel()" class="btn btn-dark "
+                                [disabled]="tmpsUserDetailsData.length ===0">Export to
+                                Excel</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="mb-3 text-center">
+                            <Label class="fs-4 ">All User Details </Label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 mb-4 ">
+                        <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text"
+                            class="form-control " placeholder="Search" aria-label="Search"
+                            aria-describedby="basic-addon1" />
+                    </div>
+                    <hr />
+                </div>
+                <ng-container *ngIf="tmpsUserDetailsData.length > 0; else noRecords">
+                    <div class="table-responsive mt-4 mb-4">
+                        <table id="BookingDetailsDataTable" #table >
+                            <thead>
+                                <tr class=" bg-primary">
+                                    <th class="text-dark">Candidate Name</th>
+                                    <th class="text-dark">Email Id</th>
+                                    <th class="text-dark">Mobile Number</th>
+                                    <th class="text-dark">Department </th>
+                                    <th class="text-dark">School Name</th>
+                                    <th class="text-dark">Supervisor Name </th>
+                                    <th class="text-dark">Designation</th>
+                                    <th class="text-dark">State</th>
+                                    <th class="text-dark">User Role </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let UserDetailsDataRow of getCurrentPageData(); let i = index">
+                                    <tr
+                                        *ngIf="UserDetailsDataRow.emailId.length>0 && UserDetailsDataRow.emailId != null ;">
+                                        <td class="fw-bold"> {{UserDetailsDataRow.candidateName}}</td>
+                                        <td class="fw-bold "> {{UserDetailsDataRow.emailId.length>0 ||
+                                            UserDetailsDataRow.emailId != null ? UserDetailsDataRow.emailId: 'NA' }}
+                                        </td>
+                                        <td class="fw-bold"> {{UserDetailsDataRow.mobileNumber.length>0?
+                                            UserDetailsDataRow.mobileNumber : 'NA'}}</td>
+                                        <td class="fw-bold">{{UserDetailsDataRow.departmentName.length>0?
+                                            UserDetailsDataRow.departmentName :'NA'}}</td>
+                                        <td class="fw-bold">{{UserDetailsDataRow.organisation!= null?
+                                            UserDetailsDataRow.organisation:'NA'}}</td>
+                                        <td class="fw-bold">
+                                            {{UserDetailsDataRow.supervisorName.length>0?UserDetailsDataRow.supervisorName:
+                                            'NA'}} </td>
+                                        <td class="fw-bold"> {{UserDetailsDataRow.designation != null?
+                                            UserDetailsDataRow.designation:'NA'}}</td>
+                                        <td class="fw-bold">{{ UserDetailsDataRow.stateName!= null ?
+                                            UserDetailsDataRow.stateName:'NA'}}</td>
+                                        <td class="fw-bold">
+                                            <ng-container *ngIf="UserDetailsDataRow.userRole?.length > 0;">
+                                                <ng-container [ngSwitch]="UserDetailsDataRow.userRole.trim()">
+                                                    <span *ngSwitchCase="'400000'" class="text-danger">Internal
+                                                        User</span>
+                                                    <span *ngSwitchCase="'400001'" class="text-danger">External Acadmeia</span>
+                                                    <span *ngSwitchCase="'400002'" class="text-danger">Industry User</span>
+                                                    <span *ngSwitchDefault>Unknown Role</span>
+                                                    <!-- Optional: Handle any unknown roles -->
+                                                </ng-container>
+                                            </ng-container>
+                                        </td>
+                                        <!-- <td class="fw-bold"><button class="btn btn-dark btn-sm" (click)="openPaymentModal(UserDetailsDataRow)">Upload Result</button></td> -->
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                                    class="mdi mdi-chevron-left  fs-2"> </i> </a>
+                            <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                            <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #noRecords>
+                    <p class="fs-2 text-danger text-center ">No Grid Data Available.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #NoData>
+    <div class="text-center bg-info">
+        <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
+        <div class="row mt-4 mb-4">
+            <div class="col-sm-12 text-center">
+                <div class="mb-3 p-4">
+                    <Label class="form-label fs-4 text-danger ">No Booking Found.</Label>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #viewDescModal2 let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Result Upload Screen </h5>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-sm">
+                            <table id="dataTableAllClosedRemarks" class="table">
+                                <thead>
+                                    <tr>
+                                        <!-- <th class=" fs-5 ">User </th> -->
+                                        <th class=" fs-5 ">Booking Id </th>
+                                        <th class=" fs-5 ">Instrument Name </th>
+                                        <th class=" fs-5 ">Upload File </th>
+                                        <th class=" fs-5 ">Remarks (Any)</th>
+                                        <th class=" fs-5 ">Upload Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.userEmailId != null || BookingCase.userEmailId !== 'undefined' ? BookingCase.userEmailId: 'NA' }}</td> -->
+                                        <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.bookingId}} </td>
+                                        <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.instrumentName}} </td>
+                                        <td class=" fs-5 ">
+                                            <input class="w-30" required type="file" id="File" name="File"
+                                                (change)="onFileSelected($event)" accept=".zip, .7z, .rar"
+                                                #fileInput="ngModel" ngModel />
+                                            <div class="col- mt-2"><span class=" themeClr"> Allowed Documents format Zip
+                                                    and of Max size 5MB </span></div>
+
+                                        </td>
+                                        <td class=" fs-5 p-4 " style="width: 20%;">
+                                            <textarea required name="remarks" [(ngModel)]="Remarks" rows="5" cols="30"
+                                                class="col-12 p-2 form-control" id="remarks" #remarks="ngModel"
+                                                autocomplete="off">
+                                           </textarea>
+                                        </td>
+                                        <td><button type="submit" class="btn btn-primary me-2"
+                                                (click)="VerifyData(BookingCase);">Upload Result</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

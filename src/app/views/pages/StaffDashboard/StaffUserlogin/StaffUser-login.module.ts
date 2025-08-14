@@ -6,7 +6,7 @@ import { StaffUserLoginComponent } from './StaffUser-login.component';
 import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import { StaffMenuModule } from '../StaffMenu/StaffMenu.module'; 
 const routes: Routes = [
   {
     path: '',
@@ -27,6 +27,7 @@ const routes: Routes = [
     NgbModule,
     PerfectScrollbarModule,
     NgSelectModule,
+    StaffMenuModule
   ]
 })
 export class StaffUserLoginModule {}

@@ -11,7 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { MouDocumentsService } from 'src/app/_services/mou-documents.service';
 
 @Component({
-  selector: 'app-StaffUser-login',
+  selector: 'app-StaffUserlogin',
   templateUrl: './StaffUser-login.component.html',
   styleUrls: ['./StaffUser-login.component.scss']
 })
@@ -53,6 +53,7 @@ export class StaffUserLoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    alert(0);
     this.AuthSession.clearSession(); // Keep session clear on entry, not cookie
     this.loadForm();
   }
@@ -115,7 +116,7 @@ export class StaffUserLoginComponent implements OnInit {
           this.Designation = emp.department;
           this.EmailId = emp.email;
           this.MobileNo = emp.contactNo;
-          this.UserRole = 'Admin-User';
+          this.UserRole = 'Staff-User';
           this.SupervisorName = emp.department;
           this.loadingIndicator = false;
           this.showNoDataFoundMessage = false;
@@ -154,7 +155,7 @@ export class StaffUserLoginComponent implements OnInit {
             true,          // Secure: should be true in production
             'Lax'          // SameSite policy
           );
-          this.router.navigate(['/AssignTestCifA']);
+          this.router.navigate(['/UserFeedbackdetailsS']);
         } else {
           this.EmployeeDetails = [];
           this.showNoDataFoundMessage = true;
