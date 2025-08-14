@@ -193,6 +193,33 @@ const routes: Routes = [
     component: ErrorPageComponent
   },
   { path: '**', redirectTo: 'error', pathMatch: 'full' },
+
+
+
+
+  // Staff Dashboard for Upload results
+
+  {
+    path: "StaffLoginS",
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffUserlogin/StaffUser-login.module').then(m => m.StaffUserLoginModule),
+    // component:AdminPendingPaymentsComponent
+  },
+  {
+    path: "PendingPaymentsS",
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffPendingPayments/StaffPendingPayments.module').then(m => m.StaffPendingPaymentsModule),
+    // component:AdminPendingPaymentsComponent
+  },
+  {
+    path: "SampleStatusS",
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffUpdateSampleStatus/StaffUpdateSampleStatus.module').then(m => m.StaffUpdateSampleStatusModule),
+    // component:AdminAssignTestComponent
+  },
+  {
+    path: "UserFeedbackdetailsS",// Add Module file 
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffUserFeedbackDetails/StaffUserFeedbackDetails.module').then(m => m.StaffUserFeedbackDetailsModule),
+    // component:AdminUserDetailsComponent
+  },
+ 
 ];
 
 @NgModule({

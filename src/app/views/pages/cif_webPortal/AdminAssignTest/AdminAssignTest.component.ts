@@ -131,6 +131,7 @@ export class AdminAssignTestComponent implements OnInit {
       next: (response) => {
         if (response.item1 && response.item1.length > 0) {
           this.AllBookingTestsData = response.item1;
+          console.log(this.AllBookingTestsData)
           this.dataSource = new MatTableDataSource(response.item1);
           this.tmpsAllBookingTestsData = response.item1;
           this.headHtmlData = response.item1[0];
@@ -250,8 +251,8 @@ isAlreadyAssigned(row: any): boolean {
         const alert = alertMap[result as keyof typeof alertMap] || alertMap.Default;
   
         swal.fire({ title: alert.title, icon: alert.icon }).then(() =>
-          this.router.navigate(['/AssignTestCifA'])
-          // window.location.reload()
+          // this.router.navigate(['/AssignTestCifA'])
+          window.location.reload()
         );
       },
       error: () => {

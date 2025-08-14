@@ -1,0 +1,155 @@
+<app-StaffMenu></app-StaffMenu>
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">Loading, please wait...</div>
+</div>
+<div class="row" *ngIf="AllBookingTestsData.length > 0; else NoData">
+  <div class="col-12 stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mt-4 mb-4">
+          <div class="col-sm-4">
+            <div class="mb-3">
+              <button (click)="exportToExcel()" class="btn btn-dark"
+                [disabled]="tmpsAllBookingTestsData.length==0">Export to Excel</button>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="mb-3">
+              <h2>Update Sample Status</h2>
+            </div>
+          </div>
+          <div class="col-sm-4 mb-4">
+            <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text" class="form-control"
+              placeholder="Search Your Text Here" aria-label="Search" aria-describedby="basic-addon1" />
+          </div>
+        </div>      
+        <ng-container *ngIf="tmpsAllBookingTestsData.length > 0; else noRecords">
+          <div class="table-responsive mt-4 mb-4">
+            <table id="AdminAssignTest" #table>
+              <thead>
+                <tr>
+                  <th class="fw-bold">Candidate Name</th>
+                  <th class="fw-bold">Candidate Email</th>
+                  <th class="fw-bold">Instrument Name</th>
+                  <th class="fw-bold">Request Date</th>
+                  <th class="fw-bold">Update Sample Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let AllBookingTestsDataRow of getCurrentPageData(); let i = index">
+                  <tr>
+                    <td class="fw-bold">{{ AllBookingTestsDataRow.candidateName?.length < 1 ? 'Internal User' : AllBookingTestsDataRow.candidateName }}</td>
+                    <td class="fw-bold">{{ AllBookingTestsDataRow.userEmailId?.length > 0 ? AllBookingTestsDataRow.userEmailId : 'Internal User' }}</td>
+                    <td class="fw-bold">{{ AllBookingTestsDataRow.instrumentName }} - {{ AllBookingTestsDataRow.instrumentId }}</td>
+                    <td class="fw-bold">{{ AllBookingTestsDataRow.bookingRequestDate | date:'dd/MM/yyyy' }}</td>
+                    <td class="fw-bold">
+                      <button 
+                        class="btn btn-dark" 
+                        (click)="!isStatusDisabled(AllBookingTestsDataRow.bookingId, AllBookingTestsDataRow.instrumentId) && openUpdateStatusModal(AllBookingTestsDataRow)"
+                        [disabled]="isStatusDisabled(AllBookingTestsDataRow.bookingId, AllBookingTestsDataRow.instrumentId)"
+                      >
+                        Update Status
+                      </button>
+                    </td>
+                    
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1">
+                <i class="mdi mdi-chevron-left fs-2"></i>
+              </a>
+              <span class="p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+              <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()">
+                <i class="mdi mdi-chevron-right fs-2"></i>
+              </a>
+            </div>
+          </div>
+        </ng-container>
+        
+        <ng-template #noRecords>
+          <p class="fs-2  text-center">No Grid Data Available.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #NoData>
+  <div class="text-center bg-info">
+    <h3 class="text-center fs-2 m-5  pt-5 "> No Record ! </h3>
+    <div class="row mt-4 mb-4">
+      <div class="col-sm-12 text-center">
+        <div class="mb-3 p-4">
+          <Label class="fw-bold  fs-4  ">No Booking Found.</Label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #ViewUpdateStatusModal let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title fs-2" id="exampleModalLabel">Update Sample Status</h2>
+    <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-4">
+            <div class="col-sm">
+              <table id="dataTableAllClosedRemarks" class="table">
+                <thead>
+                  <tr>
+                    <th class="fs-5 text-dark">Booking Id</th>
+                    <th class="fs-5 text-dark">Instrument Id</th>
+                    <th class="fs-5 text-dark">Sample Status</th>
+                    <th class="fs-5 text-dark">Received on</th>
+                    <th class="fs-5 text-dark">Update Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="fs-5 p-4" style="width: 20%;">{{BookingCase.bookingId}}</td>
+                    <td class="fs-5 p-4" style="width: 20%;">{{BookingCase.instrumentId}}</td>
+                    <td class="fs-5 p-4" style="width: 20%;">
+                      <select id="staffName" (change)="onActivitySelected($event)" class="col-12 p-2 form-control"
+                        required [(ngModel)]="AssignedTo" name="staffName" #AssignedToModel="ngModel">
+                        <option value="" selected>Select Status</option>
+                        <option value="Poor">Poor</option>
+                        <option value="Good">Good</option>
+                        <option value="Average">Average</option>
+                        <option value="Excellent">Excellent</option>
+                      </select>
+                      <div *ngIf="AssignedToModel.invalid && AssignedToModel.touched" class="text-danger">
+                        Please select an option
+                      </div>
+                    </td>
+                    <td>
+                      <input type="date" class="form-control" name="ReceivedDate" autocomplete="off"
+                        placeholder="Provide Received Date" [(ngModel)]="ReceivedDate" #ReceivedDateModel="ngModel" />
+                      <div *ngIf="!ReceivedDate && ReceivedDateModel.touched" class="text-danger">
+                        Received Date is required
+                      </div>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-dark me-2" 
+                        (click)="VerifyData(BookingCase)" 
+                        [disabled]="!ReceivedDate || !AssignedTo">
+                        Update
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
