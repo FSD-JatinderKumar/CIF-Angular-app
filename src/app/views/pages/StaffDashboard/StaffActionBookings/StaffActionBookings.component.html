@@ -3,26 +3,40 @@
     <div class="loader-spinner"></div>
     <div class="loader-text">Loading, please wait...</div>
 </div>
-<div class="row" *ngIf="BookingData.length > 0 ;else NoData">
+<div class="card">
+    <div class="card-body">
+        <hr />
+        <div class="d-flex justify-content-center">
+            <div class="row"><Label class="fs-2 "> Results Upload Page </Label>
+            </div>
+        </div>
+        <hr />
+    </div>
+</div>
+<div class="row" *ngIf="NoResults!='No Details' ;else NoData">
     <div class="col-12 stretch-card">
         <div class="card">
             <div class="card-body">
-                <hr/>
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-sm-2">
-                            <div class="mb-3">
-                                <button (click)="exportToExcel()" class="btn btn-dark " [disabled]="tmpsBookingData.length ===0">Export to
-                                    Excel</button>
-                            </div>
+                <div class="row d-flex justify-content-center">
+                    <div class="col-sm-2">
+                        <div class="mb-3">
+                            <button (click)="exportToExcel()" class="btn btn-dark "
+                                [disabled]="NoResults=='No Details'">Export to
+                                Excel</button>
                         </div>
-                        <div class="col-sm-5">
-                                <Label class="fs-5 ">Upload Results Page </Label>
-                        </div>
-                        <div class="col-sm-5 mb-4 " >
-                            <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
-                        </div>
-                        <hr/>
                     </div>
+                    <div class="col-sm-5 text-center">
+                        <Label class="fs-5 "> Test Assigned </Label>
+                    </div>
+                    <div class="col-sm-5 mb-4 ">
+                        <input [(ngModel)]="searchQuery" (keyup)="search()" [disabled]="NoResults=='No Details'" id="search"
+                            type="text" class="form-control" placeholder="Search" aria-label="Search"
+                            aria-describedby="basic-addon1" />
+                    </div>
+                    <hr />
+                </div>
+                <hr/>
+                   
                 <ng-container *ngIf="tmpsBookingData.length > 0; else noRecords">
                     <div class="table-responsive mt-4 mb-4">
                         <table id="BookingDetailsDataTable" #table>
@@ -31,7 +45,7 @@
                                 <th class="form-label fw-bolder">User Id</th>
                                 <th class="form-label fw-bolder">Booking Id</th>
                                 <th class="form-label fw-bolder">Instrument Name</th>
-                                <th class="fw-bold  ">Request Sheet</th>
+                                <th class="fw-bold fw-bolder">Request Sheet</th>
                                 <th class="form-label fw-bolder">Request Date</th>
                                 <th class="form-label fw-bolder">Total Charges </th>
                                 <th class="form-label fw-bolder">Action </th>
@@ -39,8 +53,8 @@
                         </thead>
                         <tbody>
                             <ng-container *ngFor="let BookingDataRow of getCurrentPageData(); let i = index">
-                                <tr *ngIf="BookingDataRow.userEmailId.length>0;">
-                                    <td class="fw-bold "> {{BookingDataRow.userEmailId.length>0? BookingDataRow.userEmailId: 'NA' }}</td>
+                                <tr *ngIf="BookingDataRow.userId.length>0;">
+                                    <td class="fw-bold "> {{BookingDataRow.userId?.length>0? BookingDataRow.userId: 'NA' }}</td>
                                     <td class="fw-bold"> {{BookingDataRow.bookingId}}</td>
                                     <td class="fw-bold"> {{BookingDataRow.instrumentName}}</td>
                                     <ng-container *ngIf="BookingDataRow.fileName; else NoFile">
@@ -54,7 +68,7 @@
                                       <td class="ms-4">
                                         <span class="badge text-bg-info ms-3 fs-5 "> N/A </span></td>
                                   </ng-template>
-                                    <td class="fw-bold">{{ BookingDataRow.bookingRequestDate | date:'dd/MM/yyyy' }}</td>
+                                    <td class="fw-bold">{{ BookingDataRow.allocatedOn }}</td>
                                     <td class="fw-bold"> {{BookingDataRow.totalCharges | currency:'INR':'symbol'}}</td>
                                     <td class="fw-bold"><button class="btn btn-dark btn-sm" (click)="openPaymentModal(BookingDataRow)">Upload </button></td>
                                 </tr>
@@ -71,14 +85,14 @@
                     </div>
                 </ng-container>
                 <ng-template #noRecords>
-                    <p class="fs-2 text-danger text-center ">No Grid Data Available.</p>
+                    <p class="fs-2 text-danger text-center ">No Data Available.</p>
                 </ng-template>
             </div>
         </div>
     </div>
 </div>
 <ng-template #NoData>
-    <div class="text-center bg-info" >
+    <div class="text-center " >
         <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
         <div class="row mt-4 mb-4">
             <div class="col-sm-12 text-center">

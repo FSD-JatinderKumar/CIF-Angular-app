@@ -50,18 +50,18 @@ export class StaffActionBookingsComponent implements OnInit {
   @ViewChild('table') table: ElementRef;
   displayedColumns: string[] = [
     'instrumentName', 'analysisType', 'analysisCharges', 'noOfSamples',
-    'totalCharges', 'remarks', 'bookingRequestDate', //'bookingrequestDate'
+    'totalCharges', 'remarks', 'allocatedOn', //'allocatedOn'
   ];
   BookingCase: any;
-  BookingData: any[]=[];
+  BookingData: any;
   currentPage = 1;
   itemsPerPage = 10; //
-  tmpsBookingData: any[]=[];
+  tmpsBookingData: any;
   InstrumentId: any;
   UserRole: any;
   UserId: any;
   uploadEnabled: boolean;
-Remarks: any;
+  Remarks: any;
   serverUrl: string;
 
   constructor(
@@ -89,13 +89,14 @@ Remarks: any;
     this.UserRole = retrievedCookies.UserRole;
     this.UserId = retrievedCookies.EmailId;
     this.getBookingDetails()
+
   }
 
-  searchQuery: string = ''; 
+  searchQuery: string = '';
 
   search() {
     const query = this.searchQuery.toLowerCase();
-    this.tmpsBookingData = this.BookingData.filter(item => {
+    this.tmpsBookingData = this.BookingData.filter((item: { [s: string]: unknown; } | ArrayLike<unknown>) => {
       return Object.values(item).some(val =>
         String(val).toLowerCase().includes(query)
       );
@@ -109,22 +110,28 @@ Remarks: any;
     }
     const searchTerm = this.searchQuery.toLowerCase();
     return this.BookingData.filter((booking: { instrumentName: string; analysisType: string; }) =>
-      booking.instrumentName.toLowerCase().includes(searchTerm) ||     booking.analysisType.toLowerCase().includes(searchTerm)
+      booking.instrumentName.toLowerCase().includes(searchTerm) || booking.analysisType.toLowerCase().includes(searchTerm)
     );
   }
+  NoResults: any = '';
   getBookingDetails() {
-    this.loadingIndicator=true;
+    this.loadingIndicator = true;
     const startTime = new Date().getTime();
-    this.CIFwebService.GetAllBookingTests().subscribe({
+    this.CIFwebService.GetAllBooking().subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.BookingData = response.item1;
-          this.dataSource = response.item1;
-          this.tmpsBookingData = response.item1;
-          this.headHtmlData = this.tmpsBookingData[0];
-          this.columns = Object.keys(this.tmpsBookingData[0]);
-          this.columns = this.columns.filter((item: any) => item !== 'candidateName' && item !== 'userEmail' && item !== 'id' && item !== 'analysisId');
-          this.columns.push()
+          const firstRecord = response.item1[0];
+          this.NoResults = firstRecord.returnMessage;
+          
+            this.dataSource = response.item1;
+            this.tmpsBookingData = response.item1;
+            this.headHtmlData = this.tmpsBookingData[0];
+            this.columns = Object.keys(this.tmpsBookingData[0]);
+            this.columns = this.columns.filter((item: any) => item !== 'candidateName' && item !== 'userEmail' && item !== 'id' && item !== 'analysisId');
+            this.columns.push()
+          
+         
         }
         else {
           this.BookingData = [];
@@ -140,6 +147,7 @@ Remarks: any;
         console.log(err)
       }
     });
+    
   }
 
   getTotalPages() {
@@ -166,12 +174,12 @@ Remarks: any;
 
   exportToExcel(): void {
     const fileName = 'AssignedResults_report.xlsx';
-    const exportedData = this.BookingData.map(item => ({
+    const exportedData = this.BookingData.map((item: { userEmailId: any; bookingId: any; instrumentName: any; totalCharges: any; allocatedOn: any; }) => ({
       EmailId: item.userEmailId,
       BookingId: item.bookingId,
       Instrument: item.instrumentName,
       Charges: item.totalCharges,
-      BookingDate: item.bookingRequestDate ,
+      BookingDate: item.allocatedOn,
     }));
 
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportedData);
@@ -199,7 +207,7 @@ Remarks: any;
   downloadFile(fileName: string): void {
     const url = this.serverUrl + fileName;
     window.open(url, '_blank');
-    }
+  }
   openPaymentModal(a: any) {
     this.BookingCase = a;
     this.modalService.open(this.viewDescModal2, { size: 'sm' }).result.then(
@@ -216,7 +224,7 @@ Remarks: any;
     if (this.FileData) {
       const formData = new FormData();
       formData.append('BookingId', BookingData.bookingId);
-      formData.append('UserEmailId', BookingData.userEmailId);
+      formData.append('UserEmailId', BookingData.userId);
       formData.append('CreatedBy', this.user_Email);
       formData.append('FilePath', this.fileName);
       formData.append('File', this.FileData);
@@ -267,7 +275,7 @@ Remarks: any;
 
 
   onFileSelected(event: any): void {
-    this.fileStatus= false;
+    this.fileStatus = false;
     const reader = new FileReader();
     const target = event.target as HTMLInputElement;
     const file: File | null = (target.files as FileList)[0] || null;
@@ -319,6 +327,6 @@ Remarks: any;
   }
 
   UploadDocument() {
-    const formData = new FormData();   
+    const formData = new FormData();
   }
 }

@@ -16,7 +16,7 @@ const routes: Routes = [
   // Staff Dashboard for Upload results
 
   {
-    path: "ABCDEFGHIJ",
+    path: "StaffLogins/:LoginName",
     loadChildren: () => import('./views/pages/StaffDashboard/StaffUserlogin/StaffUser-login.module').then(m => m.StaffUserLoginModule),
     // component:AdminPendingPaymentsComponent
   },

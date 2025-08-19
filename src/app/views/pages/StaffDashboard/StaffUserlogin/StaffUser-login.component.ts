@@ -39,7 +39,7 @@ export class StaffUserLoginComponent implements OnInit {
   EmployeeDetails: any;
   EmployeeName: any;
   EmployeeCode: any;
-
+  LoginName: any;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -51,11 +51,33 @@ export class StaffUserLoginComponent implements OnInit {
     private cookieService: CookieService,
     private mouDocumentsService: MouDocumentsService,
   ) { }
-
+  getToken(loginName: string): void {
+    this.authService.loginTemp(loginName).subscribe({
+      next: data => {
+        this.storageService.saveUser(data);
+        const authToken = this.storageService.getUser();
+        if (!this.storageService.isLoggedIn() || authToken === 'Token Expired') {
+          this.isLoginFailed = true;
+        } else {
+          // load applications after login success
+          // this.getSEAllApplications();
+          this.GetEmployeeDetails();
+        }
+      },
+      // error: err => {
+      //   this.isLoginFailed = true;
+      // }
+      error: err => {
+        this.handleLoginFailure(err);
+      }
+    });
+  }
   ngOnInit(): void {
-    alert(0);
-    this.AuthSession.clearSession(); // Keep session clear on entry, not cookie
-    this.loadForm();
+    this.LoginName = this.route.snapshot.params['LoginName'];   
+    
+    this.getToken(this.LoginName);
+    // this.AuthSession.clearSession(); // Keep session clear on entry, not cookie
+    // this.loadForm();
   }
 
   loadForm(): void {
@@ -87,20 +109,20 @@ export class StaffUserLoginComponent implements OnInit {
     const encodedPassword = btoa(password ?? '');
     this.SecretKey = password ?? '';
 
-    this.getToken(encodedEmail, encodedPassword);
+    // this.getToken(encodedEmail, encodedPassword);
   }
 
-  getToken(encodedEmail: string, encodedPassword: string): void {
-    this.authService.loginInternalUser(atob(encodedEmail), atob(encodedPassword)).subscribe({
-      next: data => {
-        this.storageService.saveUser(data.token);
-        this.GetEmployeeDetails();
-      },
-      error: err => {
-        this.handleLoginFailure(err);
-      }
-    });
-  }
+  // getToken(encodedEmail: string, encodedPassword: string): void {
+  //   this.authService.loginInternalUser(atob(encodedEmail), atob(encodedPassword)).subscribe({
+  //     next: data => {
+  //       this.storageService.saveUser(data.token);
+  //       this.GetEmployeeDetails();
+  //     },
+  //     error: err => {
+  //       this.handleLoginFailure(err);
+  //     }
+  //   });
+  // }
 
   GetEmployeeDetails(): void {
     this.mouDocumentsService.GetEmployeeDetails().subscribe({
@@ -155,7 +177,7 @@ export class StaffUserLoginComponent implements OnInit {
             true,          // Secure: should be true in production
             'Lax'          // SameSite policy
           );
-          this.router.navigate(['/UserFeedbackdetailsS']);
+          this.router.navigate(['/StaffActionBookings']);
         } else {
           this.EmployeeDetails = [];
           this.showNoDataFoundMessage = true;
