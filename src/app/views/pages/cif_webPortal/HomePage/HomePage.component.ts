@@ -160,11 +160,10 @@ export class HomePageComponent implements OnInit {
       date: '(29 - 30 March 2024)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/event-6.jpg',
-      title: 'Workshop on Field Emission Scanning Electron Microscope',
-      date: '(29 - 30 March 2024)'
-    },
-    
+      img: 'https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp',
+      title: 'ANRF Sponsored Summer Training Programme',
+      date: '(2 June - 11 July 2025)'
+    },    
   ];
 
   get eventGroups() {
