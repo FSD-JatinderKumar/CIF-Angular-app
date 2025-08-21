@@ -140,58 +140,13 @@
     </div>
 
 </section>
-<section class="section bg-dark-yellow d-none">
-    <div class="container">
-        <div class="heading-wraper">
-            <div class="main-head">
-                <h2>Events & Happenings</h2>
-            </div>
-            <div class="inner-testi-slider-nav">
-                <button id="prev_event_slide" class="inner-testi-prev-arrow">
-                    <img src="https://www.lpu.in/lpu-assets/images/icons/vector-left.svg" />
-                </button>
-                <button id="next_event_slide" class="inner-testi-next-arrow">
-                    <img src="https://www.lpu.in/lpu-assets/images/icons/vector-right.svg" />
-                </button>
-            </div>
-        </div>
-        <div class="cif-slider row">
-            <div class="cif-item col-md-4">
-                <img src="https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp">
-                <div class="mt-4 mb-2">
-                    <strong class="d-block">ANRF Sponsored Summer Training Programme
-                    </strong>
-                    (2 June - 11 July 2025)
-                </div>
-            </div>
-            <div class="cif-item col-md-4">
-                <img src="https://www.lpu.in/lpu-assets/images/cif/event-10.jpg">
-                <div class="mt-4 mb-2">
-                    <strong class="d-block">Discovering the Crystalline and Nano world using X-ray Diffraction and
-                        Particle Size and Zeta Potential Analyzer: A National Workshop
-                    </strong>
-                    (24 - 26 April 2025)
-                </div>
-            </div>
-            <div class="cif-item col-md-4">
-                <img src="https://www.lpu.in/lpu-assets/images/cif/event-9.jpg">
-                <div class="mt-4 mb-2">
-                    <strong class="d-block">National Workshop on Advance Research with Field Emission Scanning Electron
-                        Microscopy: Exploring the Nano-Structural Imaging
-                    </strong>
-                    (27 - 29 March 2025)
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+ 
 
 <section class="section bg-dark-yellow">
     <div class="container">
     <div class="heading-wraper">
         <div class="main-head">
             <h2>Events & Happenings</h2>
-    
             <div class="inner-testi-slider-nav">
                 <button id="prev_event_slide" class="inner-testi-prev-arrow" (click)="carousel.prev()">
                     <img src="https://www.lpu.in/lpu-assets/images/icons/vector-left.svg" />
@@ -202,10 +157,7 @@
             </div>
         </div>
     </div>
-  
-     
-  
-      <ngb-carousel #carousel [interval]="0" [showNavigationArrows]="false" [showNavigationIndicators]="false">
+      <ngb-carousel #carousel [interval]="66000" [pauseOnHover]="true" [showNavigationArrows]="false" [showNavigationIndicators]="true">
         <ng-template ngbSlide *ngFor="let group of chunkedEvents">
           <div class="row text-center">
             <div class="col-md-4" *ngFor="let event of group">
@@ -220,36 +172,7 @@
       </ngb-carousel>
     </div>
   </section>
-<!--   
-<section class="section bg-dark-yellow">
-    <div class="container">
-        <div class="heading-wraper">
-            <div class="main-head">
-                <h2>Events & Happenings</h2>
-            </div>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <button class="btn btn-outline-dark btn-sm" (click)="carousel.prev()"> {{"<"}}  </button>
-                    <button class="btn btn-outline-dark btn-sm" (click)="carousel.next()"> {{">"}} </button>
-        </div>
 
-        <ngb-carousel #carousel [interval]="0" [showNavigationArrows]="false" [showNavigationIndicators]="false">
-            <ng-template ngbSlide *ngFor="let event of events">
-                <div class="cif-item text-center">
-                    <div class="cif-slider row">
-                        <div class="cif-item col-md-4">
-                            <img [src]="event.img" [alt]="event.title" class="img-fluid" />
-                            <div class="mt-4 mb-2">
-                                <strong class="d-block">{{ event.title }}</strong>
-                                {{ event.date }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-        </ngb-carousel>
-    </div>
-</section> -->
 <section class="section academics-section right-top-circle d-none">
     <div class="container-fluid">
         <div class="prospectus-grid">
