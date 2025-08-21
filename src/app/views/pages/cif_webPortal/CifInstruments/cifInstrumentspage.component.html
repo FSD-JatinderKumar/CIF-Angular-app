@@ -1,0 +1,168 @@
+<!-- Main Instrument Listing Section -->
+<section class="section">
+    <div class="container">
+        <div class="heading-wraper mb-4">
+            <div class="main-head">
+                <h1>About the Instruments </h1>
+                <div class="call-action">                   
+                </div>
+            </div>
+        </div>
+        <p>
+            CIF of Lovely Professional University is equipped with sophisticated instruments to carry out spectral
+            measurements, structure determination and chemical analysis. Click on the instrument name in the
+            following table to view their description</p>
+
+            <div class="instrument-grid" id="instrumentGrid">
+                <div class="instrument-block g-col-lg-3 g-col-6 d-grid" *ngFor="let instrument of tmpscifInstrumentsDataData"
+                [ngClass]="{'selected-instrument': instrument.id === this.InstrumentId}">
+                    <a class="instrument-link" href="javascript:void(0)"
+                        (click)="fetchSpecifications(instrument.categoryId, instrument.id)"
+                        data-is-active="instrument.isActive ? 'true' : 'false'}">
+                        {{instrument.instrumentName}}
+                    </a>
+                </div>
+            </div>
+    </div>
+</section>
+
+<!-- Instrument Details Section -->
+<section
+class="section bg-dark-yellow"
+*ngIf="isInstrumentActive"
+[ngClass]="{'d-none': !isInstrumentActive, 'bg-dark-yellow': isInstrumentActive}"
+>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="heading-wraper mb-4">
+        <div class="main-head align-items-start">
+          <h2 id="InstrumentName">{{ instrumentName }}</h2>
+          <div class="call-action gap-3">
+            <a routerLink="/Login" class="lpu-btn">Login/Register</a>
+          </div>
+          <div class="call-action gap-3 d-none">
+            <div
+              *ngIf="isInstrumentActive"
+              [ngClass]="{'alert-danger': !isInstrumentActive, 'alert-success': isInstrumentActive}"
+              class="alert"
+              id="InstrumentStatus"
+            >
+              <strong>{{ isInstrumentActive ? 'Instrument is Active' : 'Instrument is Inactive' }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="instrumentStatus"
+        [ngClass]="{'alert-danger': !isInstrumentActive, 'alert-success': isInstrumentActive}"
+        class="alert"
+        id="InstrumentStatus"
+      >
+        <strong>{{ isInstrumentActive ? 'Instrument is Active' : 'Instrument is Inactive' }}</strong>
+      </div>
+      <div class="mb-5">
+        <img [src]="ImageUrl" alt="Instrument Image" class="ImageSizes"/>
+      </div>
+      <p [innerHTML]="Description"></p>
+    </div>
+    <div class="col-lg-3">
+      <div class="section-light-red p-3">
+        <h4 class="font-primary white mb-3">Specifications:</h4>
+        <ul class="specifications" id="specificationsList">
+          <li *ngFor="let spec of specifications">
+            <strong class="d-block">{{ spec.keyName }}:</strong> {{ spec.keyValue }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- <section class="section bg-dark-yellow" *ngIf="isInstrumentActive">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="heading-wraper mb-4">
+                    <div class="main-head align-items-start">
+                        <h2 id="InstrumentName">{{ instrumentName }}</h2>
+                        <div class="call-action gap-3">
+                            <a routerLink="/Login" class="lpu-btn">Login/Register</a>
+                        </div>
+                        <div *ngIf="instrumentStatus" 
+                            [ngClass]="{'alert-danger': !isInstrumentActive, 'alert-success': isInstrumentActive}"
+                            class="alert" id="InstrumentStatus">
+                            <strong>{{ isInstrumentActive ? 'Instrument is Active' : 'Instrument is Inactive' }}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-5">
+                    <img [src]="ImageUrl" alt="Instrument Image" class="ImageSizes"/>
+                </div>
+                <p [innerHTML]="Description"></p>
+            </div>
+            <div class="col-lg-3">
+                <div class="section-light-red p-3">
+                    <h4 class="font-primary white mb-3">Specifications:</h4>
+                    <ul class="specifications" id="specificationsList">
+                        <li *ngFor="let spec of specifications">
+                            <strong class="d-block">{{ spec.keyName }}:</strong> {{ spec.keyValue }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<!-- cifInstrumentspage.component.html -->
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <h2>FAQs</h2>
+
+        <div *ngFor="let faq of faqs" class="faq-item">
+            <div class="faq-header" (click)="toggleAccordion(faq)">
+                <h3>{{ faq.question }}</h3>
+                <span>{{ faq.isOpen ? '-' : '+' }}</span>
+            </div>
+
+            <!-- If open, show -->
+            <div class="faq-body" *ngIf="faq.isOpen">
+                <div [innerHTML]="faq.answer"></div>
+            </div>
+        </div>
+    </div>
+</section>
+  
+
+<!-- Modal for Instrument Charges -->
+<ng-template #chargesModal let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Instrument Charges</h3>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <button type="submit" (click)="navigateToLogin()" class="lpu-btn me-2">Book Test</button>
+        <table id="dataTableAllClosedRemarks" #table class="table table-responsive">
+            <thead>
+                <tr>
+                    <td class="fs-5 fw-bold">User Category</td>
+                    <td class="fs-5 fw-bold">Analysis Name</td>
+                    <td class="fs-5 fw-bold">Charges</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let Data of cifInstrumentsCharges">
+                    <td>
+                        <span class="ms-3 mb-4"> 
+                            {{ Data.orgTypeId === 1 ? 'External User' : (Data.orgTypeId === 2 ? 'LPU User' : 'Industry Users') }}
+                        </span>
+                    </td>
+                    <td class="">{{Data.sampleText}}</td>
+                    <td class="">{{Data.price | currency:'INR':'symbol'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>

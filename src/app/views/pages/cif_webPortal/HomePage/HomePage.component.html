@@ -1,9 +1,8 @@
-
 <div *ngIf="loadingIndicator" class="fullscreen-loader">
     <div class="loader-spinner"></div>
     <div class="loader-text">Loading, please wait...</div>
 </div>
-<section class="section  bg-dark-yellow pb-0">
+<!-- <section class="section  bg-dark-yellow pb-0">
     <div class="container">
         <div class="heading-wraper mb-4">
             <div class="container  d-flex justify-content-between">
@@ -69,28 +68,182 @@
             </div>
         </div>
     </div>
+</section> -->
+
+
+<section class="section pb-0">
+    <div class="container">
+        <div class="heading-wraper mb-4">
+            <div class="main-head">
+                <h1>Central Instrumentation Facility</h1>
+                <div class="call-action">
+                    <a style="margin-right: 1rem !important;" class="lpu-btn" (click)="openSampleInstructions()">
+                        Address for Sending Samples </a>
+                    <a routerLink="/Login" class="lpu-btn">CIF Login</a>
+                    <!-- <a href="#" class="d-none"><img src="https://www.lpu.in/lpu-assets/images/cif/login.svg" /></a> -->
+                </div>
+            </div>
+
+        </div>
+        <p class="mb-5">Central Instrumentation Facility (CIF) of Lovely Professional University (LPU) houses a wide
+            range of high-end instruments for pushing the boundaries of research in science and technology to higher
+            level. These instruments and facilities help the faculties, research scholars and students to carry out
+            globally competitive research in basic, applied and medical sciences. The center also hopes for expansion of
+            the facilities each year making it a core facility in the country. By realizing CIF, we expect a prominent
+            hub for pioneering and collaborative analytical research in our country. CIF runs under the purview of
+            Research and Development Cell of the university and is expected to self-sustain by revenue generation for
+            the upkeep and maintenance of the instruments.</p>
+        <div class="banner mb-5">
+            <img src="https://www.lpu.in/lpu-assets/images/cif/banner.jpg" />
+        </div>
+        <div class="section-red p-4">
+            <div class="heading-wraper mb-4">
+                <div class="main-head">
+                    <h2 class="white">What we offer</h2>
+                </div>
+                <div class="bottom-line"></div>
+                <div class="cif-fact row">
+                    <div class="facts col-lg-4 col-12">
+                        <div class="icon"><img src="https://www.lpu.in/lpu-assets/images/cif/icon.svg" alt="icon">
+                        </div>
+                        <span class="head">Leading class testing equipments</span>
+                        <p>CIF of Lovely Professional University is equipped with sophisticated instruments to carry
+                            out spectral measurements, structure determination, and chemical analysis.</p>
+                    </div>
+                    <div class="facts col-lg-4 col-12">
+                        <div class="icon"><img src="https://www.lpu.in/lpu-assets/images/cif/icon.svg" alt="icon">
+                        </div>
+                        <span class="head">High degree of reliable and quick test results</span>
+                        <p>Given the time-tested machines & committed research base, CIF can assure authentic &
+                            reproducible results</p>
+                    </div>
+                    <div class="facts col-lg-4 col-12">
+                        <div class="icon"><img src="https://www.lpu.in/lpu-assets/images/cif/icon.svg" alt="icon">
+                        </div>
+                        <span class="head">Dedicated CIF team</span>
+                        <p>We have committed faculty members, scientific operators, and administrative officers
+                            working round the clock to support you with quality services.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
-<section class="section ">
+<!-- 
+<section class="section bg-dark-yellow">
     <div class="container">
         <div class="heading-wraper mb-4">
             <div class="main-head">
                 <h2>Facilities</h2>
                 <div class="call-action">
-                    <a (click)="goto('/ourInstruments')" class="link-btn">
-                        <img src="https://www.lpu.in/lpu-assets/images/icons/chevron-right.svg" alt="Icon"
-                            [routerLink]="['/ourInstruments']">Know
+                    <a href="https://www.lpu.in/cif/" target="_blank" class="link-btn">
+                        <img src="https://www.lpu.in/lpu-assets/images/icons/chevron-right.svg" alt="Icon">Know
                         more</a>
                 </div>
             </div>
         </div>
-        <p>
-            CIF is equipped with sophisticated instruments to carry out spectral measurements, structure determination
-            and chemical analysis. Click on the instrument name in the following table to view their description.
-        </p>
-        <div class="row influ-latest-video cif-facilties">
+        <p class="mb-5">CIF of Lovely Professional University is equipped with sophisticated instruments to carry out spectral
+            measurements, structure determination and chemical analysis. Click on the instrument name in the
+            following table to view their description.</p>
+        <div class="row  cif-facilties">
+            <div class="col-md-3">
+                <div class="mb-4">
+                    <img src="https://www.lpu.in/lpu-assets/images/cif/scanning-electron-microscope.webp" alt="Scanning Electron Microscope" />
+                </div>
+                <div class="mb-5">
+                    <a href="fesem.php">Field Emission Scanning Electron Microscope (Model: JSM-7610F Plus EDS: OXFORD EDS X-MaxN) Jeol</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-4">
+                    <img src="https://www.lpu.in/lpu-assets/images/cif/x-ray-diffractometer.webp" alt="X-Ray Diffractometer" />
+                </div>
+                <div class="mb-5">
+                    <a href="powder-x-ray-diffractometer.php">X-Ray Diffractometer (Model: D8 Advance) Bruker</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-4">
+                    <img src="https://www.lpu.in/lpu-assets/images/cif/fourier-transform-infrared-spectroscopy.webp" alt="Fourier Transform Infrared Spectroscopy" />
+                </div>
+                <div class="mb-5">
+                    <a href="ftir.php">Fourier Transform Infrared Spectroscopy (Model: Spectrum 2) PerkinElmer</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-4">
+                    <img src="https://www.lpu.in/lpu-assets/images/cif/fluorescence-spectrophotometer.webp" alt="Fluorescence Spectrophotometer" />
+                </div>
+                <div class="mb-5">
+                    <a href="fluorescence-spectrophotometer.php">Fluorescence Spectrophotometer (Model: FL 6500) PerkinElmer</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-4">
+                    <img src="https://www.lpu.in/lpu-assets/images/cif/thermogravimetric-analyzer.webp" alt="Thermogravimetric Analyzer" />
+                </div>
+                <div class="mb-5">
+                    <a href="thermogravimetric-analysis.php">Thermogravimetric Analyzer (Model: TGA4000) PerkinElmer</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-4">
+                    <img src="https://www.lpu.in/lpu-assets/images/cif/differential-scanning-calorimeter.webp" alt="Differential Scanning Calorimeter" />
+                </div>
+                <div class="mb-5">
+                    <a href="dsc.php">Differential Scanning Calorimeter (Model: DSC 6000) PerkinElmer</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-4">
+                    <img src="https://www.lpu.in/lpu-assets/images/cif/gas-chromatography.webp" alt="Gas Chromatography " />
+                </div>
+                <div class="mb-5">
+                    <a href="gas-chromatography.php">Gas Chromatography - Mass Spectrometry (Model: GCMS -TQ8040 NX) Shimadzu</a>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-4">
+                    <img src="https://www.lpu.in/lpu-assets/images/cif/high-performance-liquid-chromatography.webp" alt="High Performance Liquid Chromatography" />
+                </div>
+                <div class="mb-5">
+                    <a href="hplc.php">High Performance Liquid Chromatography with RI and PDA Detectors (Model: Prominence LPGE) Shimadzu</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<section class="section bg-dark-yellow">
+    <div class="container">
+        <div class="heading-wraper mb-4">
+            <div class="main-head">
+                <h2>Facilities</h2>
+                <div class="call-action">
+                    <a href="https://www.lpu.in/cif/" target="_blank" class="link-btn">
+                        <img src="https://www.lpu.in/lpu-assets/images/icons/chevron-right.svg" alt="Icon">Know
+                        more</a>
+                </div>
+            </div>
+
+            <p>CIF of Lovely Professional University is equipped with sophisticated instruments to carry out
+                spectral
+                measurements, structure determination and chemical analysis. Click on the instrument name in the
+                following table to view their description.</p>
+        </div>
+        <div class="row cif-facilties">
             <div class="col-md-3" *ngFor="let InstrumentData of tmpsInstrumentsDataData; let i = index"
                 [attr.data-index]="i">
-                <div class="mb-4 img-container position-relative">
+                <div class="mb-4">
+
                     <div *ngIf="loadingStates[i]"
                         class="spinner-border text-primary position-absolute top-50 start-50 translate-middle"
                         role="status">
@@ -100,14 +253,12 @@
                         loading="lazy" (load)="onImageLoad(i)" (error)="onImageError($event, i)" />
                 </div>
                 <div class="mb-5">
-                    <div class="instrument-block g-col-lg-3 g-col-6 d-grid">
-                        <a class="instrument-link" href="javascript:void(0)"
-                            (click)="VisitUrl('/ourInstruments',InstrumentData.instrumentName.slice(0,10), InstrumentData.id, InstrumentData.categoryId)"
-                            data-is-active="instrument.isActive ? 'true' : 'false'}">
-                            {{InstrumentData.instrumentName}}
-                        </a>
-                    </div>
-                    <!-- <a (click)="VisitUrl('/ourInstruments',InstrumentData.instrumentName.slice(0,10), InstrumentData.id, InstrumentData.categoryId)" >
+                    <a (click)="VisitUrl('/ourInstruments',InstrumentData.instrumentName.slice(0,10), InstrumentData.id, InstrumentData.categoryId)"
+                        data-is-active="instrument.isActive ? 'true' : 'false'}">
+                        {{InstrumentData.instrumentName}}
+                    </a>
+                    <!-- <a
+                        (click)="VisitUrl('/ourInstruments',InstrumentData.instrumentName.slice(0,10), InstrumentData.id, InstrumentData.categoryId)">
                         {{InstrumentData.instrumentName}}
                     </a> -->
                 </div>
@@ -116,10 +267,7 @@
     </div>
 </section>
 
-<div style="display: none;">
-    <img *ngFor="let InstrumentData of tmpsInstrumentsDataData" [src]="InstrumentData.imageUrl"
-        alt="{{InstrumentData.instrumentName}}">*****
-</div>
+
 <section class="section industry-partners-grid">
     <div class="container">
         <div class="placement-grid align-items-center">
@@ -157,37 +305,38 @@
             <div class="main-head">
                 <h2>Events & Happenings</h2>
             </div>
-
         </div>
-        <div class="cif-slider">
-            <div class="cif-item">
-                <img src="https://www.lpu.in/lpu-assets/images/cif/event-3.jpg">
+        <div class="cif-slider row">
+            <div class="cif-item col-md-4">
+                <img src="https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp">
                 <div class="mt-4 mb-2">
-                    <strong class="d-block">Workshop on Field Emission Scanning Electron Microscope</strong>
-                    (29 - 30 March 2024)
+                    <strong class="d-block">ANRF Sponsored Summer Training Programme
+                    </strong>
+                    (2 June - 11 July 2025)
                 </div>
             </div>
-            <div class="cif-item">
-                <img src="https://www.lpu.in/lpu-assets/images/cif/event-1.jpg">
+            <div class="cif-item col-md-4">
+                <img src="https://www.lpu.in/lpu-assets/images/cif/event-10.jpg">
                 <div class="mt-4 mb-2">
-                    <strong class="d-block">National workshop on X-Ray Diffraction and Particle Size Analyzer </strong>
-                    (26 - 27 April 2024)
+                    <strong class="d-block">Discovering the Crystalline and Nano world using X-ray Diffraction and
+                        Particle Size and Zeta Potential Analyzer: A National Workshop
+                    </strong>
+                    (24 - 26 April 2025)
                 </div>
             </div>
-            <div class="cif-item">
-                <img src="https://www.lpu.in/lpu-assets/images/cif/event-2.jpg">
+            <div class="cif-item col-md-4">
+                <img src="https://www.lpu.in/lpu-assets/images/cif/event-9.jpg">
                 <div class="mt-4 mb-2">
-                    <strong class="d-block">Summer Training Programme </strong>
-                    (3 June - 13 July 2024)
+                    <strong class="d-block">National Workshop on Advance Research with Field Emission Scanning Electron
+                        Microscopy: Exploring the Nano-Structural Imaging
+                    </strong>
+                    (27 - 29 March 2025)
                 </div>
             </div>
-
-
         </div>
     </div>
 </section>
-<section class="section academics-section right-top-circle d-none">
-
+<section class="section academics-section right-top-circle">
     <div class="container-fluid">
         <div class="prospectus-grid">
             <div class="history-about">
@@ -220,30 +369,15 @@
 <section class="section section-gray">
     <div class="container">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-5">
                 <div class="heading-wraper">
-                    <div class="">
-                        <!-- <h2>Research and <br>Development Cell</h2> -->
-                        <div class="contant-icon-box mb-3">
-                            <svg width="116" height="114" viewBox="0 0 16 14" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#clip0_4273_280)">
-                                    <path d="M16 0.523438L7.95831 6.52344L0 0.523438" stroke="#EF7D00"
-                                        stroke-width="1.5" />
-                                </g>
-                                <rect x="0.75" y="1.27344" width="14.5" height="11.5" stroke="#EF7D00"
-                                    stroke-width="1.5" />
-                                <defs>
-                                    <clipPath id="clip0_4273_280">
-                                        <rect y="0.523438" width="16" height="13" fill="white" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </div>
+                    <div class="main-head">
+                        <h2>Division of <br>
+                            Research</h2>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 d-none">
+            <div class="col-md-3">
                 <div class="grid gap-5">
                     <div class="g-col-md-6 g-col-12">
 
@@ -258,19 +392,19 @@
                                 </svg>
                             </div>
                             <div class="contact-text">
-                                <a href="tel:+911824444021">+91 1824-444021</a><br>
+                                <a href="tel:+911824444500">+91 1824-444500</a><br>
                             </div>
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div class="col-md-6">
-                <div class="grid gap-1">
+            <div class="col-md-4">
+                <div class="grid gap-5">
                     <div class="g-col-md-6 g-col-12">
 
                         <div class="">
-                            <!-- <div class="contant-icon-box mb-3">
+                            <div class="contant-icon-box mb-3">
                                 <svg width="16" height="14" viewBox="0 0 16 14" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0_4273_280)">
@@ -285,35 +419,15 @@
                                         </clipPath>
                                     </defs>
                                 </svg>
-                            </div> -->
+
+                            </div>
                             <div class="contact-text">
-                                Central Instrumentation Facility (CIF) <br/>
-                                Lovely Professional University <br/>
-                                Block-38, Room No.106 <br/>
-                                Jalandhar - Delhi G.T. Road, <br/>
-                                Phagwara, Punjab (India) - 144411 <br/>
-                                Phone: <a href="tel:+911824444021">+91 1824-444021</a><br>
-                                Email: <a href="mailto:cif@lpu.co.in">cif{{'@'}}lpu.co.in</a><br>
+                                <a href="mailto:cif@lpu.co.in">cif@lpu.co.in</a><br>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-            <div class="col-md-4">
-                <!-- <div id="logo"> -->
-                    <a href="https://www.lpu.in">
-                        <img src="https://www.lpu.in/lpu-assets/images/logo/logo.svg" alt="LPU LOGO"
-                            class="scroll-logo" />
-                        <img src="https://www.lpu.in/lpu-assets/images/logo/naac-logo.svg" alt="LPU LOGO"
-                            class="naac-logo" />
-                    </a>
-                    <!-- <a href="https://www.lpu.in" class="retina-logo" data-dark-logo="https://www.lpu.in/lpu-assets/images/logo/logo-dark.svg">
-                        <img src="https://www.lpu.in/lpu-assets/images/logo/logo.svg" alt="LPU LOGO" class="mobile-social-logo">
-                        <img src="https://www.lpu.in/lpu-assets/images/logo/naac-logo.svg" alt="LPU LOGO" class="naac-logo">
-
-                    </a> -->
-                <!-- </div>  -->
             </div>
         </div>
     </div>

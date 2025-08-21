@@ -76,8 +76,10 @@ export class HomePageComponent implements OnInit {
     this.loadingStates[index] = false;  
   }
 
+  
+
   onImageError(event: any, index: number): void {
-    event.target.src = 'path/to/error/image.jpg'; 
+    event.target.src = '/image.jpg'; 
     this.loadingStates[index] = false;
   }
 
@@ -94,7 +96,7 @@ export class HomePageComponent implements OnInit {
           this.InstrumentsDataData = [];
         }
         const elapsed = new Date().getTime() - startTime;
-        const remainingDelay = Math.max(1500 - elapsed, 0); // wait at least 5s
+        const remainingDelay = Math.max(2500 - elapsed, 0); // wait at least 5s
 
         setTimeout(() => {
           this.loadingIndicator = false;
@@ -106,4 +108,5 @@ export class HomePageComponent implements OnInit {
       }
     });
   }
+ 
 }

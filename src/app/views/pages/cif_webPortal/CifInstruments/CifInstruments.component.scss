@@ -53,7 +53,7 @@
 }
 
 .instrument-link {
-    color: #555; 
+    color: #000; 
     text-decoration: none;
     font-weight: bold;
 }
@@ -61,3 +61,52 @@
 // .instrument-link:hover {
 //     text-decoration: underline;  
 // }
+
+.accordion-icon {
+    font-family: Arial, sans-serif; /* Fallback for text icons */
+    transition: all 0.3s ease;
+    font-size: 1.5 rem;
+  }
+  
+  .icon-plus::before {
+    content: "+";
+    font-weight: bold;
+    display: inline-block;
+  }
+  
+  .icon-minus::before {
+    content: "-";
+    font-weight: bold;
+    display: inline-block;
+  }
+  
+.accordion-item {
+    border-bottom: 1px solid #ddd; /* Container handles last border */ 
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  
+  .accordion-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .accordion-body {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    overflow: hidden;
+  }
+  
+  .accordion-title {
+    font-size: larger;
+    font-weight: 500;
+  }
+  
+ 
+  
+  .accordion-icon.rotated {
+    transform: rotate(180deg);
+  }
+  
