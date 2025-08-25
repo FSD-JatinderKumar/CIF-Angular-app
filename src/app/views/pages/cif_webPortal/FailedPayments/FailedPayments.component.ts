@@ -89,7 +89,7 @@ export class FailedPaymentsComponent implements OnInit {
       }
     });
 
-    this.ServerUrl ='https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
+    this.ServerUrl ='https://files.lpu.in/umsweb/CIFDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     //"https://devums.lpu.in/app/cif/";
     // this.ResponseUrl = window.location.origin + this.location.path(); 
     this.ResponseUrl = window.location.href;// + '/FailedPayments'; 

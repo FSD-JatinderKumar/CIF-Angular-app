@@ -68,7 +68,7 @@ export class StaffUpdateSampleStatusComponent implements OnInit {
     private cookieService: CookieService) { }
 
   getSessionDetails() {
-    debugger;
+   // debugger
     this.sessionData = this.AuthSession.getSession();
     for (const session of this.sessionData) {
       this.user_Email = session[0]['userEmail']
@@ -76,7 +76,7 @@ export class StaffUpdateSampleStatusComponent implements OnInit {
   }
   disabledStatusSet: Set<string>;
   ngOnInit(): void {
-    this.serverUrl = 'https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
+    this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;

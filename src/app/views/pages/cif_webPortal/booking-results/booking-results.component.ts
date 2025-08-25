@@ -81,7 +81,7 @@ export class BookingResultsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.ServerUrl ='https://files.lpu.in/umsweb/MOUDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
+    this.ServerUrl ='https://files.lpu.in/umsweb/CIFDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     const GetCookieData = this.cookieService.get('authData');
    if (GetCookieData) {
       const retrievedCookies = JSON.parse(GetCookieData);

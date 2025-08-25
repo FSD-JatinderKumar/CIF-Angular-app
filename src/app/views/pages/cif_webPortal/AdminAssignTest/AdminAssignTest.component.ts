@@ -48,8 +48,9 @@ export class AdminAssignTestComponent implements OnInit {
   UserRole: string = '';
   user_Email: string = '';
   candidateName: string = '';
-
-  serverUrl: string = 'https://files.lpu.in/umsweb/MOUDocuments/';
+//https://files.lpu.in/umsweb/Journal/
+  // serverUrl: string = 'https://files.lpu.in/umsweb/MOUDocuments/';
+  serverUrl: string = 'https://files.lpu.in/umsweb/CIFDocuments/';
   supervisorName: any;
   departmentName: any;
 

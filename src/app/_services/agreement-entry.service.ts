@@ -14,7 +14,7 @@ export class AgreementEntryService {
   constructor(private http: HttpClient,private storageService: StorageService) {}
 
   getRunningSession(): Observable<any> {
-    debugger;
+   // debugger
     let token = this.storageService.getUser();
     let headers = new HttpHeaders()
     .set('Authorization', 'Bearer ' + token)

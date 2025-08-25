@@ -368,14 +368,14 @@ export class PendingPaymentsComponent implements OnInit {
 //   user_Email: any;
 
 //   getSessionDetails(){
-//     debugger;
+//    // debugger
 //     this.sessionData = this.AuthSession.getSession();
 //     for (const session of this.sessionData) {
 //       this.user_Email = session[0]['userEmail']
 //     }
 //   }
 //   getInstrumentData() {
-//     debugger;
+//    // debugger
 //     this.CIFwebService.GetInstrumentsDetails().subscribe({
 //       next: response => {
 //         if (response.item1 && response.item1.length > 0) {
@@ -418,7 +418,7 @@ export class PendingPaymentsComponent implements OnInit {
 //     }
 //   }
 //   GetInstrumentIDWiseAnalysisDetails(selectedId: number) {
-//     debugger;
+//    // debugger
 //     this.CIFwebService.GetAnalysisDetails(selectedId).subscribe({
 //       next: response => {
 //         if (response.item1 && response.item1.length > 0) {
@@ -479,7 +479,7 @@ export class PendingPaymentsComponent implements OnInit {
 
 
 //   Onsubmit() {
-//     debugger;
+//    // debugger
 //     const AnalysisCharge = this.PriceValue === 'N/A' ? 0 : parseInt(this.PriceValue);
 //     const TotalPrice = this.totalAmount === 'NA' ? 0 : parseInt(this.totalAmount);
 //     const formData = new FormData();

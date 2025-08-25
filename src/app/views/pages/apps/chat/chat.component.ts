@@ -42,7 +42,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.storageservice.saveUser(data);
          this.rmsservice.getParentRMSByDealingOfficial().subscribe({
            next: data => {
-            debugger;
+           // debugger
 
             this.MessageId = data.item1;
             //this.TicketNo =
@@ -84,10 +84,10 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   GetParentChatByMID(messageId:any){
-    debugger;
+   // debugger
     this.rmsservice.getParentRMSChatByMessageId(messageId).subscribe({
       next:data=>{
-        debugger;
+       // debugger
         this.PChat = data;
 
       },

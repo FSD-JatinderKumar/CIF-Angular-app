@@ -83,7 +83,7 @@ export class StaffActionBookingsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.serverUrl = 'https://files.lpu.in/umsweb/MOUDocuments/';//'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
+    this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';//'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;

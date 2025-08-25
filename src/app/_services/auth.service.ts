@@ -46,7 +46,7 @@ export class AuthService {
   }
   
   loginInternalUser(userId: string, key: string): Observable<any> {
-    //  debugger;
+    // // debugger
     return this.http.post(
       AUTH_API + 'security/createtoken ',
       {
@@ -114,7 +114,7 @@ export class AuthService {
 //   }
 
 //   loginInternalUser(userId: string, key: string): Observable<any> {
-//     //  debugger;
+//     // // debugger
 //     return this.http.post(
 //       AUTH_API + 'security/createtoken ',
 //       {

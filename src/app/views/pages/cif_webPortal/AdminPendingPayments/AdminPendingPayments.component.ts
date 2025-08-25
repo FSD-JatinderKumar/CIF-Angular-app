@@ -118,7 +118,7 @@ export class AdminPendingPaymentsComponent implements OnInit {
           this.headHtmlData = this.tmpsAllPaymentData[0];
           this.columns = Object.keys(this.tmpsAllPaymentData[0]);
           this.columns = this.columns.filter((item: any) => item !== 'bookingRequestDate' && item !== 'instrumentId' && item !== 'id' && item !== 'analysisId');
-          // debugger;
+          //// debugger
           this.columns.push()
         }
         else {

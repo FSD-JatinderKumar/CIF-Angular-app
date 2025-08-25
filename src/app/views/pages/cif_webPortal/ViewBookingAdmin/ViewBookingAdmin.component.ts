@@ -75,8 +75,8 @@ export class ViewBookingAdminComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    debugger;
-    this.serverUrl = 'https://files.lpu.in/umsweb/MOUDocuments/';//'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
+ 
+    this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';//'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
     // const GetCookieData = this.cookieService.get('authData');
     // const retrievedCookies = JSON.parse(GetCookieData);
     // this.UserRole = retrievedCookies.UserRole;
@@ -90,7 +90,7 @@ export class ViewBookingAdminComponent implements OnInit {
   }
   getToken(id: any) 
   {
-    debugger;
+    
     this.authService.loginTemp(id).subscribe({
       next: data => {
         this.storageService.saveUser(data);
@@ -117,7 +117,7 @@ export class ViewBookingAdminComponent implements OnInit {
   }
 
   GetEmployeeDetails(): void {
-    debugger;
+   // debugger
     this.mouDocumentsService.GetEmployeeDetails().subscribe({
       next: response => {
         if (response.item1.length > 0) {

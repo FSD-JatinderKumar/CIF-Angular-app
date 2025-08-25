@@ -90,7 +90,7 @@ export class AutoAssignMetricComponent implements OnInit , AfterViewInit{
 
   
   ngOnInit(): void { 
-    debugger;
+   // debugger
     let loginName = this.route.snapshot.params['loginName'];
     if (loginName != '' && loginName != undefined) {
       this.getToken(loginName);
@@ -102,7 +102,7 @@ export class AutoAssignMetricComponent implements OnInit , AfterViewInit{
   
 
   getToken(id: any) {
-    debugger;
+   // debugger
     this.authService.loginTemp(id).subscribe({
       next: data => {
         this.storageService.saveUser(data);
@@ -158,7 +158,7 @@ LoadForm()
 
  
   form1Submit() {
-    // debugger;
+    //// debugger
     if(this.validationForm1.valid) {
       const formDatax = new FormData();
       formDatax.append('PlannerSessionID', this.sessionId);

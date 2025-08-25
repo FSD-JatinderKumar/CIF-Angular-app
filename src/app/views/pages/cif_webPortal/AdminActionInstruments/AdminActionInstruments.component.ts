@@ -78,7 +78,7 @@ export class AdminActionInstrumentsComponent implements OnInit {
   user_Email: any;
   sessionData: any[] = [];
   getSessionDetails() {
-    // debugger;
+    //// debugger
     this.sessionData = this.AuthSession.getSession();
     for (const session of this.sessionData) {
       this.user_Email = session[0]['userEmail']
