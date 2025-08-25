@@ -59,6 +59,10 @@ const routes: Routes = [
     loadChildren: () => import('./views/pages/cif_webPortal/HomePage/HomePage.module').then(m => m.HomePageModule),
   },
   {
+    path:'Home',   // component:HomePageComponent done with module
+    loadChildren: () => import('./views/pages/cif_webPortal/HomePage/HomePage.module').then(m => m.HomePageModule),
+  },
+  {
     path: 'Login',    // component: CifLoginPageComponent done with module
     loadChildren: () => import('./views/pages/cif_webPortal/CifLoginPage/CifLoginPage.component.module').then(m => m.CifLoginPageModule),
   },
