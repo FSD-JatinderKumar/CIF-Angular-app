@@ -246,18 +246,12 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + this.authToken)
       .set('Content-Type', 'application/json');
     return this.http.get(
-      AUTH_API + 'api/LpuCIF/GetAllPaymentDetails',
-      // AUTH_API_LOCAL + 'api/LpuCIF/GetAllPaymentDetails' ,
+      // AUTH_API + 'api/LpuCIF/GetAllPaymentDetails',
+       'https://localhost:7125/api/LpuCIF/GetAllPaymentDetails' ,
       { headers }
     );
   }
-  //   const httpOptions = {
-  //     headers: new HttpHeaders({
-  //       'Authorization': `Bearer ${this.authToken}`
-  //     })
-  //   };
-  //   return this.http.get<any>(this.baseUrl + 'LpuCIF/GetAllPaymentDetails' , httpOptions);
-  // }
+ 
 
 
   CIFResultsUploads(dataSoft: FormData): Observable<any> {
@@ -309,7 +303,7 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + this.authToken)
     //.set('Authorization', 'Bearer ' + this.Localtoken)
     return this.http.post(
-      // AUTH_API_LOCAL + 'api/LpuCIF/CIFAssignTest', dataSoft, { headers }
+      //  'https://localhost:7125/api/LpuCIF/CIFAssignTest', dataSoft, { headers }
       AUTH_API + 'api/LpuCIF/CIFAssignTest', dataSoft, { headers }
     );
   }
@@ -589,5 +583,24 @@ export class LpuCIFWebService {
       // 'https://localhost:7125/api/LpuCIF/GetAllUserFeedbacks', { headers }
     );   
   }
-
+  GetUploadedResultDetails(UserEmailId: any): Observable<any> {
+    let token = this.storageService.getUser();
+    let headers = new HttpHeaders()
+      .set('Authorization', 'Bearer ' + this.authToken)
+      .set('Content-Type', 'application/json');
+    return this.http.get(
+      AUTH_API + 'api/LpuCIF/GetUploadedResultDetails?UserId=' + UserEmailId, { headers }
+      // 'https://localhost:7125/api/LpuCIF/GetUploadedResultDetails?UserId=' + UserEmailId, { headers }
+    );   
+  }
+  GetAllUserLists(): Observable<any> {
+    let token = this.storageService.getUser();
+    let headers = new HttpHeaders()
+      .set('Authorization', 'Bearer ' + this.authToken)
+      .set('Content-Type', 'application/json');
+    return this.http.get(
+      AUTH_API + 'api/LpuCIF/GetCIFAssignTestProperties', { headers }
+      // 'https://localhost:7125/api/LpuCIF/GetCIFAssignTestProperties', { headers }
+    );   
+  }
 }

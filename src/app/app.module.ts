@@ -35,6 +35,7 @@ import { CifLoginPageModule } from './views/pages/cif_webPortal/CifLoginPage/Cif
 import { HeaderComponent } from "./views/pages/cif_webPortal/header/header.component";
 import { FooterComponent } from "./views/pages/cif_webPortal/footer/footer.component";
 import { ClickToCallComponent } from './views/pages/cif_webPortal/click-to-call/click-to-call.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +50,8 @@ import { ClickToCallComponent } from './views/pages/cif_webPortal/click-to-call/
     CifLoginPageComponent,
     HeaderComponent,
     FooterComponent,
-    ClickToCallComponent
+    ClickToCallComponent,
+    
   ],
   imports: [
     BrowserModule,

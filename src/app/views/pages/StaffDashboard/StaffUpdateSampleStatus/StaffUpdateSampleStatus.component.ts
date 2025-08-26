@@ -76,24 +76,13 @@ export class StaffUpdateSampleStatusComponent implements OnInit {
   }
   disabledStatusSet: Set<string>;
   ngOnInit(): void {
-    this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';
+    this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';  serverUrl: string = 'https://files.lpu.in/umsweb/CIFDocuments/';
     const GetCookieData = this.cookieService.get('authData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;
     this.user_Email = retrievedCookies.EmailId;
     this.candidateName = retrievedCookies.CandidateName;
-    // if (GetCookieData) {
-    //   const retrievedCookies = JSON.parse(GetCookieData);
-    //   this.UserRole = retrievedCookies.UserRole;
-    //   this.user_Email = retrievedCookies.EmailId;
-    //   this.candidateName = retrievedCookies.CandidateName;
-    // } else {
-    //    swal.fire({
-    //     title: 'Login Failed ',
-    //     icon: 'warning',
-    //   });
-    //   this.router.navigate(['/cifWebPortal']);
-    // }
+ 
     this.getAllBookigsDetails();
     this.GetAllSampleStatus();
     this.disabledStatusSet = new Set(

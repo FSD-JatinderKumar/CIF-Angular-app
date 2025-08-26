@@ -70,6 +70,10 @@
                                     <th class="text-dark">Booking #</th>
                                     <th class="text-dark">Instrument Name</th>
                                     <th class="text-dark">Candidate Name</th>
+                                    <th class="text-dark">OrganisationName</th>
+                                    <th class="text-dark">User Type </th>
+                                    <th class="text-dark">User EmailId</th>
+                                    <th class="text-dark">No of Samples</th>
                                     <th class="text-dark">Request Date</th>
                                     <th class="text-dark">Amount</th>
                                     <th class="text-dark">Payment Status</th>
@@ -82,15 +86,20 @@
                                         <td class="fw-bold ">{{AllPaymentDataRow.bookingId}}</td>
                                         <td class="fw-bold "> {{AllPaymentDataRow.instrumentName}}</td>
                                         <td class="fw-bold ">{{AllPaymentDataRow.candidateName}} </td>
-                                        <!-- <td class="fw-bold "> {{AllPaymentDataRow.noOfSamples}}</td> -->
+                                        <td class="fw-bold ">{{AllPaymentDataRow.organisationName}} </td>
+                                        <td class="fw-bold ">{{AllPaymentDataRow.userRole}} </td>
+                                        <td class="fw-bold ">{{AllPaymentDataRow.userEmailId}} </td>
+                                        <td class="fw-bold "> {{AllPaymentDataRow.noOfSamples}}</td>
                                         <td class="fw-bold ">{{ AllPaymentDataRow.requestDate }}</td>
-                                        <td class="fw-bold">
+                                        <td class="fw-bold"> {{AllPaymentDataRow?.amount && AllPaymentDataRow.amount!='null'
+                                            ? (AllPaymentDataRow.amount | currency:'INR':'symbol'): 'NA'}}</td>
+                                        <!-- <td class="fw-bold">
                                             {{
                                             AllPaymentDataRow?.amount && AllPaymentDataRow.amount!='null'
                                             ? (AllPaymentDataRow.amount )
                                             : 'NA'
                                             }}
-                                        </td>
+                                        </td> -->
                                         <!-- <td class="fw-bold" [class.text-success]="AllPaymentDataRow?.paymentStatus === 'success'"
                                             [class.text-danger]="AllPaymentDataRow?.paymentStatus === 'failure'"
                                             [class.text-warning]="!AllPaymentDataRow?.paymentStatus || AllPaymentDataRow?.paymentStatus === 'null'">

@@ -92,7 +92,7 @@ export class AdminAssignTestComponent implements OnInit {
     // this.loadUserFromCookies();
     this.getAllPaymentDetails();
     this.getAllAssignedTest();
-
+    this.getAllCifUserList();
   }
 
   loadUserFromCookies(): void {
@@ -229,6 +229,7 @@ isAlreadyAssigned(row: any): boolean {
 
   onActivitySelected(event: any): void {
     this.AssignedTo = event.target.value;
+    alert(this.AssignedTo)
   }
   VerifyData(AssignTest: any): void {
     const formData = new FormData();
@@ -286,4 +287,24 @@ isAlreadyAssigned(row: any): boolean {
       this.dataSource.filter = filterValue.trim().toLowerCase();
     }
   }
+
+
+
+  AllCifUserList: any;
+  getAllCifUserList(): void {
+    this.CIFwebService.GetAllUserLists().subscribe({
+      next: (response) => {
+        if (response.item1 && response.item1.length > 0) {
+          this.AllCifUserList = response.item1;
+          console.log("AllCifUserList"+JSON.stringify(this.AllCifUserList));
+        } else {
+          this.AllCifUserList = [];
+        }
+      },
+      error: (err) => {
+        console.error('Failed to get UIDS:', err);
+      }
+    });
+  }
+
 }

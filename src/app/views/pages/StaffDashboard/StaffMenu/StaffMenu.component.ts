@@ -56,7 +56,7 @@ export class StaffMenuComponent implements OnInit {
     this.supervisorName = retrievedCookies.SupervisorName;
     this.departmentName = retrievedCookies.DepartmentName;
     this.candidateName = retrievedCookies.CandidateName;
-   
+  //  console.log(JSON.parse(GetCookieData));
   }
 
   LogoutUser() {

@@ -59,8 +59,6 @@ export class StaffUserLoginComponent implements OnInit {
         if (!this.storageService.isLoggedIn() || authToken === 'Token Expired') {
           this.isLoginFailed = true;
         } else {
-          // load applications after login success
-          // this.getSEAllApplications();
           this.GetEmployeeDetails();
         }
       },

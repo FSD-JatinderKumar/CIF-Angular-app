@@ -1,0 +1,333 @@
+    /* Custom Menu css */
+    .mobile-nav-icon {
+        display: inline-block;
+    }
+
+    .mobile-nav-icon .bar1,
+    .mobile-nav-icon .bar2,
+    .mobile-nav-icon .bar3 {
+        width: 30px;
+        height: 3px;
+        background-color: #fff;
+        margin: 6px 0;
+        transition: 0.4s;
+    }
+
+    .mobile-nav-icon.change .bar1,
+    .mobile-nav-icon.change .bar2,
+    .mobile-nav-icon.change .bar3 {
+        width: 20px;
+    }
+
+    .mobile-nav-icon.change .bar1 {
+        transform: translate(0, 8px) rotate(-45deg);
+    }
+
+    .mobile-nav-icon.change .bar2 {
+        opacity: 0;
+    }
+
+    .mobile-nav-icon.change .bar3 {
+        transform: translate(0, -10px) rotate(45deg);
+    }
+
+    .nest-nav.fixed-nav {
+        position: fixed;
+        width: 100%;
+        z-index: 99;
+        top: 145px;
+        padding: 8px 0;
+        left: 0;
+        background-color: #f5efe3;
+    }
+
+    .nest-nav.fixed-nav ul {
+        margin: 0;
+    }
+
+    .nest-nav .toggle,
+    .nest-nav [id^="drop"] {
+        display: none;
+    }
+
+    .nest-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nest-nav nav {
+        margin: 0;
+        padding: 0;
+    }
+
+    .nest-nav nav:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .nest-nav nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0 0 0;
+        display: flex;
+        position: relative;
+    }
+
+    .nest-nav ul li:not(:first-child) {
+        margin: 0 10px;
+    }
+
+    .nest-nav ul li:first-child {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+    .nest-nav ul li a {
+        color: #080708;
+        border: 1px solid rgba(8, 7, 8, 0.1);
+        font-size: 14px;
+        text-transform: uppercase;
+        padding: 8px 20px;
+        display: block;
+    }
+
+    .nest-nav ul li ul li:not(:last-child) a {
+        border-bottom: none !important;
+    }
+
+    .nest-nav nav li.nextdrop a {
+        font-size: 14px;
+        text-transform: uppercase;
+        display: block;
+        padding: 8px 35px 8px 20px;
+    }
+
+    .nest-nav nav ul li.nextdrop ul li a {
+        display: block;
+        text-decoration: none;
+        margin: 0;
+        padding: 14px;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 0;
+        color: #080708;
+    }
+
+    .nest-nav nav ul li.nextdrop ul li {
+        margin: 0;
+    }
+
+    .nest-nav nav ul li.nextdrop ul li a:hover {
+        color: #ef7d00;
+        background: rgba(246, 130, 35, 0.2) !important;
+        border-color: transparent;
+    }
+
+    .nest-nav nav a:hover,
+    .nest-nav nav a.active {
+        background: rgba(246, 130, 35, 0.2) !important;
+    }
+
+    .nest-nav nav ul ul {
+        display: none;
+        position: absolute;
+        z-index: 9;
+        background: #fdfff7;
+        border-top: 2px solid #ef7d00;
+        margin: 0;
+    }
+
+    .nest-nav nav ul li:hover>ul {
+        display: inherit;
+    }
+
+    .nest-nav nav ul ul li {
+        float: none;
+        display: list-item;
+        position: relative;
+    }
+
+    .nest-nav nav ul ul ul li {
+        position: relative;
+        top: -60px;
+        left: 170px;
+    }
+
+    .nest-nav li>a:after {
+        content: "\e7a7";
+        font-family: font-icons;
+        position: absolute;
+        margin-left: 7px;
+    }
+
+    .nest-nav li>a:only-child:after {
+        content: "";
+    }
+
+    .entrepreneurship-slider-innr .slick-slide {
+        margin: 0 10px;
+    }
+
+    @media all and (max-width: 1030px) {
+        .nest-nav nav ul li.nextdrop ul li a {
+            color: #fff !important;
+            padding: 10px;
+            font-size: 13px !important;
+        }
+
+        .nest-nav nav ul li a,
+        .nest-nav .toggle {
+            color: #fff;
+            font-size: 13px;
+            text-transform: uppercase;
+            padding: 15px;
+            display: block;
+            font-weight: 500;
+            border: none !important;
+            margin: 0;
+        }
+
+        .nest-nav ul li:not(:first-child),
+        .nest-nav ul li:not(:first-child) {
+            margin: 0;
+        }
+
+        .nest-nav {
+            position: fixed;
+            top: 230px;
+            z-index: 9999;
+            width: 100%;
+            border: 0;
+            justify-content: flex-end;
+            left: 0;
+        }
+
+        .nest-nav nav li.nextdrop a.dropa {
+            display: none !important;
+        }
+
+        .nest-nav nav {
+            margin: 0;
+        }
+
+        .nest-nav .toggle+a,
+        .nest-nav .menu {
+            display: none;
+        }
+
+        /* .nest-nav .toggle {
+          display: block;
+          background-color: #8c0001;
+          padding: 14px 20px;
+          color: #fff;
+          text-decoration: none;
+          border: none;
+          margin: 0;
+          font-weight: 500;
+        } */
+        .nest-nav .menu .toggle:after {
+            content: "\eb1f";
+            font-family: "font-icons";
+            font-size: 10px;
+            margin-left: 6px;
+        }
+
+        .nest-nav .menu .plusMinus.toggle:after {
+            content: "\e71e";
+            font-family: "font-icons";
+            font-size: 10px;
+            margin-left: 6px;
+        }
+
+        .nest-nav .toggle[for="drop"] .nav-toggle {
+            display: block;
+            background-color: #8c0001;
+            padding: 10px;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            margin: 0;
+            text-align: right;
+            position: absolute;
+            right: 0;
+            z-index: 9;
+        }
+
+        .nest-nav .toggle[for="drop"] .nav-toggle.change {
+            background: transparent;
+            top: 40px;
+            padding: 0;
+            right: 10px;
+        }
+
+        .nest-nav [id^="drop"]:checked+ul {
+            display: block;
+            margin: 0;
+        }
+
+        .nest-nav nav ul li {
+            margin: 0px;
+            display: inline-block;
+            float: left;
+            background-color: #8c0001;
+            position: relative;
+            display: block;
+            width: 100%;
+            border-bottom: 1px solid rgb(255, 255, 255, 0.3);
+        }
+
+        .nest-nav nav ul ul .toggle,
+        .nest-nav nav ul ul a {
+            padding: 0 40px;
+        }
+
+        .nest-nav nav ul ul ul a {
+            padding: 0 80px;
+        }
+
+        /* .nest-nav nav a:hover,
+        .nest-nav nav ul ul ul a {
+          background-color: #000000;
+        } */
+        .nest-nav nav ul li ul li .toggle,
+        .nest-nav nav ul ul a,
+        .nest-nav nav ul ul ul a {
+            padding: 14px 20px;
+            color: #fff;
+        }
+
+        .nest-nav nav ul li ul li .toggle,
+        .nest-nav nav ul ul a {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .nest-nav nav ul ul {
+            float: none;
+            position: static;
+            color: #ffffff;
+            width: 100%;
+        }
+
+        .nest-nav nav ul ul li:hover>ul,
+        .nest-nav nav ul li:hover>ul {
+            display: none;
+        }
+
+        .nest-nav nav ul ul li {
+            display: block;
+            width: 100%;
+        }
+
+        .nest-nav nav ul ul ul li {
+            position: static;
+        }
+    }
+
+    @media all and (max-width: 330px) {
+        .nest-nav nav ul li {
+            display: block;
+            width: 94%;
+        }
+    }

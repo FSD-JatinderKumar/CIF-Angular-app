@@ -1,0 +1,32 @@
+<div *ngIf="loadingIndicator">Loading...</div>
+<div *ngIf="!loadingIndicator">
+  <div>
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm" 
+      (input)="search()" 
+      placeholder="Search..." 
+      class="search-box"
+    />
+    <button (click)="exportToExcel()" class="export-button">Export to Excel</button>
+  </div>
+  
+  <div *ngIf="filteredData && filteredData.length > 0; else noDataTemplate">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let column of columns">{{ column }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of filteredData">
+          <td *ngFor="let column of columns">{{ booking[column] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <ng-template #noDataTemplate>
+    <p>{{ NoResults }}</p>
+  </ng-template>
+</div>

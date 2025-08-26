@@ -9,6 +9,8 @@ import { ArchwizardModule } from 'angular-archwizard';
 // import { NgbCollapseModule, NgbModule, NgbNav, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbCarousel, NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomePageTopBarComponent } from './HomePageTopBar/HomePageTopBar.component';
+import { HomePageTopBarModule } from "./HomePageTopBar/HomePageTopBar.module";
 
 const routes: Routes = [
   {
@@ -23,10 +25,11 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgxDatatableModule,
     FormsModule,
-    ArchwizardModule,ReactiveFormsModule,
+    ArchwizardModule, ReactiveFormsModule,
     PerfectScrollbarModule,
     NgbModule,
-    NgbCarouselModule
-  ],
+    NgbCarouselModule,
+    HomePageTopBarModule
+],
 })
 export class HomePageModule { }

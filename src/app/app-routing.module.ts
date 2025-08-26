@@ -26,6 +26,11 @@ const routes: Routes = [
     // component:AdminPendingPaymentsComponent
   },
   {
+    path: "MyUploads",
+    loadChildren: () => import('./views/pages/StaffDashboard/StaffUploadedResults/StaffUploadedResults.module').then(m => m.StaffUploadedResultsModule),
+    // component:AdminPendingPaymentsComponent
+  },
+  {
     path: "PendingPaymentsS",
     loadChildren: () => import('./views/pages/StaffDashboard/StaffPendingPayments/StaffPendingPayments.module').then(m => m.StaffPendingPaymentsModule),
     // component:AdminPendingPaymentsComponent

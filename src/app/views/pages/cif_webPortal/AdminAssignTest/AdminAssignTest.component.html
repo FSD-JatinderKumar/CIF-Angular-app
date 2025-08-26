@@ -133,25 +133,16 @@
                                         <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.instrumentName}} </td>
                                         <td class=" fs-5 p-4 " style="width: 20%;">
                                             <!-- <select name="staffName" id="staffName" [(ngModel)]="AssignedTo" onchange="getAssignedTo()"> -->
-
-                                                <select id="staffName" (change)="onActivitySelected($event)" class="col-12 p-2 form-control"
-                                                required ngModel name="staffName" #AssignedTo="ngModel">
+                                        
+                                            <select id="staffName" (change)="onActivitySelected($event)" class="col-12 p-2 form-control" required ngModel
+                                                name="staffName" #AssignedTo="ngModel">
                                                 <option value="" selected>Select Staff</option>
-                                                <option value="Dr. Vijay Kumar 24374 ">Dr. Vijay Kumar 24374</option>
-                                                <option value="Dr. Nupur Prasad 20362">Dr. Nupur Prasad 20362</option>
-                                                <option value="Mr. Prashant Kumar 16477">Mr. Prashant Kumar 16477</option>
-                                                <option value="Dr. Nabaparna Chakraborty 27727">Dr. Nabaparna Chakraborty 27727</option>
-                                                <option value="Dr. Shagun Kainth 32007">Dr. Shagun Kainth 32007</option>
-                                                <option value="Dr. Amrinder Mehta 25816">Dr. Amrinder Mehta 25816</option>
-                                                <option value="Dr. Vaidehi Katoch 26549">Dr. Vaidehi Katoch 26549</option>
-                                                <option value="Ms. Baljit Bangar 26918">Ms. Baljit Bangar 26918</option>
-                                                <option value="Ms. Amandeep Kaur 30694">Ms. Amandeep Kaur 30694</option>
-                                                <option value="Ms. Kamlash Rani 29159">Ms. Kamlash Rani 29159</option>
-                                                <option value="Mr. Sameer Singh Pathania 31691">Mr. Sameer Singh Pathania 31691</option>
-                                                <option value="Mrs. Anju Kumari 25760">Mrs. Anju Kumari 25760</option>
-                                                <option value="Ms. Paramjit Kaur 29007">Ms. Paramjit Kaur 29007</option>
+                                                <option *ngFor="let session of AllCifUserList" [value]="session.uid">
+                                                    {{ session.uiD_Name }}
+                                                </option>
+                                        
                                             </select>
-
+                                        
                                         </td>
 
                                         <td><button type="submit" class="btn btn-dark me-2"

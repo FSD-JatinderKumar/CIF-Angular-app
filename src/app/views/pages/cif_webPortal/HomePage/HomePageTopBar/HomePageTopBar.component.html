@@ -1,0 +1,45 @@
+<script>
+    function myFunction(x) {
+        x.classList.toggle("change");
+    }
+    function PlusMinusFunction(x) {
+        x.classList.toggle("plusMinus");
+    }
+    $(document).ready(function() {
+        // $('.nest-nav').removeClass('fixed-nav');
+        $(window).scroll(function() {
+            var y = $(this).scrollTop();
+            var isIndexPage = $('body').hasClass('index-page');
+            var navWrap = isIndexPage ? $('#nest-nav-scroll').offset().top : 100;
+            if ($(window).width() > 1030) {
+                if (y > navWrap) {
+                    $('.nest-nav').addClass('fixed-nav');
+                } else {
+                    $('.nest-nav').removeClass('fixed-nav');
+                }
+            } else {
+                $('.nest-nav').removeClass('fixed-nav');
+            }
+        });
+    });
+</script>
+
+<div class="nest-nav">
+    <nav>
+        <label for="drop" class="toggle">
+            <div class="mobile-nav-icon nav-toggle" onclick="myFunction(this)">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+        </label>
+        <input type="checkbox" id="drop" />
+        <ul class="menu">
+            <li><a href="#CIF_Facilities">Facilities</a></li>
+            <li><a target="_blank" (click)="testClick('TestingChargesList')"> Test Charges</a></li>
+            <li> <a (click)="goto('CifTermsConditions')" >Terms & Conditions</a></li>
+            <li> <a (click)="goto('Login')" >CIF Login</a></li>
+
+        </ul>
+    </nav>
+</div>
