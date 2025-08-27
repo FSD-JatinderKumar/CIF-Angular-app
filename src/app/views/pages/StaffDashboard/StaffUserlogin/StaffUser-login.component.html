@@ -1,4 +1,4 @@
-<section class="section">
+<section class="section" id="NewRegsiterPage" *ngIf="isLoginFailed==false; else ErrorApplication">
   <div class="container-fluid">
     <div class="heading-wrapper mb-5 text-center">
       <h1 class="display-5">Central Instrumentation Facility - Staff Login</h1>
@@ -35,3 +35,18 @@
     </div>
   </div>
 </section>
+<ng-template #ErrorApplication>
+  <div class="heading-wrapper m-5 text-center">
+    <h1 class="display-5">Central Instrumentation Facility - Staff Login</h1>
+  </div>
+  <div class="text-center PagePadding" *ngIf="isLoginFailed">
+      <h3 class="text-center fs-2 m-5 text-danger pt-5 "> Error in User Login . </h3>
+      <div class="row mt-4 mb-4">
+          <div class="col-sm-12 text-center">
+              <div class="mb-3 p-4">
+                  <Label class="form-label fs-4 text-danger ">Unauthorise Access.</Label>
+              </div>
+          </div>
+      </div>
+  </div>
+</ng-template>

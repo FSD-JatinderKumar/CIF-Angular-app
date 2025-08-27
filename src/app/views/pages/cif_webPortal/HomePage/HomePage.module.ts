@@ -8,8 +8,7 @@ import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ArchwizardModule } from 'angular-archwizard';
 // import { NgbCollapseModule, NgbModule, NgbNav, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { NgbCarousel, NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HomePageTopBarComponent } from './HomePageTopBar/HomePageTopBar.component';
+import { NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomePageTopBarModule } from "./HomePageTopBar/HomePageTopBar.module";
 
 const routes: Routes = [

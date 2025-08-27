@@ -4,10 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 // import { AuthGuard } from './core/guard/auth.guard';
 import { ErrorPageComponent } from './views/pages/error-page/error-page.component';
 import { SearchBookingsComponent } from './views/pages/cif_webPortal/search-bookings/search-bookings.component';
-import { CifInstrumentsComponent } from './views/pages/cif_webPortal/CifInstruments/CifInstruments.component';
-import { CifRegisterPageComponent } from './views/pages/cif_webPortal/CifRegisterPage/CifRegisterPage.component';
-// import { RefundStatusComponent } from './views/pages/cif_webPortal/refund-status/refund-status.component';
-// import { ChangePasswordsComponent } from './views/pages/cif_webPortal/change-passwords/change-passwords.component';
 
 
 const routes: Routes = [
@@ -215,6 +211,10 @@ const routes: Routes = [
   {
     path: "CifTermsConditions", //    component:CifTermsConditionsComponent
     loadChildren: () => import('./views/pages/cif_webPortal/OurTermsConditions/OutTermsConditions.module').then(m => m.OurTermsConditionsModule),
+  },
+  {
+    path: "LPUTermsCondition", //    component:CifTermsConditionsComponent
+    loadChildren: () => import('./views/pages/cif_webPortal/LPUTermsConditions/LPUTermsConditions.module').then(m => m.LPUTermsConditionsModule),
   },
   {
     path: "LpuTermsConditions",//    component:OurTermsConditionsComponent

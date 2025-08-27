@@ -1,4 +1,4 @@
-<app-HomePageTopBar></app-HomePageTopBar>
+<app-HomePageTopBar (facilitiesClicked)="gotoFacilities()"></app-HomePageTopBar>
 <div *ngIf="loadingIndicator" class="fullscreen-loader">
     <div class="loader-spinner"></div>
     <div class="loader-text">Loading, please wait...</div>
@@ -11,7 +11,7 @@
                 <div class="call-action">
                     <a style="margin-right: 1rem !important;" class="lpu-btn" (click)="openSampleInstructions()">
                         Address for Sending Samples </a>
-                    <a routerLink="/Login" class="lpu-btn">CIF Login</a>
+                    <!-- <a routerLink="/Login" class="lpu-btn">CIF Login</a> -->
                     <!-- <a href="#" class="d-none"><img src="https://www.lpu.in/lpu-assets/images/cif/login.svg" /></a> -->
                 </div>
             </div>
@@ -62,14 +62,12 @@
         </div>
     </div>
 </section>
-<section class="section bg-dark-yellow">
+<section class="section bg-dark-yellow" #facilitiesSection>
     <div class="container">
         <div class="heading-wraper mb-4">
             <div class="main-head">
-                <h2 id="#CIF_Facilities">Facilities</h2>
-                <div class="call-action">
-                    <a target="_blank" class="link-btn" (click)="testClick('TestingChargesList')">
-                        <img src="https://www.lpu.in/lpu-assets/images/icons/chevron-right.svg" alt="Icon">Test Charges</a>
+                <h2 id="CIF_Facilities">Facilities</h2>
+                <div class="call-action">                    
                     <a (click)="goto('/ourInstruments')" class="link-btn">
                         <img src="https://www.lpu.in/lpu-assets/images/icons/chevron-right.svg" alt="Icon">Know
                         more</a>

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit,Output,ViewChild } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { DOCUMENT } from '@angular/common';
- 
+
 import swal from 'sweetalert2';
 
 @Component({
@@ -16,10 +16,14 @@ import swal from 'sweetalert2';
 })
 
 export class HomePageTopBarComponent implements OnInit {
+  @Output() facilitiesClicked = new EventEmitter<void>();
+  onFacilitiesClick() {
+    this.facilitiesClicked.emit();
+  }
 
   constructor(
     private CIFwebService: LpuCIFWebService,
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -74,5 +78,5 @@ export class HomePageTopBarComponent implements OnInit {
 
   goto(val: any): void {
     this.router.navigateByUrl(val);
-  }
+  }  
 }

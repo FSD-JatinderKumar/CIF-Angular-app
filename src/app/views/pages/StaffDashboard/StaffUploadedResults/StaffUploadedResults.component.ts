@@ -72,6 +72,7 @@ export class StaffUploadedResultsComponent implements OnInit {
     private router: Router, private route: ActivatedRoute,
     private cookieService: CookieService) { }
   user_Email: any;
+  EmployeeCode: any;
   sessionData: any[] = [];
   getSessionDetails() {
     this.sessionData = this.AuthSession.getSession();
@@ -85,7 +86,8 @@ export class StaffUploadedResultsComponent implements OnInit {
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;
     this.UserId = retrievedCookies.EmailId;
-    this.getUploadedResultsDetails(this.UserId);
+    this.EmployeeCode = retrievedCookies.UserId;
+    this.getUploadedResultsDetails(this.EmployeeCode);
 
   }
 
@@ -111,11 +113,11 @@ export class StaffUploadedResultsComponent implements OnInit {
     );
   }
   NoResults: any = '';
-  getUploadedResultsDetails(UserEmailId: any) {
+  getUploadedResultsDetails(UID: any) {
     this.loadingIndicator = true;
     const startTime = new Date().getTime();
     
-    this.CIFwebService.GetUploadedResultDetails(UserEmailId).subscribe({
+    this.CIFwebService.GetUploadedResultDetails(UID).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.BookingData = response.item1;
@@ -124,7 +126,6 @@ export class StaffUploadedResultsComponent implements OnInit {
   
           this.dataSource = response.item1;
           this.tmpsBookingData = response.item1;
-          console.log(JSON.stringify(this.tmpsBookingData))
           this.headHtmlData = this.tmpsBookingData[0];
           this.columns = Object.keys(this.tmpsBookingData[0]);
           this.columns = this.columns.filter((item: any) => item !== 'candidateName' && item !== 'userEmail' && item !== 'id' && item !== 'analysisId');

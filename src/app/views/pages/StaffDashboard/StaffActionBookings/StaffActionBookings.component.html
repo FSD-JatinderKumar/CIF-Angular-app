@@ -18,70 +18,118 @@
         <div class="card">
             <div class="card-body">
                 <div class="row d-flex justify-content-center">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <button (click)="exportToExcel()" class="btn btn-dark "
                                 [disabled]="NoResults=='No Details'">Export to
                                 Excel</button>
                         </div>
                     </div>
-                    <div class="col-sm-5 text-center">
-                        <Label class="fs-5 "> Test Assigned </Label>
+                    <div class="col-sm-3">
+                        <div class="mb-3 text-center">
+                            <Label class="fs-5">Select Filter</Label>
+                        </div>
                     </div>
-                    <div class="col-sm-5 mb-4 ">
-                        <input [(ngModel)]="searchQuery" (keyup)="search()" [disabled]="NoResults=='No Details'" id="search"
-                            type="text" class="form-control" placeholder="Search" aria-label="Search"
+                    <div class="col-sm-3">
+                        <ng-select [(ngModel)]="selectedStatus" (change)="filterData()" [items]="statusOptions"
+                            bindLabel="label" bindValue="value" placeholder="-- Select Payment Type --" class="w-100">
+                            <ng-template ng-option-tmp let-item="item">
+                                <span *ngIf="item.value === ''" class="text-danger">-- All --</span>
+                                <span *ngIf="item.value === 'success'" class="badge bg-success">Paid</span>
+                                <span *ngIf="item.value === 'failure'" class="badge bg-danger">Failure</span>
+                                <span *ngIf="item.value === 'null'" class="badge bg-warning text-dark">Pending</span>
+                            </ng-template>
+                            <ng-template ng-label-tmp let-item="item">
+                                <span *ngIf="item.value === ''" class="text-danger">-- All --</span>
+                                <span *ngIf="item.value === 'success'" class="badge bg-success">Success</span>
+                                <span *ngIf="item.value === 'failure'" class="badge bg-danger">Failure</span>
+                                <span *ngIf="item.value === 'null'" class="badge bg-warning text-dark">Pending</span>
+                            </ng-template>
+                        </ng-select>
+                    </div>
+                    <div class="col-sm-3 mb-4 ">
+                        <input [(ngModel)]="searchQuery" (keyup)="search()" [disabled]="NoResults=='No Details'"
+                            id="search" type="text" class="form-control" placeholder="Search" aria-label="Search"
                             aria-describedby="basic-addon1" />
                     </div>
                     <hr />
                 </div>
-                <hr/>
-                   
-                <ng-container *ngIf="tmpsBookingData.length > 0; else noRecords">
+                <hr />
+
+                <ng-container *ngIf="tmpsBookingData?.length > 0; else noRecords">
                     <div class="table-responsive mt-4 mb-4">
                         <table id="BookingDetailsDataTable" #table>
-                        <thead>
-                            <tr>
-                                <th class="form-label fw-bolder">User Id</th>
-                                <th class="form-label fw-bolder">Booking Id</th>
-                                <th class="form-label fw-bolder">Instrument Name</th>
-                                <th class="fw-bold fw-bolder">Request Sheet</th>
-                                <th class="form-label fw-bolder">Request Date</th>
-                                <th class="form-label fw-bolder">Total Charges </th>
-                                <th class="form-label fw-bolder">Action </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let BookingDataRow of getCurrentPageData(); let i = index">
-                                <tr *ngIf="BookingDataRow.userId.length>0;">
-                                    <td class="fw-bold "> {{BookingDataRow.userId?.length>0? BookingDataRow.userId: 'NA' }}</td>
-                                    <td class="fw-bold"> {{BookingDataRow.bookingId}}</td>
-                                    <td class="fw-bold"> {{BookingDataRow.instrumentName}}</td>
-                                    <ng-container *ngIf="BookingDataRow.fileName; else NoFile">
-                                      <td>
-                                         <button class="btn-dark btn ms-3" (click)="downloadFile(BookingDataRow.fileName)">
-                                              View
-                                            </button>
-                                      </td>
-                                  </ng-container>
-                                  <ng-template #NoFile>
-                                      <td class="ms-4">
-                                        <span class="badge text-bg-info ms-3 fs-5 "> N/A </span></td>
-                                  </ng-template>
-                                    <td class="fw-bold">{{ BookingDataRow.allocatedOn }}</td>
-                                    <td class="fw-bold"> {{BookingDataRow.totalCharges | currency:'INR':'symbol'}}</td>
-                                    <td class="fw-bold"><button class="btn btn-dark btn-sm" (click)="openPaymentModal(BookingDataRow)">Upload </button></td>
+                            <thead>
+                                <tr>
+                                    <th class="form-label fw-bolder">Candidate Id</th>
+                                    <th class="form-label fw-bolder">Candidate Name</th>
+                                    <th class="form-label fw-bolder">Booking Id</th>
+                                    <th class="form-label fw-bolder">Instrument Name</th>
+                                    <th class="form-label fw-bolder">Sample Count</th>
+                                    <th class="form-label fw-bolder">Total Charges </th>
+                                    <th class="fw-bold fw-bolder">Request Sheet</th>
+                                    <th class="form-label fw-bolder">Request Date</th>
+                                    <th class="form-label fw-bolder">Payment Status</th>
+                                    <th class="form-label fw-bolder">Payment Date</th>
+                                    <th class="form-label fw-bolder">Action </th>
                                 </tr>
-                            </ng-container>
-                        </tbody>
-                    </table>
-                    <div class="pagination">
-                        <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
-                                class="mdi mdi-chevron-left  fs-2"> </i> </a>
-                        <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
-                        <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
-                                class="mdi mdi-chevron-right  fs-2"> </i></a>
-                    </div>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let BookingDataRow of getCurrentPageData(); let i = index">
+                                    <tr *ngIf="BookingDataRow.userId.length>0;">
+                                        <td class="fw-bold "> {{BookingDataRow.userId?.length>0? BookingDataRow.userId:
+                                            'NA' }}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.candidateName}}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.bookingId}}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.instrumentName}}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.noOfSamples}}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.totalCharges | currency:'INR':'symbol'}}
+                                        </td>
+                                        <ng-container *ngIf="BookingDataRow.fileName; else NoFile">
+                                            <td>
+                                                <button class="btn-dark btn ms-3"
+                                                    (click)="downloadFile(BookingDataRow.fileName)">
+                                                    View
+                                                </button>
+                                            </td>
+                                        </ng-container>
+                                        <ng-template #NoFile>
+                                            <td class="ms-4">
+                                                <span class="badge text-bg-info ms-3 fs-5 "> N/A </span>
+                                            </td>
+                                        </ng-template>
+                                        <td class="fw-bold">{{ BookingDataRow.allocatedOn }}</td>
+                                        <td>
+                                            <span class="badge" [ngClass]="{
+                                                                                'bg-success': BookingDataRow?.paymentStatus === 'success',
+                                                                                'bg-danger': BookingDataRow?.paymentStatus === 'failure',
+                                                                                'bg-warning text-dark': !BookingDataRow?.paymentStatus || BookingDataRow?.paymentStatus === 'null'
+                                                                              }">
+                                                {{
+                                                BookingDataRow?.paymentStatus === 'success' ? 'Done' :
+                                                BookingDataRow?.paymentStatus === 'failure' ? 'Failed' :
+                                                'Pending'
+                                                }}
+                                            </span>
+                                        </td>
+                                        <td class="fw-bold ">{{BookingDataRow?.paymentDate &&
+                                            BookingDataRow?.paymentDate!='null'
+                                            ? (BookingDataRow?.paymentDate): '-NA-'}}
+
+                                        <td class="fw-bold"><button class="btn btn-dark btn-sm"
+                                                (click)="openPaymentModal(BookingDataRow)">Upload </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                                    class="mdi mdi-chevron-left  fs-2"> </i> </a>
+                            <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                            <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+                        </div>
                     </div>
                 </ng-container>
                 <ng-template #noRecords>
@@ -92,12 +140,16 @@
     </div>
 </div>
 <ng-template #NoData>
-    <div class="text-center " >
-        <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
-        <div class="row mt-4 mb-4">
-            <div class="col-sm-12 text-center">
-                <div class="mb-3 p-4">
-                    <Label class="form-label fs-4 text-danger ">No Booking Found.</Label>
+    <div class="card">
+        <div class="card-body">
+            <div class="text-center ">
+                <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
+                <div class="row mt-4 mb-4">
+                    <div class="col-sm-12 text-center">
+                        <div class="mb-3 p-4">
+                            <Label class="form-label fs-4 text-danger ">No Booking Found.</Label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,17 +186,20 @@
                                         <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.instrumentName}} </td>
                                         <td class=" fs-5 ">
                                             <input class="w-30" required type="file" id="File" name="File"
-                                            (change)="onFileSelected($event)" accept=".zip, .7z, .rar" #fileInput="ngModel"
-                                            ngModel />
-                                            <div class="col- mt-2"><span class="themeClr"> Allowed Documents format Zip and of Max size 5MB </span></div>
+                                                (change)="onFileSelected($event)" accept=".zip, .7z, .rar"
+                                                #fileInput="ngModel" ngModel />
+                                            <div class="col- mt-2"><span class="themeClr"> Allowed Documents format Zip
+                                                    and of Max size 5MB </span></div>
 
                                         </td>
                                         <td class=" fs-5 p-4 " style="width: 20%;">
-                                            <textarea required name="remarks" [(ngModel)]="Remarks"  rows="5" cols="30"
-                                            class="col-12 p-2 form-control" id="remarks" #remarks="ngModel" autocomplete="off">
+                                            <textarea required name="remarks" [(ngModel)]="Remarks" rows="5" cols="30"
+                                                class="col-12 p-2 form-control" id="remarks" #remarks="ngModel"
+                                                autocomplete="off">
                                            </textarea>
                                         </td>
-                                        <td><button type="submit" class="btn btn-primary me-2" [disabled]="this.fileStatus==false "
+                                        <td><button type="submit" class="btn btn-primary me-2"
+                                                [disabled]="this.fileStatus==false "
                                                 (click)="VerifyData(BookingCase);">Upload Result</button></td>
                                     </tr>
                                 </tbody>

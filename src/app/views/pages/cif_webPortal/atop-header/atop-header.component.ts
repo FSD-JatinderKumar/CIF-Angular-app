@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 @Component({
   selector: 'app-atop-header',
@@ -8,7 +10,8 @@ import swal from 'sweetalert2';
 })
 export class ATopHeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(  private fb: FormBuilder, 
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
@@ -29,8 +32,40 @@ export class ATopHeaderComponent implements OnInit {
            </address>`,
       icon: 'info'
     });
- 
-   
- }
 
+
+  }
+
+
+  
+
+  testClick(a: any): void {
+    const fileName = `${a}.pdf`;
+    const fileUrl = `assets/CifDocumentsTemplates/${fileName}`;
+
+    // Check if the file exists
+    fetch(fileUrl, { method: 'HEAD' })
+      .then(response => {
+        if (response.ok) {
+          const link = document.createElement('a');
+          link.href = fileUrl;
+          link.download = fileName;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          // console.error('File not found:', fileUrl);
+          // alert('File not found');
+        }
+      })
+      .catch(error => {
+        // console.error('Error fetching the file:', error);
+        alert('Error downloading file');
+      });
+  }
+
+
+  goto(val: any): void {
+    this.router.navigateByUrl(val);
+  }
 }

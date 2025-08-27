@@ -26,12 +26,7 @@
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        <!-- <select class="form-select" [(ngModel)]="selectedStatus" (change)="filterData()">
-                                                                    <option value="">-- All --</option>
-                                                                    <option value="success">Success</option>
-                                                                    <option value="failure">Failure</option>
-                                                                    <option value="null">Pending</option>
-                                                                </select> -->
+                         
                         <ng-select [(ngModel)]="selectedStatus" (change)="filterData()" [items]="statusOptions" bindLabel="label"
                             bindValue="value" placeholder="-- Select Status --" class="w-100">
                             <!-- Custom Option Template -->
@@ -84,7 +79,7 @@
                                 <ng-container *ngFor="let AllPaymentDataRow of getCurrentPageData(); let i = index">
                                     <tr>
                                         <td class="fw-bold ">{{AllPaymentDataRow.bookingId}}</td>
-                                        <td class="fw-bold "> {{AllPaymentDataRow.instrumentName}}</td>
+                                        <td class="fw-bold ">{{AllPaymentDataRow.instrumentName}}</td>
                                         <td class="fw-bold ">{{AllPaymentDataRow.candidateName}} </td>
                                         <td class="fw-bold ">{{AllPaymentDataRow.organisationName}} </td>
                                         <td class="fw-bold ">{{AllPaymentDataRow.userRole}} </td>
@@ -93,37 +88,20 @@
                                         <td class="fw-bold ">{{ AllPaymentDataRow.requestDate }}</td>
                                         <td class="fw-bold"> {{AllPaymentDataRow?.amount && AllPaymentDataRow.amount!='null'
                                             ? (AllPaymentDataRow.amount | currency:'INR':'symbol'): 'NA'}}</td>
-                                        <!-- <td class="fw-bold">
-                                            {{
-                                            AllPaymentDataRow?.amount && AllPaymentDataRow.amount!='null'
-                                            ? (AllPaymentDataRow.amount )
-                                            : 'NA'
-                                            }}
-                                        </td> -->
-                                        <!-- <td class="fw-bold" [class.text-success]="AllPaymentDataRow?.paymentStatus === 'success'"
-                                            [class.text-danger]="AllPaymentDataRow?.paymentStatus === 'failure'"
-                                            [class.text-warning]="!AllPaymentDataRow?.paymentStatus || AllPaymentDataRow?.paymentStatus === 'null'">
-                                            {{
-                                            AllPaymentDataRow?.paymentStatus === 'success' ? 'Success' :
-                                            AllPaymentDataRow?.paymentStatus === 'failure' ? 'Failed' :
-                                            'Pending'
-                                            }}
-                                        </td> -->
+                                       
                                         <td>
-                                            <span class="badge"
-                                                  [ngClass]="{
-                                                    'bg-success': AllPaymentDataRow?.paymentStatus === 'success',
-                                                    'bg-danger': AllPaymentDataRow?.paymentStatus === 'failure',
-                                                    'bg-warning text-dark': !AllPaymentDataRow?.paymentStatus || AllPaymentDataRow?.paymentStatus === 'null'
-                                                  }">
-                                              {{
+                                            <span class="badge" [ngClass]="{
+                                                                                            'bg-success': AllPaymentDataRow?.paymentStatus === 'success',
+                                                                                            'bg-danger': AllPaymentDataRow?.paymentStatus === 'failure',
+                                                                                            'bg-warning text-dark': !AllPaymentDataRow?.paymentStatus || AllPaymentDataRow?.paymentStatus === 'null'
+                                                                                          }">
+                                                {{
                                                 AllPaymentDataRow?.paymentStatus === 'success' ? 'Done' :
                                                 AllPaymentDataRow?.paymentStatus === 'failure' ? 'Failed' :
                                                 'Pending'
-                                              }}
+                                                }}
                                             </span>
-                                          </td>
-                                          
+                                        </td>
 
                                         <td>
                                             <button class="btn btn-success btn-sm"

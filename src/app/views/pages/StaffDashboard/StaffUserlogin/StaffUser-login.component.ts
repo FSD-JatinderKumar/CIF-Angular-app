@@ -51,25 +51,47 @@ export class StaffUserLoginComponent implements OnInit {
     private cookieService: CookieService,
     private mouDocumentsService: MouDocumentsService,
   ) { }
+  // getToken(loginName: string): void {
+  //   debugger;
+  //   this.authService.loginTemp(loginName).subscribe({
+  //     next: data => {
+  //       this.storageService.saveUser(data);
+  //       const authToken = this.storageService.getUser();
+  //       if (!this.storageService.isLoggedIn() || authToken === 'Token Expired') {
+  //         this.isLoginFailed = true;
+  //       } else {
+  //         this.GetEmployeeDetails();
+  //       }
+  //     },
+  //     // error: err => {
+  //     //   this.isLoginFailed = true;
+  //     // }
+  //     error: err => {
+  //       this.handleLoginFailure(err);
+  //     }
+  //   });
+  // }
   getToken(loginName: string): void {
+
     this.authService.loginTemp(loginName).subscribe({
       next: data => {
-        this.storageService.saveUser(data);
-        const authToken = this.storageService.getUser();
+        debugger;
+        this.storageService.saveUser (data);
+        const authToken = this.storageService.getUser ();
         if (!this.storageService.isLoggedIn() || authToken === 'Token Expired') {
           this.isLoginFailed = true;
+          this.handleLoginFailure(""); 
         } else {
           this.GetEmployeeDetails();
         }
       },
-      // error: err => {
-      //   this.isLoginFailed = true;
-      // }
       error: err => {
-        this.handleLoginFailure(err);
+        this.isLoginFailed = true; // Set the flag for login failure
+        this.handleLoginFailure(err); // Handle the error appropriately
       }
     });
-  }
+}
+
   ngOnInit(): void {
     this.LoginName = this.route.snapshot.params['LoginName'];   
     
@@ -163,7 +185,7 @@ export class StaffUserLoginComponent implements OnInit {
 
           const UserCookies = JSON.stringify(userCookiesData);
           // this.cookieService.set('authData', UserCookies);
-          const expirationMinutes = 15; // Set expiration time in minutes
+          const expirationMinutes = 25; // Set expiration time in minutes
           const expirationDate = new Date();
           expirationDate.setMinutes(expirationDate.getMinutes() + expirationMinutes); // Set expiration time
           this.cookieService.set(

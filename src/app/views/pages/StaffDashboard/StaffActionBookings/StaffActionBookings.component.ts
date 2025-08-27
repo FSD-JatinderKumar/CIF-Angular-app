@@ -123,9 +123,9 @@ export class StaffActionBookingsComponent implements OnInit {
           this.BookingData = response.item1;
           const firstRecord = response.item1[0];
           this.NoResults = firstRecord.returnMessage;
-          
             this.dataSource = response.item1;
             this.tmpsBookingData = response.item1;
+            this.originalData = [...this.BookingData];  
             this.headHtmlData = this.tmpsBookingData[0];
             this.columns = Object.keys(this.tmpsBookingData[0]);
             this.columns = this.columns.filter((item: any) => item !== 'candidateName' && item !== 'userEmail' && item !== 'id' && item !== 'analysisId');
@@ -150,6 +150,28 @@ export class StaffActionBookingsComponent implements OnInit {
     
   }
 
+  originalData: any[] = []; // Loaded from API
+  filteredData: any[] = [];
+  selectedStatus: string = '';
+
+  filterData(): void {
+    if (this.selectedStatus === '') {
+      this.tmpsBookingData = [...this.originalData]; // Show all data
+    } else if (this.selectedStatus === 'null') {
+      this.tmpsBookingData = this.originalData.filter(item => item.paymentStatus === null);
+    } else {
+      this.tmpsBookingData = this.originalData.filter(item => item.paymentStatus === this.selectedStatus);
+    }
+    this.currentPage = 1; // Reset to first page after filtering
+  }
+
+  statusOptions = [
+    { label: 'All', value: '' }, 
+    { label: 'Success', value: 'success' },
+    { label: 'Failure', value: 'failure' },
+    { label: 'Pending', value: 'null' }
+  ];
+  
   getTotalPages() {
     return Math.ceil(this.tmpsBookingData.length / this.itemsPerPage);
   }

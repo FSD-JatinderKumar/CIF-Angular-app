@@ -132,7 +132,7 @@ export class AdminAssignTestComponent implements OnInit {
       next: (response) => {
         if (response.item1 && response.item1.length > 0) {
           this.AllBookingTestsData = response.item1;
-          console.log(this.AllBookingTestsData)
+          this.originalData = [...this.AllBookingTestsData];  
           this.dataSource = new MatTableDataSource(response.item1);
           this.tmpsAllBookingTestsData = response.item1;
           this.headHtmlData = response.item1[0];
@@ -151,6 +151,33 @@ export class AdminAssignTestComponent implements OnInit {
       }
     });
   }
+
+  
+
+  originalData: any[] = []; // Loaded from API
+  filteredData: any[] = [];
+  selectedStatus: string = '';
+
+  filterData(): void {
+    if (this.selectedStatus === '') {
+      this.tmpsAllBookingTestsData = [...this.originalData]; // Show all data
+    } else if (this.selectedStatus === 'null') {
+      this.tmpsAllBookingTestsData = this.originalData.filter(item => item.paymentStatus === null);
+    } else {
+      this.tmpsAllBookingTestsData = this.originalData.filter(item => item.paymentStatus === this.selectedStatus);
+    }
+    this.currentPage = 1; // Reset to first page after filtering
+  }
+
+  statusOptions = [
+    { label: 'All', value: '' }, 
+    { label: 'Success', value: 'success' },
+    { label: 'Failure', value: 'failure' },
+    { label: 'Pending', value: 'null' }
+  ];
+  
+
+
   AllAssignedTest: any;
   getAllAssignedTest(): void {
     this.CIFwebService.GetAllUploadedResultsByStaff().subscribe({

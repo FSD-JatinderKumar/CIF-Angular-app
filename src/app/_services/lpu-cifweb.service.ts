@@ -169,8 +169,8 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + token)
       .set('Content-Type', 'application/json');
     return this.http.get(
-      AUTH_API + 'api/LpuCIF/CIFGetAllAssignedTesttoStaff',
-      // AUTH_API_LOCAL + 'api/LpuCIF/CIFGetAllAssignedTesttoStaff',
+      // AUTH_API + 'api/LpuCIF/CIFGetAllAssignedTesttoStaff',
+    'https://localhost:7125/api/LpuCIF/CIFGetAllAssignedTesttoStaff',
       { headers }
     );
   }
@@ -181,7 +181,7 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + token)
       .set('Content-Type', 'application/json');
     return this.http.get(
-      AUTH_API + 'api/LpuCIF/CIFGetAllAssignedTesttoStaff',
+      AUTH_API + 'api/LpuCIF/CIFGetAllUploadedResultsByStaff',
       // AUTH_API_LOCAL + 'api/LpuCIF/CIFGetAllUploadedResultsByStaff',
       { headers }
     );
@@ -193,8 +193,8 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + token)
       .set('Content-Type', 'application/json');
     return this.http.get(
-      AUTH_API + 'api/LpuCIF/GetAllBookingTests',
-      // AUTH_API_LOCAL + 'api/LpuCIF/GetAllBookingTests',
+      // AUTH_API + 'api/LpuCIF/GetAllBookingTests',
+       'https://localhost:7125/api/LpuCIF/GetAllBookingTests',
       { headers }
     );
   }
@@ -246,8 +246,8 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + this.authToken)
       .set('Content-Type', 'application/json');
     return this.http.get(
-      // AUTH_API + 'api/LpuCIF/GetAllPaymentDetails',
-       'https://localhost:7125/api/LpuCIF/GetAllPaymentDetails' ,
+      AUTH_API + 'api/LpuCIF/GetAllPaymentDetails',
+      //  'https://localhost:7125/api/LpuCIF/GetAllPaymentDetails' ,
       { headers }
     );
   }

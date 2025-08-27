@@ -6,19 +6,48 @@
 <div class="row" *ngIf="AllBookingTestsData.length > 0; else NoData" >
     <div class="col-12 stretch-card">
         <div class="card">
+            <hr />
+            <div class="row d-flex justify-content-center">
+                <h2 class="fs-1 text-center">Assign Test Page </h2>
+            </div>
+            <hr />
             <div class="card-body">
                 <div class="row mt-4 mb-4">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <button (click)="exportToExcel()" class="btn btn-dark" [disabled]="tmpsAllBookingTestsData.length==0">Export to Excel</button>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="mb-3">
-                            <h2>Test Assign Page</h2>
+                    <div class="col-sm-3">
+                        <div class="mb-3 text-center">
+                            <Label class="fs-5">Select Filter</Label>
                         </div>
                     </div>
-                    <div class="col-sm-4 mb-4">
+                
+                    <div class="col-sm-3">
+                
+                        <ng-select [(ngModel)]="selectedStatus" (change)="filterData()" [items]="statusOptions" bindLabel="label"
+                            bindValue="value" placeholder="-- Select Status --" class="w-100">
+                            <!-- Custom Option Template -->
+                            <ng-template ng-option-tmp let-item="item">
+                                <span *ngIf="item.value === ''" class="text-danger">-- All --</span>
+                                <span *ngIf="item.value === 'success'" class="badge bg-success">Paid</span>
+                                <span *ngIf="item.value === 'failure'" class="badge bg-danger">Failure</span>
+                                <span *ngIf="item.value === 'null'" class="badge bg-warning text-dark">Pending</span>
+                            </ng-template>
+                
+                            <!-- Custom Selected Item Template -->
+                            <ng-template ng-label-tmp let-item="item">
+                                <span *ngIf="item.value === ''" class="text-danger">-- All --</span>
+                                <span *ngIf="item.value === 'success'" class="badge bg-success">Success</span>
+                                <span *ngIf="item.value === 'failure'" class="badge bg-danger">Failure</span>
+                                <span *ngIf="item.value === 'null'" class="badge bg-warning text-dark">Pending</span>
+                            </ng-template>
+                        </ng-select>
+                
+                
+                    </div>
+                    <div class="col-sm-3 mb-4">
                         <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text"
                         class="form-control" placeholder="Search Your Text Here" aria-label="Search"
                         aria-describedby="basic-addon1" />
@@ -29,13 +58,16 @@
                         <table id="AdminAssignTest" #table>
                             <thead>
                                 <tr>
-                                    <th class="fw-bold ">Candidate Name</th>
-                                    <th class="fw-bold  ">Candidate Email</th>
-                                    <th class="fw-bold  ">Instrument Name</th>
-                                    <th class="fw-bold  ">Request Sheet</th>
-                                    <th class="fw-bold  ">Number of Samples</th>
-                                    <th class="fw-bold  ">Request Date</th>
-                                    <th class="fw-bold  ">Assign Action</th>
+                                    <th class="fw-bolder">Candidate Name</th>
+                                    <th class="fw-bolder">Candidate Email</th>
+                                    <th class="fw-bolder">Instrument Name</th>
+                                    <th class="fw-bolder">Number of Samples</th>
+                                    <th class="fw-bolder">Request Sheet</th>
+                                    <th class="fw-bolder">Request Date</th>
+                                    <th class="fw-bolder">Payment Status</th>
+                                    <th class="fw-bolder">Amount</th>
+                                    <th class="fw-bolder">Payment Date</th>
+                                    <th class="fw-bolder">Assign Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,6 +78,7 @@
                                         <td class="fw-bold ">{{AllBookingTestsDataRow.userEmailId?.length>0 ? AllBookingTestsDataRow.userEmailId
                                             : 'Internal User' }}</td>
                                         <td class="fw-bold ">{{AllBookingTestsDataRow.instrumentName}}</td>
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow.noOfSamples}}</td>
                                         <ng-container *ngIf="AllBookingTestsDataRow.fileName; else NoFile">
                                             <td>
                                                 <button class="btn-dark btn ms-3" (click)="downloadFile(AllBookingTestsDataRow.fileName)">
@@ -58,8 +91,28 @@
                                                 <span class="badge text-bg-info ms-3 fs-5 "> N/A </span>
                                             </td>
                                         </ng-template>
-                                        <td class="fw-bold ">{{AllBookingTestsDataRow.noOfSamples}}</td>
+                                       
                                         <td class="fw-bold ">{{AllBookingTestsDataRow.bookingRequestDate | date:'dd/MM/yyyy' }}</td>
+                                        <td>
+                                            <span class="badge" [ngClass]="{
+                                                                                            'bg-success': AllBookingTestsDataRow?.paymentStatus === 'success',
+                                                                                            'bg-danger': AllBookingTestsDataRow?.paymentStatus === 'failure',
+                                                                                            'bg-warning text-dark': !AllBookingTestsDataRow?.paymentStatus || AllBookingTestsDataRow?.paymentStatus === 'null'
+                                                                                          }">
+                                                {{
+                                                AllBookingTestsDataRow?.paymentStatus === 'success' ? 'Paid' :
+                                                AllBookingTestsDataRow?.paymentStatus === 'failure' ? 'Failed' :
+                                                'Pending'
+                                                }}
+                                            </span>
+                                        </td>
+                                        <td class="fw-bold"> {{AllBookingTestsDataRow?.totalCharges && AllBookingTestsDataRow?.totalCharges!='null'
+                                            ? (AllBookingTestsDataRow?.totalCharges | currency:'INR':'symbol'): 'NA'}}</td>
+                                       
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow?.paymentDate && AllBookingTestsDataRow?.paymentDate!='null'
+                                            ? (AllBookingTestsDataRow?.paymentDate): '-NA-'}}
+                                            
+                                       </td>
                                         <td class="fw-bold ">
                                             <!-- <button class="btn btn-dark" (click)="openPaymentModal(AllBookingTestsDataRow)">Assign</button> -->
                                             <button class="btn btn-dark"
@@ -91,12 +144,16 @@
     </div>
 </div>
 <ng-template #NoData>
-    <div class="text-center bg-info" >
-        <h3 class="text-center fs-2 m-5  pt-5 "> No Record ! </h3>
-        <div class="row mt-4 mb-4">
-            <div class="col-sm-12 text-center">
-                <div class="mb-3 p-4">
-                    <Label class="fw-bold  fs-4  ">No Booking Found.</Label>
+    <div class="card">
+        <div class="card-body">
+            <div class="text-center ">
+                <h3 class="text-center fs-2 m-5  pt-5 "> No Record ! </h3>
+                <div class="row mt-4 mb-4">
+                    <div class="col-sm-12 text-center">
+                        <div class="mb-3 p-4">
+                            <Label class="fw-bold  fs-4  ">No Booking Found.</Label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

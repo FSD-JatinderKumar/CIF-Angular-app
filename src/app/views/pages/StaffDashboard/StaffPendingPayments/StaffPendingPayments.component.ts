@@ -169,20 +169,23 @@ export class StaffPendingPaymentsComponent implements OnInit {
   }
   exportToExcel(): void {
     const fileName = 'Booking_Details_report.xlsx';
-    const exportedData = this.AllPaymentData.map(item => ({
-      BookingNo: item.bookingId,
-      InstrumentName: item.instrumentName,
-      candidateName: item.candidateName,
-      BookingDate: item.requestDate,
-      NoOfSamples: item.noOfSamples,
-      Charges: item.totalCharges,
-
+    const exportedData = this.AllPaymentData.map(item => ({     
+      BookingId :item.bookingId,
+      InstrumentName :item.instrumentName,
+      CandidateName :item.candidateName,
+      OrganisationName :item.organisationName,
+      UserRole :item.userRole,
+      UserEmailId :item.userEmailId,
+      NoOfSamples :item.noOfSamples,
+      RequestDate  :item.requestDate ,
+      PaymentStatus:item.paymentStatus === 'success' ? 'Success' : item?.paymentStatus === 'failure' ? 'Failed' : 'Pending',
+      MobileNo:item.mobileNo,
     }));
 
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportedData);
 
     const wscols = [
-      { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }
+      { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }
     ];
     ws['!cols'] = wscols;
 
