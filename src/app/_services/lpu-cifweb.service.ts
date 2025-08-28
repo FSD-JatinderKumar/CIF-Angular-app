@@ -162,15 +162,15 @@ export class LpuCIFWebService {
   //   return this.http.get<any>(this.baseUrl + 'LpuCIF/GetAllBookingSlot?UserId=' + UserEmailId, httpOptions);
   // }
 
-  // https://localhost:7125/api/LpuCIF/GetAllBookingTests
+  // https://projectsapi.lpu.in/api/LpuCIF/GetAllBookingTests
   GetAllBooking(): Observable<any> {
     let token = this.storageService.getUser();
     let headers = new HttpHeaders()
       .set('Authorization', 'Bearer ' + token)
       .set('Content-Type', 'application/json');
     return this.http.get(
-      // AUTH_API + 'api/LpuCIF/CIFGetAllAssignedTesttoStaff',
-    'https://localhost:7125/api/LpuCIF/CIFGetAllAssignedTesttoStaff',
+      AUTH_API + 'api/LpuCIF/CIFGetAllAssignedTesttoStaff',
+    // 'https://projectsapi.lpu.in/api/LpuCIF/CIFGetAllAssignedTesttoStaff',
       { headers }
     );
   }
@@ -193,8 +193,8 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + token)
       .set('Content-Type', 'application/json');
     return this.http.get(
-      // AUTH_API + 'api/LpuCIF/GetAllBookingTests',
-       'https://localhost:7125/api/LpuCIF/GetAllBookingTests',
+      AUTH_API + 'api/LpuCIF/GetAllBookingTests',
+      //  'https://projectsapi.lpu.in/api/LpuCIF/GetAllBookingTests',
       { headers }
     );
   }
@@ -218,7 +218,7 @@ export class LpuCIFWebService {
       // AUTH_API + 'api/LpuCIF/MakePaymentNowNew', newPaymentRecord, { headers }
     );
   }
-  // https://localhost:7125/api/LpuCIF/GetUserPaymentDetails?UserId=3130258'
+  // https://projectsapi.lpu.in/api/LpuCIF/GetUserPaymentDetails?UserId=3130258'
   GetUserPaymentDetails(UserEmailId: string): Observable<any> {
     let token = this.storageService.getUser();
     let headers = new HttpHeaders()
@@ -247,7 +247,7 @@ export class LpuCIFWebService {
       .set('Content-Type', 'application/json');
     return this.http.get(
       AUTH_API + 'api/LpuCIF/GetAllPaymentDetails',
-      //  'https://localhost:7125/api/LpuCIF/GetAllPaymentDetails' ,
+      //  'https://projectsapi.lpu.in/api/LpuCIF/GetAllPaymentDetails' ,
       { headers }
     );
   }
@@ -303,7 +303,7 @@ export class LpuCIFWebService {
       .set('Authorization', 'Bearer ' + this.authToken)
     //.set('Authorization', 'Bearer ' + this.Localtoken)
     return this.http.post(
-      //  'https://localhost:7125/api/LpuCIF/CIFAssignTest', dataSoft, { headers }
+      //  'https://projectsapi.lpu.in/api/LpuCIF/CIFAssignTest', dataSoft, { headers }
       AUTH_API + 'api/LpuCIF/CIFAssignTest', dataSoft, { headers }
     );
   }
@@ -431,7 +431,7 @@ export class LpuCIFWebService {
   }
 
 
-  // /LpuCIF/CIFGetUserDetails?EmailId=vijay.24374%40lpu.com'  https://localhost:7125/api/LpuCIF/CIFGetUserDetails?EmailId=vijay.24374%40lpu.com' 
+  // /LpuCIF/CIFGetUserDetails?EmailId=vijay.24374%40lpu.com'  https://projectsapi.lpu.in/api/LpuCIF/CIFGetUserDetails?EmailId=vijay.24374%40lpu.com' 
   // CIFGetUserDetails(UserEmail:any): Observable<any> {
   //   let authToken = this.storageService.getUser();
   //   let headers = new HttpHeaders()
@@ -580,7 +580,7 @@ export class LpuCIFWebService {
       .set('Content-Type', 'application/json');
     return this.http.get(
       AUTH_API + 'api/LpuCIF/GetAllUserFeedbacks', { headers }
-      // 'https://localhost:7125/api/LpuCIF/GetAllUserFeedbacks', { headers }
+      // 'https://projectsapi.lpu.in/api/LpuCIF/GetAllUserFeedbacks', { headers }
     );   
   }
   GetUploadedResultDetails(UserEmailId: any): Observable<any> {
@@ -590,7 +590,7 @@ export class LpuCIFWebService {
       .set('Content-Type', 'application/json');
     return this.http.get(
       AUTH_API + 'api/LpuCIF/GetUploadedResultDetails?UserId=' + UserEmailId, { headers }
-      // 'https://localhost:7125/api/LpuCIF/GetUploadedResultDetails?UserId=' + UserEmailId, { headers }
+      // 'https://projectsapi.lpu.in/api/LpuCIF/GetUploadedResultDetails?UserId=' + UserEmailId, { headers }
     );   
   }
   GetAllUserLists(): Observable<any> {
@@ -600,7 +600,7 @@ export class LpuCIFWebService {
       .set('Content-Type', 'application/json');
     return this.http.get(
       AUTH_API + 'api/LpuCIF/GetCIFAssignTestProperties', { headers }
-      // 'https://localhost:7125/api/LpuCIF/GetCIFAssignTestProperties', { headers }
+      // 'https://projectsapi.lpu.in/api/LpuCIF/GetCIFAssignTestProperties', { headers }
     );   
   }
 }

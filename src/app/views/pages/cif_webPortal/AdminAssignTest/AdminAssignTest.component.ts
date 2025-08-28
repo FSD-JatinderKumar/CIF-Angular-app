@@ -92,7 +92,7 @@ export class AdminAssignTestComponent implements OnInit {
     // this.loadUserFromCookies();
     this.getAllPaymentDetails();
     this.getAllAssignedTest();
-    this.getAllCifUserList();
+    // this.getAllCifUserList();
   }
 
   loadUserFromCookies(): void {
@@ -132,6 +132,7 @@ export class AdminAssignTestComponent implements OnInit {
       next: (response) => {
         if (response.item1 && response.item1.length > 0) {
           this.AllBookingTestsData = response.item1;
+          console.log(JSON.stringify(this.AllBookingTestsData))
           this.originalData = [...this.AllBookingTestsData];  
           this.dataSource = new MatTableDataSource(response.item1);
           this.tmpsAllBookingTestsData = response.item1;
@@ -317,13 +318,12 @@ isAlreadyAssigned(row: any): boolean {
 
 
 
-  AllCifUserList: any;
+  AllCifUserList: any=[];
   getAllCifUserList(): void {
     this.CIFwebService.GetAllUserLists().subscribe({
       next: (response) => {
         if (response.item1 && response.item1.length > 0) {
           this.AllCifUserList = response.item1;
-          console.log("AllCifUserList"+JSON.stringify(this.AllCifUserList));
         } else {
           this.AllCifUserList = [];
         }

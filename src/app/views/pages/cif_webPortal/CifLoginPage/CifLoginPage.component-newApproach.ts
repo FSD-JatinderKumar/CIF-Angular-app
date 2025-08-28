@@ -24,17 +24,17 @@ import { MouDocumentsService } from 'src/app/_services/mou-documents.service';
   styleUrls: ['./CifLoginPage.component.scss']
 })
 export class CifLoginPageComponent implements OnInit {
-  
-  registrationNumber: any;      EmployeeDetails: any[] = [];    regdId: any;  DriveDropDown: any;  showNoDataFoundMessage: boolean;  UserData: any;
-  isLoginFailed: boolean;  EmployeeName: any;  EmployeeCode: any;  Department: any;  DepartmentName: any;  loadingIndicator: boolean;  CandidateName: any;
-  UserId: any;  Designation: any;  EmailId: any;  MobileNo: any;  UserRole: any;  SupervisorName: any;  ProofNumber: any;  ProofName: any;  SecretKey: any;
+  formdata!: FormGroup;
+  registrationNumber: any; EmployeeDetails: any[] = []; regdId: any; DriveDropDown: any; showNoDataFoundMessage: boolean; UserData: any;
+  isLoginFailed: boolean; EmployeeName: any; EmployeeCode: any; Department: any; DepartmentName: any; loadingIndicator: boolean; CandidateName: any;
+  UserId: any; Designation: any; EmailId: any; MobileNo: any; UserRole: any; SupervisorName: any; ProofNumber: any; ProofName: any; SecretKey: any;
   showPassword: boolean = false;
   Email: any;
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-  
-  
+
+
   constructor(
     private CIFwebService: LpuCIFWebService,
     private storageService: StorageService,
@@ -46,20 +46,23 @@ export class CifLoginPageComponent implements OnInit {
     private route: ActivatedRoute,
     private cookieService: CookieService,
     private mouDocumentsService: MouDocumentsService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cookieService.delete('authData');
     this.AuthSession.clearSession();
+    this.loadForm();
   }
   loginError: string | null = null;
+  loadForm() {
 
-  formdata = new FormGroup({
-    UserRoleS: new FormControl('', [Validators.required]),
-    Email: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(5)]),
-  });
- 
+    this.formdata = new FormGroup({
+      UserRoleS: new FormControl('', [Validators.required]),
+      Email: new FormControl('', [Validators.required, Validators.minLength(5)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    });
+  }
+
 
   get email() {
     return this.formdata.get('Email');
@@ -101,12 +104,12 @@ export class CifLoginPageComponent implements OnInit {
     }
 
     if (this.formdata.invalid) {
-      this.formdata.markAllAsTouched(); 
+      this.formdata.markAllAsTouched();
       return;
     }
   }
 
- 
+
   LoginFailed(_NewError: any) {
     this.isLoginFailed = true;
     swal.fire({
@@ -121,7 +124,7 @@ export class CifLoginPageComponent implements OnInit {
   }
 
 
-  AuthoriseUser(Id: any, Key: any, Role: number): void{
+  AuthoriseUser(Id: any, Key: any, Role: number): void {
     this.CIFwebService.GetAuthoriseUserData(Id, Key, Role).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -153,7 +156,7 @@ export class CifLoginPageComponent implements OnInit {
             MobileNo: this.MobileNo,
             UserRole: this.UserRole,
             SupervisorName: this.SupervisorName,
-            ProofNumber:this.ProofNumber,
+            ProofNumber: this.ProofNumber,
             ProofName: this.ProofName,
             PasswordText: this.SecretKey,
           };
@@ -207,7 +210,7 @@ export class CifLoginPageComponent implements OnInit {
           this.EmployeeDetails = response.item1;
 
           this.CandidateName = this.EmployeeName =
-          response.item1[0].employeeName;
+            response.item1[0].employeeName;
           this.UserId = this.EmployeeCode = response.item1[0].employeeCode;
           this.Department = response.item1[0].department;
           this.DepartmentName = response.item1[0].departmentName;
@@ -262,8 +265,8 @@ export class CifLoginPageComponent implements OnInit {
   }
 
 
- 
-  AuthoriseUserNewWay(Id: any, Key: any, Role: any): void {   
+
+  AuthoriseUserNewWay(Id: any, Key: any, Role: any): void {
     this.CIFwebService.GetAuthoriseUserData(Id, Key, Role).subscribe({
       next: response => {
         if (response.item1 && response.item1.length > 0) {
@@ -282,75 +285,75 @@ export class CifLoginPageComponent implements OnInit {
         console.log(err);
       },
     });
-  
+
     this.formdata.reset();
   }
 
-  
-AccessToken: any;
 
-CreateToken(Id: any, response: any) {
-  this.authService.LoginJournalAccessTemp(Id).subscribe({
-    next: data => {
-      this.storageService.saveUser(data);
-      this.SetUserData(response);
-     
-    },
-    error: err => {
-      this.loadingIndicator = false;
-      this.showNoDataFoundMessage = false;
-      this.isLoginFailed = false;
-    }
-  });
-}
+  AccessToken: any;
 
-SetUserData(response: any) {
-  this.UserData = response.item1;
-  this.CandidateName = this.EmployeeName = response.item1[0].candidateName;
-  this.UserId = this.EmployeeCode = this.EmailId;
-  this.Department = response.item1[0].department;
-  this.DepartmentName = response.item1[0].departmentName;
-  this.Designation = response.item1[0].department;
-  this.EmailId = response.item1[0].emailId;
-  this.MobileNo = response.item1[0].mobileNumber;
-  this.UserRole = response.item1[0].userRole;
-  this.SupervisorName = response.item1[0].supervisorName;
-  this.ProofNumber = btoa(response.item1[0].idProofNumber);
-  this.ProofName = response.item1[0].idProofType;
-  this.SecretKey = btoa(response.item1[0].passwordText);
+  CreateToken(Id: any, response: any) {
+    this.authService.LoginJournalAccessTemp(Id).subscribe({
+      next: data => {
+        this.storageService.saveUser(data);
+        this.SetUserData(response);
 
-  this.loadingIndicator = false;
-  this.showNoDataFoundMessage = false;
-  this.isLoginFailed = false;
+      },
+      error: err => {
+        this.loadingIndicator = false;
+        this.showNoDataFoundMessage = false;
+        this.isLoginFailed = false;
+      }
+    });
+  }
 
-  const userCookiesData = {
-    CandidateName: this.CandidateName,
-    UserId: this.EmailId,
-    Department: this.Department,
-    DepartmentName: this.DepartmentName,
-    Designation: this.Designation,
-    EmailId: this.EmailId,
-    MobileNo: this.MobileNo,
-    UserRole: this.UserRole,
-    SupervisorName: this.SupervisorName,
-    ProofNumber:this.ProofNumber,
-    ProofName: this.ProofName,
-    PasswordText: this.SecretKey,
-  };
+  SetUserData(response: any) {
+    this.UserData = response.item1;
+    this.CandidateName = this.EmployeeName = response.item1[0].candidateName;
+    this.UserId = this.EmployeeCode = this.EmailId;
+    this.Department = response.item1[0].department;
+    this.DepartmentName = response.item1[0].departmentName;
+    this.Designation = response.item1[0].department;
+    this.EmailId = response.item1[0].emailId;
+    this.MobileNo = response.item1[0].mobileNumber;
+    this.UserRole = response.item1[0].userRole;
+    this.SupervisorName = response.item1[0].supervisorName;
+    this.ProofNumber = btoa(response.item1[0].idProofNumber);
+    this.ProofName = response.item1[0].idProofType;
+    this.SecretKey = btoa(response.item1[0].passwordText);
 
-  // this.cookieService.set('authData', JSON.stringify(userCookiesData));
-  // console.log("DATA " + JSON.stringify(userCookiesData))
-  const UserCookies = JSON.stringify(userCookiesData);
-  this.cookieService.set('authData', UserCookies);
-  swal.fire({
-    title: 'Login Successful',
-    text: 'Login details are Valid!',
-    icon: 'success',
-  });
-  this.AuthSession.addToSession(this.UserData);
- 
-  this.router.navigate(['/CifTermsConditions']);
- 
-}
+    this.loadingIndicator = false;
+    this.showNoDataFoundMessage = false;
+    this.isLoginFailed = false;
+
+    const userCookiesData = {
+      CandidateName: this.CandidateName,
+      UserId: this.EmailId,
+      Department: this.Department,
+      DepartmentName: this.DepartmentName,
+      Designation: this.Designation,
+      EmailId: this.EmailId,
+      MobileNo: this.MobileNo,
+      UserRole: this.UserRole,
+      SupervisorName: this.SupervisorName,
+      ProofNumber: this.ProofNumber,
+      ProofName: this.ProofName,
+      PasswordText: this.SecretKey,
+    };
+
+    // this.cookieService.set('authData', JSON.stringify(userCookiesData));
+    // console.log("DATA " + JSON.stringify(userCookiesData))
+    const UserCookies = JSON.stringify(userCookiesData);
+    this.cookieService.set('authData', UserCookies);
+    swal.fire({
+      title: 'Login Successful',
+      text: 'Login details are Valid!',
+      icon: 'success',
+    });
+    this.AuthSession.addToSession(this.UserData);
+
+    this.router.navigate(['/CifTermsConditions']);
+
+  }
 
 }

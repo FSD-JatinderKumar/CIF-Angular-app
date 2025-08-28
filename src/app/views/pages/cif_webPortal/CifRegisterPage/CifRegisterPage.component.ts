@@ -1,20 +1,12 @@
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
-import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/_services/auth.service';
 import { StorageService } from 'src/app/_services/storage.service';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
-import Swal from 'sweetalert2';
-import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { LoginSessionService } from 'src/app/_services/login-session.service';
-import { DOCUMENT } from '@angular/common';
 
 
-import { AbstractControl, ValidatorFn } from '@angular/forms';
-import { DataTable } from "simple-datatables";
-import * as XLSX from 'xlsx';
 import { Validators } from '@angular/forms';
 import swal from 'sweetalert2';
 

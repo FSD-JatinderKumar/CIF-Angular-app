@@ -4,26 +4,35 @@
     <div class="loader-spinner"></div>
     <div class="loader-text">Fetching details, please wait...</div>
 </div>
-  
+<div class="col-12 stretch-card">
+    <div class="card">
+        <div class="card-body d-flex justify-content-center">
+            
+            <div class="row ">
+                <Label class="fs-4 ">All User Feedback Details </Label>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row" *ngIf="AllFeedbackData.length > 0 ;else NoData">
     <div class="col-12 stretch-card">
         <div class="card">
             <div class="card-body">
                 <hr />
                 <div class="row d-flex justify-content-center">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <button (click)="exportToExcel()" class="btn btn-dark "
                                 [disabled]="tmpsAllFeedbackData.length ===0">Export to
                                 Excel</button>
                         </div>
                     </div>
-                    <div class="col-sm-5">
+                    <!-- <div class="col-sm-3">
                         <div class="mb-3 text-center">
                             <Label class="fs-4 ">All User Feedback Details </Label>
                         </div>
-                    </div>
-                    <div class="col-sm-5 mb-4 ">
+                    </div> -->
+                    <div class="col-sm-3 mb-4 ">
                         <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text"
                             class="form-control " placeholder="Search" aria-label="Search"
                             aria-describedby="basic-addon1" />
@@ -75,12 +84,16 @@
     </div>
 </div>
 <ng-template #NoData>
-    <div class="text-center bg-info">
-        <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
-        <div class="row mt-4 mb-4">
-            <div class="col-sm-12 text-center">
-                <div class="mb-3 p-4">
-                    <Label class="form-label fs-4 text-danger ">No Data Found.</Label>
+    <div class="card">
+        <div class="card-body">
+            <div class="text-center ">
+                <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record(s) ! </h3>
+                <div class="row mt-4 mb-4">
+                    <div class="col-sm-12 text-center">
+                        <div class="mb-3 p-4">
+                            <Label class="form-label fs-4 text-danger ">No Feedback details !</Label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
