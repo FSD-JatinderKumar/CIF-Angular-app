@@ -12,7 +12,8 @@ const routes: Routes = [
   // Staff Dashboard for Upload results
 
   {
-    path: "StaffLogins/:LoginName",
+    // path: "StaffLogins/:LoginName",
+    path: "StaffLogins",
     loadChildren: () => import('./views/pages/StaffDashboard/StaffUserlogin/StaffUser-login.module').then(m => m.StaffUserLoginModule),
     // component:AdminPendingPaymentsComponent
   },
@@ -151,7 +152,7 @@ const routes: Routes = [
     // component:ChangePasswordsComponent,
     loadChildren: () => import('./views/pages/cif_webPortal/change-passwords/change-passwords.module').then(m => m.ChangePasswordsModule),
   },
-
+// Admin Dashboard
   {
     path: "AdminLoginX",  
     loadChildren: () => import('./views/pages/cif_webPortal/internalUser-login/internalUser-login.module').then(m => m.InternalUserLoginModule),
