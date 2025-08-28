@@ -29,7 +29,6 @@
 
                         <ng-select [(ngModel)]="selectedStatus" (change)="filterData()" [items]="statusOptions"
                             bindLabel="label" bindValue="value" placeholder="-- Select Status --" class="w-100">
-                            <!-- Custom Option Template -->
                             <ng-template ng-option-tmp let-item="item">
                                 <span *ngIf="item.value === ''" class="text-danger">-- All --</span>
                                 <span *ngIf="item.value === 'success'" class="badge bg-success">Paid</span>
@@ -37,7 +36,6 @@
                                 <span *ngIf="item.value === 'null'" class="badge bg-warning text-dark">Pending</span>
                             </ng-template>
 
-                            <!-- Custom Selected Item Template -->
                             <ng-template ng-label-tmp let-item="item">
                                 <span *ngIf="item.value === ''" class="text-danger">-- All --</span>
                                 <span *ngIf="item.value === 'success'" class="badge bg-success">Success</span>
@@ -203,7 +201,7 @@
                                                 #AssignedTo="ngModel">
                                                 <option value="" selected>Select Staff</option>
                                                 <option *ngFor="let session of AllCifUserList" [value]="session.uid">
-                                                    {{ session.uiD_Name }}
+                                                    {{session.uiD_Name}} 
                                                 </option>
 
                                             </select>

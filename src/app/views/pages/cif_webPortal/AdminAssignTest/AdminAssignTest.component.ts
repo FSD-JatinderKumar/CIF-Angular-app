@@ -92,7 +92,7 @@ export class AdminAssignTestComponent implements OnInit {
     // this.loadUserFromCookies();
     this.getAllPaymentDetails();
     this.getAllAssignedTest();
-    // this.getAllCifUserList();
+    this.getAllCifUserList();
   }
 
   loadUserFromCookies(): void {
@@ -132,7 +132,6 @@ export class AdminAssignTestComponent implements OnInit {
       next: (response) => {
         if (response.item1 && response.item1.length > 0) {
           this.AllBookingTestsData = response.item1;
-          console.log(JSON.stringify(this.AllBookingTestsData))
           this.originalData = [...this.AllBookingTestsData];  
           this.dataSource = new MatTableDataSource(response.item1);
           this.tmpsAllBookingTestsData = response.item1;
@@ -257,7 +256,7 @@ isAlreadyAssigned(row: any): boolean {
 
   onActivitySelected(event: any): void {
     this.AssignedTo = event.target.value;
-    alert(this.AssignedTo)
+    // alert(this.AssignedTo)
   }
   VerifyData(AssignTest: any): void {
     const formData = new FormData();
@@ -316,9 +315,46 @@ isAlreadyAssigned(row: any): boolean {
     }
   }
 
+   AllCifUserList = [
+    {
+      uid: '24374',
+      uiD_Name: 'Dr. Vijay Kumar'
+    },
+    {
+      uid: '20362',
+      uiD_Name: 'Dr. Nupur Prasad '
+    },
+    {
+      uid: '16477',
+      uiD_Name: 'Mr. Prashant Kumar '
+    },
+    {
+      uid: '27727',
+      uiD_Name: 'Dr. Nabaparna Chakraborty '
+    },
+    {
+      uid: '26918',
+      uiD_Name: 'Ms. Baljit Bangar'
+    },
+    {
+      uid: '30694',
+      uiD_Name: 'Ms. Amandeep Kaur'
+    },
+    {
+      uid: '29159',
+      uiD_Name: 'Ms. Kamlash Rani '
+    },
+    {
+      uid: '31691',
+      uiD_Name: 'Mr. Sameer Singh Pathania'
+    },
+    {
+      uid: '33476',
+      uiD_Name: 'Mr. Sanjeev Verma '
+    },
+  ];
 
-
-  AllCifUserList: any=[];
+  
   getAllCifUserList(): void {
     this.CIFwebService.GetAllUserLists().subscribe({
       next: (response) => {
