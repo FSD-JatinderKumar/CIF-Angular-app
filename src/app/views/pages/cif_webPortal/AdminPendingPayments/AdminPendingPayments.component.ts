@@ -171,14 +171,15 @@ export class AdminPendingPaymentsComponent implements OnInit {
     const fileName = 'Booking_Details_report.xlsx';
     const exportedData = this.AllPaymentData.map(item => ({
  
-         BookingId :item.bookingId,
-         InstrumentName :item.instrumentName,
          CandidateName :item.candidateName,
-         OrganisationName :item.organisationName,
-         UserRole :item.userRole,
          UserEmailId :item.userEmailId,
+         UserRole :item.userRole,
+         OrganisationName :item.organisationName,
+         InstrumentName :item.instrumentName,
+         BookingId :item.bookingId,
          NoOfSamples :item.noOfSamples,
          RequestDate  :item.requestDate ,
+         PaymentAmount  :item.amount ,
          PaymentStatus:item.paymentStatus === 'success' ? 'Success' : item?.paymentStatus === 'failure' ? 'Failed' : 'Pending',
          MobileNo:item.mobileNo,
 

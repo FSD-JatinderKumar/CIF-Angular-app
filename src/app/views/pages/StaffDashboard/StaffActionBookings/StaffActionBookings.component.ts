@@ -196,18 +196,24 @@ export class StaffActionBookingsComponent implements OnInit {
 
   exportToExcel(): void {
     const fileName = 'AssignedResults_report.xlsx';
-    const exportedData = this.BookingData.map((item: { userEmailId: any; bookingId: any; instrumentName: any; totalCharges: any; allocatedOn: any; }) => ({
-      EmailId: item.userEmailId,
+    const exportedData = this.BookingData.map((item: { paymentStatus:any;mobileNumber:any;organisationName: any; userRole: any; userId: any;candidateName:any; bookingId: any; instrumentName: any; noOfSamples: any; totalCharges: any; userEmailId: any; allocatedOn: any; }) => ({
       BookingId: item.bookingId,
-      Instrument: item.instrumentName,
-      Charges: item.totalCharges,
+      InstrumentName: item.instrumentName,
+      SampleCount: item.noOfSamples,
+      Charnges: item.totalCharges,
+      UserEmailId: item.userId,
+      UsermobileNumber: item.mobileNumber,
+      candidateName: item.candidateName,
+      organisationName: item.organisationName,
+      userRole: item.userRole,
       BookingDate: item.allocatedOn,
+      PaymentStatus: item?.paymentStatus === 'success' ? 'Done' : item?.paymentStatus === 'failure' ? 'Failed' : 'Pending'
     }));
 
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportedData);
 
     const wscols = [
-      { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }
+      { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 },{ wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 },{ wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }, { wpx: 180 }
     ];
     ws['!cols'] = wscols;
 

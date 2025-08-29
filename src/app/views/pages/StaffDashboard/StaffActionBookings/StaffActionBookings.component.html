@@ -55,36 +55,48 @@
                     <hr />
                 </div>
                 <hr />
-
                 <ng-container *ngIf="tmpsBookingData?.length > 0; else noRecords">
                     <div class="table-responsive mt-4 mb-4">
                         <table id="BookingDetailsDataTable" #table>
                             <thead>
-                                <tr>
-                                    <th class="form-label fw-bolder">Candidate Id</th>
-                                    <th class="form-label fw-bolder">Candidate Name</th>
+                                <!-- <tr>
                                     <th class="form-label fw-bolder">Booking Id</th>
                                     <th class="form-label fw-bolder">Instrument Name</th>
                                     <th class="form-label fw-bolder">Sample Count</th>
                                     <th class="form-label fw-bolder">Total Charges </th>
                                     <th class="fw-bold fw-bolder">Request Sheet</th>
                                     <th class="form-label fw-bolder">Request Date</th>
+                                    <th class="form-label fw-bolder">Candidate Id</th>
+                                    <th class="form-label fw-bolder">Candidate Name</th>
+                                    <th class="form-label fw-bolder">Organisation Name</th>
+                                    <th class="form-label fw-bolder">User Type</th>
+                                    <th class="form-label fw-bolder">Payment Status</th>
+                                    <th class="form-label fw-bolder">Payment Date</th>
+                                    <th class="form-label fw-bolder">Action </th>
+                                </tr> -->
+                                <tr>
+                                    <th class="form-label fw-bolder">Booking Id</th>
+                                    <th class="form-label fw-bolder">Instrument Name</th>
+                                    <th class="form-label fw-bolder">Sample Count</th>
+                                    <th class="form-label fw-bolder">Total Charges </th>
+                                    <th class="fw-bold fw-bolder">Request Sheet</th>
+                                    <!-- <th class="form-label fw-bolder">Request Date</th> -->
+                                    <th class="form-label fw-bolder">Candidate Id</th>
+                                    <th class="form-label fw-bolder">Candidate Name</th>
+                                    <th class="form-label fw-bolder">Organisation Name</th>
+                                    <th class="form-label fw-bolder">User Type</th>
                                     <th class="form-label fw-bolder">Payment Status</th>
                                     <th class="form-label fw-bolder">Payment Date</th>
                                     <th class="form-label fw-bolder">Action </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <ng-container *ngFor="let BookingDataRow of getCurrentPageData(); let i = index">
+                            <!-- <tbody>
+                               <ng-container *ngFor="let BookingDataRow of getCurrentPageData(); let i = index">
                                     <tr *ngIf="BookingDataRow.userId.length>0;">
-                                        <td class="fw-bold "> {{BookingDataRow.userId?.length>0? BookingDataRow.userId:
-                                            'NA' }}</td>
-                                        <td class="fw-bold"> {{BookingDataRow.candidateName}}</td>
                                         <td class="fw-bold"> {{BookingDataRow.bookingId}}</td>
                                         <td class="fw-bold"> {{BookingDataRow.instrumentName}}</td>
                                         <td class="fw-bold"> {{BookingDataRow.noOfSamples}}</td>
-                                        <td class="fw-bold"> {{BookingDataRow.totalCharges | currency:'INR':'symbol'}}
-                                        </td>
+                                        <td class="fw-bold"> {{BookingDataRow.totalCharges>0? (BookingDataRow.totalCharges | currency:'INR':'symbol'): 'NA'}}</td>
                                         <ng-container *ngIf="BookingDataRow.fileName; else NoFile">
                                             <td>
                                                 <button class="btn-dark btn ms-3"
@@ -98,7 +110,11 @@
                                                 <span class="badge text-bg-info ms-3 fs-5 "> N/A </span>
                                             </td>
                                         </ng-template>
-                                        <td class="fw-bold">{{ BookingDataRow.allocatedOn }}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.createdOn}}</td>
+                                        <td class="fw-bold "> {{BookingDataRow.userId?.length>0? BookingDataRow.userId: 'NA' }}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.candidateName}}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.organisationName}}</td>
+                                        <td class="fw-bold"> {{BookingDataRow.userRole}}</td>
                                         <td>
                                             <span class="badge" [ngClass]="{
                                                                                 'bg-success': BookingDataRow?.paymentStatus === 'success',
@@ -119,6 +135,48 @@
                                         <td class="fw-bold"><button class="btn btn-dark btn-sm"
                                                 (click)="openPaymentModal(BookingDataRow)">Upload </button>
                                         </td>
+                                    </tr>
+                                </ng-container> 
+                            
+                                 
+                            </tbody> -->
+                            <tbody>                             
+                                <ng-container *ngFor="let AllBookingTestsDataRow of getCurrentPageData(); let i = index">
+                                    <tr>
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow.bookingId}}</td>
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow.instrumentName}}</td>
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow.noOfSamples}}</td>
+                                        <td class="fw-bold"> {{AllBookingTestsDataRow?.totalCharges &&
+                                            AllBookingTestsDataRow?.totalCharges!='null'
+                                            ? (AllBookingTestsDataRow?.totalCharges | currency:'INR':'symbol'): 'NA'}}
+                                        </td>
+                                        <ng-container *ngIf="AllBookingTestsDataRow.fileName; else NoFile">
+                                            <td>
+                                                <button class="btn-dark btn ms-3"
+                                                    (click)="downloadFile(AllBookingTestsDataRow.fileName)">
+                                                    View
+                                                </button>
+                                            </td>
+                                        </ng-container>
+                                        <ng-template #NoFile>
+                                            <td class="ms-4">
+                                                <span class="badge text-bg-info ms-3 fs-5 "> N/A </span>
+                                            </td>
+                                        </ng-template>
+                                        <!-- <td class="fw-bold ">{{AllBookingTestsDataRow.bookingRequestDate }}</td> -->
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow.userEmailId?.length>0 ? AllBookingTestsDataRow.userEmailId : 'Internal User' }}</td>
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow.candidateName?.length<1 ? 'Internal User' : AllBookingTestsDataRow.candidateName }}</td>
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow.organisationName}}</td>
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow.userRole}}</td>
+                                        <td>
+                                            <span class="badge" [ngClass]="{'bg-success': AllBookingTestsDataRow?.paymentStatus == 'success', 'bg-danger': AllBookingTestsDataRow?.paymentStatus == 'failure', 'bg-warning text-dark': !AllBookingTestsDataRow?.paymentStatus || AllBookingTestsDataRow?.paymentStatus == 'null' }">
+                                                {{ AllBookingTestsDataRow?.paymentStatus == 'success' ? 'Paid' : AllBookingTestsDataRow?.paymentStatus == 'failure' ? 'Failed' : 'Pending' }}
+                                            </span>
+                                        </td>
+                                        <td class="fw-bold ">{{AllBookingTestsDataRow?.paymentDate && AllBookingTestsDataRow?.paymentDate!='null' ? (AllBookingTestsDataRow?.paymentDate): '-NA-'}}
+                                        </td>
+                                        <td class="fw-bold"><button class="btn btn-dark btn-sm"
+                                            (click)="openPaymentModal(AllBookingTestsDataRow)">Upload </button></td>
                                     </tr>
                                 </ng-container>
                             </tbody>

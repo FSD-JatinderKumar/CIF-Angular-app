@@ -192,10 +192,12 @@ Remarks: any;
   exportToExcel(): void {
     const fileName = 'AssignedResults_report.xlsx';
     const exportedData = this.BookingData.map(item => ({
+      BookingId: item.bookingId,
+      InstrumentName: item.instrumentName,      
       EmailId: item.userEmailId,
       candidateName: item.candidateName,
-      BookingId: item.bookingId,
-      Instrument: item.instrumentName,
+      OrganisationName:item.organisationName,
+      UserRole:item.userRole,
       Samplecount: item.noOfSamples,
       PaymentAmount: item.totalCharges,
       RequestDate: item.bookingRequestDate,
@@ -206,7 +208,7 @@ Remarks: any;
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportedData);
 
     const wscols = [
-      { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 },{ wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }
+      { wpx: 280 }, { wpx: 280 }, { wpx: 280 },{ wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 },{ wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }, { wpx: 280 }
     ];
     ws['!cols'] = wscols;
 

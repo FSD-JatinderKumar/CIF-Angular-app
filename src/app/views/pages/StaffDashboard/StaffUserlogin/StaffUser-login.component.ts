@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
-
 import { AuthService } from 'src/app/_services/auth.service';
 import { StorageService } from 'src/app/_services/storage.service';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
@@ -16,40 +15,13 @@ import { MouDocumentsService } from 'src/app/_services/mou-documents.service';
   styleUrls: ['./StaffUser-login.component.scss']
 })
 export class StaffUserLoginComponent implements OnInit {
-  formdata!: FormGroup;
-  submitted = false;
-  showPassword = false;
-  loginError: string | null = null;
-  isLoginFailed = false;
-  showNoDataFoundMessage = false;
-  loadingIndicator = false;
-  storeResult = 0;
-
-  // User info
-  CandidateName: any;
-  UserId: any;
-  Department: any;
-  DepartmentName: any;
-  Designation: any;
-  EmailId: any;
-  MobileNo: any;
-  UserRole: any;
-  SupervisorName: any;
-  SecretKey: any;
-  EmployeeDetails: any;
-  EmployeeName: any;
-  EmployeeCode: any;
-
+  formdata!: FormGroup;     submitted = false;    showPassword = false;   loginError: string | null = null;   isLoginFailed = false;  showNoDataFoundMessage = false;
+  loadingIndicator = false;   storeResult = 0;    CandidateName: any;   UserId: any;    Department: any;    DepartmentName: any;    Designation: any;
+  EmailId: any;   MobileNo: any;    UserRole: any;    SupervisorName: any;    SecretKey: any;   EmployeeDetails: any;   EmployeeName: any;    EmployeeCode: any;
+  ErrMessage: any='';
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private storageService: StorageService,
-    private CIFwebService: LpuCIFWebService,
-    private AuthSession: LoginSessionService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private cookieService: CookieService,
-    private mouDocumentsService: MouDocumentsService,
+    private fb: FormBuilder,      private authService: AuthService,     private storageService: StorageService,     private CIFwebService: LpuCIFWebService,
+    private AuthSession: LoginSessionService,     private router: Router,     private route: ActivatedRoute,      private cookieService: CookieService,     private mouDocumentsService: MouDocumentsService,
   ) { }
 
   ngOnInit(): void {
@@ -62,8 +34,7 @@ export class StaffUserLoginComponent implements OnInit {
       Email: ['', [Validators.required, Validators.minLength(5)]],
       password: ['', [Validators.required, Validators.minLength(5)]],
     });
-    this.submitted = false;
-    this.loginError = null;
+    this.submitted = false;     this.loginError = null;
   }
 
   get email(): AbstractControl | null {
@@ -119,43 +90,66 @@ export class StaffUserLoginComponent implements OnInit {
           this.SupervisorName = emp.department;
           this.loadingIndicator = false;
           this.showNoDataFoundMessage = false;
+          const AllallowedIds = [
+            { uid: '24374' },
+            { uid: '20362' },
+            { uid: '16477' },
+            { uid: '27727' },
+            { uid: '26918' },
+            { uid: '30694' },
+            { uid: '29159' },
+            { uid: '31691' },
+            { uid: '33476' },
+            { uid: '31309' },
+          ];
+
+          const isAllowed = AllallowedIds.some(item => item.uid === this.EmployeeCode);
+
+          if (!isAllowed) {
+            this.isLoginFailed = true;
+            this.ErrMessage = 'Not Authorised.  This Dashboard is only for CIF Staff Members!',
+              console.log(this.ErrMessage)
+            // swal.fire({
+            //   title: 'Not Authorised',
+            //   text: 'This Dashboard is only for CIF Staff Members!',
+            //   icon: 'warning',
+            // });
+          } else {
 
 
-      
-          const userCookiesData = {
-            CandidateName: this.CandidateName,
-            UserId: this.UserId,
-            Department: this.Department,
-            DepartmentName: this.DepartmentName,
-            Designation: this.Designation,
-            EmailId: this.EmailId,
-            MobileNo: this.MobileNo,
-            UserRole: this.UserRole,
-            SupervisorName: this.SupervisorName,
-            ProofNumber: this.MobileNo,
-            ProofName: 'Mobile',
-            PasswordText: this.SecretKey,
-          };
+            const userCookiesData = {
+              CandidateName: this.CandidateName,
+              UserId: this.UserId,
+              Department: this.Department,
+              DepartmentName: this.DepartmentName,
+              Designation: this.Designation,
+              EmailId: this.EmailId,
+              MobileNo: this.MobileNo,
+              UserRole: this.UserRole,
+              SupervisorName: this.SupervisorName,
+              ProofNumber: this.MobileNo,
+              ProofName: 'Mobile',
+              PasswordText: this.SecretKey,
+            };
+            this.isLoginFailed = false;
+            this.AuthSession.addToSession(this.EmployeeDetails);
 
-        
-          this.isLoginFailed = false;
-          this.AuthSession.addToSession(this.EmployeeDetails);
-
-          const UserCookies = JSON.stringify(userCookiesData);
-          // this.cookieService.set('authData', UserCookies);
-          const expirationMinutes = 25; // Set expiration time in minutes
-          const expirationDate = new Date();
-          expirationDate.setMinutes(expirationDate.getMinutes() + expirationMinutes); // Set expiration time
-          this.cookieService.set(
-            'authData',
-            UserCookies,
-            expirationDate, // Set the expiration date
-            '/',           // Path
-            undefined,     // Domain
-            true,          // Secure: should be true in production
-            'Lax'          // SameSite policy
-          );
-          this.router.navigate(['/StaffActionBookings']);
+            const UserCookies = JSON.stringify(userCookiesData);
+            // this.cookieService.set('authData', UserCookies);
+            const expirationMinutes = 25; // Set expiration time in minutes
+            const expirationDate = new Date();
+            expirationDate.setMinutes(expirationDate.getMinutes() + expirationMinutes); // Set expiration time
+            this.cookieService.set(
+              'authData',
+              UserCookies,
+              expirationDate, // Set the expiration date
+              '/',           // Path
+              undefined,     // Domain
+              true,          // Secure: should be true in production
+              'Lax'          // SameSite policy
+            );
+            this.router.navigate(['/StaffActionBookings']);
+          }
         } else {
           this.EmployeeDetails = [];
           this.showNoDataFoundMessage = true;
@@ -174,7 +168,7 @@ export class StaffUserLoginComponent implements OnInit {
     this.cookieService.delete('authData');
     this.AuthSession.clearSession();
     this.isLoginFailed = true;
-    console.error('Login failed:', error);
+     this.ErrMessage = 'Login Failed. Invalid Details.';
 
     swal.fire({
       title: 'Login Failed',

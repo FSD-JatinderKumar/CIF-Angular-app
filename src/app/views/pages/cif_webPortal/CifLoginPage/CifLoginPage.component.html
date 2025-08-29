@@ -2,12 +2,12 @@
     <div class="container">
         <div class="heading-wraper mb-5">
             <div class="main-head">
-              <h1>Centeral Instrumentation
-                Facility </h1>
-              <h2 class="text-center">User <span>Login </span> Page</h2>
+                <h1>Centeral Instrumentation
+                    Facility </h1>
+                <h2 class="text-center">User <span>Login </span> Page</h2>
             </div>
-          
-          </div>
+
+        </div>
         <div class="row">
             <div class="col-md-6 d-none d-lg-block mt-5 ">
                 <img src="https://www.lpu.in/lpu-assets/images/cif/login-left.png" />
@@ -15,68 +15,72 @@
             <div class="col-md-6 login-div">
                 <div class="cif-login">
                     <form class="forms-sample" [formGroup]="formdata" (ngSubmit)="OnSubmit()">
-                      <div class="mb-4 cif-input-group">
-                        <label class="form-label" for="loginid">Login ID</label>
-                        <input type="text" class="form-control" placeholder="Enter Login ID/ Email" formControlName="Email" id="loginid"
-                          required />
-                        <div *ngIf="submitted || email?.touched || email?.errors" class="text-danger">
-                          <small *ngIf="email?.errors?.['required']">User Id is required.</small>
+                        <div class="mb-4 cif-input-group">
+                            <label class="form-label" for="loginid">Login ID</label>
+                            <input type="text" class="form-control" placeholder="Enter Login ID/ Email"
+                                formControlName="Email" id="loginid" required />
+                            <div *ngIf="submitted || email?.touched || email?.errors" class="text-danger">
+                                <small *ngIf="email?.errors?.['required']">User Id is required.</small>
+                            </div>
                         </div>
-                      </div>
-                    
-                      <div class="mb-4 cif-input-group">
-                        <label class="form-label" for="password">Password</label>
-                        <input [type]="showPassword ? 'text' : 'password'" class="form-control" placeholder="Enter password"
-                          formControlName="password" id="password" required />
-                        <i class="input-eye input-eye-slash" (click)="togglePasswordVisibility()"></i>
-                        
-                        <div *ngIf="submitted || passwordText?.touched || passwordText?.errors" class="text-danger">
-                          <small *ngIf="passwordText?.errors?.['required']">password is required.</small>
+
+                        <div class="mb-4 cif-input-group">
+                            <label class="form-label" for="password">Password</label>
+                            <input [type]="showPassword ? 'text' : 'password'" class="form-control"
+                                placeholder="Enter password" formControlName="password" id="password" required />
+                            <i class="input-eye input-eye-slash" (click)="togglePasswordVisibility()"></i>
+
+                            <div *ngIf="submitted || passwordText?.touched || passwordText?.errors" class="text-danger">
+                                <small *ngIf="passwordText?.errors?.['required']">password is required.</small>
+                            </div>
                         </div>
-                      </div>
-                    
-                      <div class="mb-4 cif-input-group">
-                        <label class="form-check-label" for="UserRoleS">Choose Role</label>
-                        <select class="form-select" formControlName="UserRoleS" (change)="CheckUserType($event)" required>
-                          <option value="" disabled>Select Role</option>
-                          <option value="400001">External Academia</option>
-                          <option value="400002">Industry User</option>
-                        </select>
-                    
-                        <div *ngIf="submitted || userRole?.touched || userRole?.errors" class="text-danger">
-                          <small *ngIf="userRole?.errors?.['required']">Role is required.</small>
+
+                        <div class="mb-4 cif-input-group">
+                            <label class="form-check-label" for="UserRoleS">Choose Role</label>
+                            <select class="form-select" formControlName="UserRoleS" (change)="CheckUserType($event)"
+                                required>
+                                <option value="" disabled>Select Role</option>
+                                <option value="400001">External Academia</option>
+                                <option value="400002">Industry User</option>
+                            </select>
+
+                            <div *ngIf="submitted || userRole?.touched || userRole?.errors" class="text-danger">
+                                <small *ngIf="userRole?.errors?.['required']">Role is required.</small>
+                            </div>
                         </div>
-                      </div>
-                    
-                      <div class="text-danger text-center" *ngIf="loginError">
-                        {{ loginError }}
-                      </div>
-                    
-                      <div class="mb-4 text-center">
-                        <button type="submit" class="lpu-btn border-0 px-5 mb-3" [disabled]="formdata.invalid">
-                          Submit
-                        </button>
-                        <div class="d-flex justify-content-between"> <a routerLink="/LpuLogin" class="link-btn justify-content-start">Internal
-                            User Login</a>
-                          <a routerLink="/recoverAccount" class="link-btn justify-content-end" style="color: #ef7d00 !important;">Recover
-                            Account</a>
+
+                        <div class="text-danger text-center" *ngIf="loginError">
+                            {{ loginError }}
                         </div>
-                        
-                    </div>
-                    <div class="d-flex justify-content-center"> <a routerLink="/StaffLogins" class="link-btn justify-content-end"
-                        style="color: #ef7d00 !important;">Staff Login</a>
-                </div>
+
+                        <div class="mb-4 text-center">
+                            <button type="submit" class="lpu-btn border-0 px-5 mb-3" [disabled]="formdata.invalid">
+                                Submit
+                            </button>
+                            <div class="d-flex justify-content-between"> <a routerLink="/LpuLogin"
+                                    class="link-btn justify-content-start">Internal
+                                    User Login</a>
+                                <a routerLink="/recoverAccount" class="link-btn justify-content-end"
+                                    style="color: #ef7d00 !important;">Recover
+                                    Account</a>
+                            </div>
+
+                        </div>
+                        <div class="d-flex justify-content-center"> <a routerLink="/StaffLogins"
+                                class="link-btn justify-content-end" style="color: #ef7d00 !important;">Staff Login</a>
+                        </div>
                     </form>
-                      
+
                 </div>
                 <div class="d-flex justify-content-between ">
                     <div class="mt-3 mb-4">
                         Don't have an account? <a class="reg-link" routerLink="/Register"><strong>Register</strong></a>
                     </div>
-                  
+
                 </div>
                 <div class="mt-3 mb-4">
-                    By Login you agree with <a href="/CifTermsConditions">terms and conditions</a> and <a href="/CifTermsConditions">privacy policy</a>
+                    By Login you agree with <a href="/CifTermsConditions">terms and conditions</a> and <a
+                        href="/CifTermsConditions">privacy policy</a>
                 </div>
 
             </div>
@@ -84,7 +88,7 @@
                 <div class="cif-register">
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                        If you already has an account, just <a class="login-link"><strong>sign in</strong></a>
+                            If you already has an account, just <a class="login-link"><strong>sign in</strong></a>
                         </div>
                         <div class="col-md-6 mb-3"><label class="form-label" for="email">Email</label>
                             <input type="email" class="form-control" id="email" placeholder="Enter Email">
@@ -92,8 +96,10 @@
                         <div class="col-md-6 mb-3"><label class="form-label" for="name">Name</label>
                             <input type="Text" class="form-control" id="name" placeholder="Enter Name">
                         </div>
-                        <div class="col-md-6 mb-3"><label class="form-label" for="name-of-supervisor">Name of Supervisor</label>
-                            <input type="text" class="form-control" id="name-of-supervisor" placeholder="Enter Name of Supervisor">
+                        <div class="col-md-6 mb-3"><label class="form-label" for="name-of-supervisor">Name of
+                                Supervisor</label>
+                            <input type="text" class="form-control" id="name-of-supervisor"
+                                placeholder="Enter Name of Supervisor">
                         </div>
                         <div class="col-md-6 mb-3"><label class="form-label" for="mobile">Mobile</label>
                             <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile Number">
@@ -129,14 +135,17 @@
                             <input type="text" class="form-control" id="id-number" placeholder="Enter ID Number">
                         </div>
                         <div class="col-md-12"><label class="form-label" for="txtAddress">Corresponding Address</label>
-                            <textarea class="form-control not-dark" id="txtAddress" name="txtAddress" rows="4" cols="30"></textarea>
+                            <textarea class="form-control not-dark" id="txtAddress" name="txtAddress" rows="4"
+                                cols="30"></textarea>
                         </div>
                         <div class="col-md-6 mb-3"><label class="form-label" for="password">Password</label>
                             <input type="password" class="form-control" id="reg-password" placeholder="Enter Password">
                             <i toggle="#reg-password" class="input-eye input-eye-slash r-toggle-password"></i>
                         </div>
-                        <div class="col-md-6 mb-3"><label class="form-label" for="confirm-password">Confirm Password</label>
-                            <input type="password" class="form-control" id="reg-confirm-password" placeholder="Enter Confirm Password">
+                        <div class="col-md-6 mb-3"><label class="form-label" for="confirm-password">Confirm
+                                Password</label>
+                            <input type="password" class="form-control" id="reg-confirm-password"
+                                placeholder="Enter Confirm Password">
                             <i toggle="#reg-confirm-password" class="input-eye input-eye-slash cr-toggle-password"></i>
                         </div>
                     </div>

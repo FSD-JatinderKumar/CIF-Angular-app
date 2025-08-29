@@ -170,7 +170,7 @@ export class LpuCIFWebService {
       .set('Content-Type', 'application/json');
     return this.http.get(
       AUTH_API + 'api/LpuCIF/CIFGetAllAssignedTesttoStaff',
-    // 'https://projectsapi.lpu.in/api/LpuCIF/CIFGetAllAssignedTesttoStaff',
+    // 'https://localhost:7125/api/LpuCIF/CIFGetAllAssignedTesttoStaff',
       { headers }
     );
   }
@@ -194,7 +194,7 @@ export class LpuCIFWebService {
       .set('Content-Type', 'application/json');
     return this.http.get(
       AUTH_API + 'api/LpuCIF/GetAllBookingTests',
-      //  'https://projectsapi.lpu.in/api/LpuCIF/GetAllBookingTests',
+      //  'https://localhost:7125/api/LpuCIF/GetAllBookingTests',
       { headers }
     );
   }
