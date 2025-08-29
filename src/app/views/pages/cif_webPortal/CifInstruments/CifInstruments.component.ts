@@ -1,3 +1,5 @@
+ 
+import swal from 'sweetalert2';
 import { FormBuilder } from '@angular/forms';
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -32,6 +34,11 @@ interface FAQ {
   ]
 })
 export class CifInstrumentsComponent implements OnInit {
+  @ViewChild('facilitiesSection') facilitiesSection!: ElementRef;
+  // Method to scroll to the Facilities section
+  gotoFacilities() {
+    this.facilitiesSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
   ColumnMode = ColumnMode;
   columns: any;
   loadingIndicator = false;
@@ -82,6 +89,7 @@ export class CifInstrumentsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getAllInstrumentss();
     this.getAllInstruments();
     this.route.paramMap.subscribe((params) => {
       this.InstrumentId = Number(params.get('id'));
@@ -412,6 +420,83 @@ export class CifInstrumentsComponent implements OnInit {
 
   goto(val: any): void {
     this.router.navigateByUrl(val);
+  }
+
+
+
+
+ 
+  openSampleInstructions() {
+    swal.fire({
+      title: 'Send Samples at Following Address :',
+      html: `
+           <address>
+            <div class="contact-text">
+           Central Instrumentation Facility (CIF) <br/>
+          Lovely Professional University <br/>
+          Block-38, Room No.106 <br/>
+          Jalandhar - Delhi G.T. Road, <br/>
+          Phagwara, Punjab (India) - 144411 <br/>
+          Phone : <a href="tel:+911824444021">+91 1824-444021</a><br>
+          Email : cif@lpu.co.in<br>
+          </div>
+           </address>`,
+      icon: 'info'
+    });
+ 
+   
+ }
+ loadingStates: boolean[] = []; 
+ 
+  VisitUrl(Sufix: any, name: any, Id: any, catId: any) {
+    this.router.navigateByUrl(Sufix + '/' + name + '/' + Id + '/' + catId);
+  }
+  onImageLoad(index: number): void {
+    this.loadingStates[index] = false;  
+  }
+
+  
+
+  onImageError(event: any, index: number): void {
+    event.target.src = '/image.jpg'; 
+    this.loadingStates[index] = false;
+  }
+
+ InstrumentsDataData: any[] = [];
+  tmpsInstrumentsDataData: any[] = []; tmpsResultData: any[] = [];
+  getAllInstrumentss(): void {
+    this.loadingIndicator=true;
+    const startTime = new Date().getTime();
+    this.CIFwebService.GetAllInstrumentsData().subscribe({
+      next: response => {
+        if (response.item1 && response.item1.length > 0) {
+          this.InstrumentsDataData = response.item1;
+          this.tmpsInstrumentsDataData = response.item1.slice(0, 8);
+          this.loadingStates = Array(this.tmpsInstrumentsDataData.length).fill(true); // Initialize loading states
+        } else {
+          this.InstrumentsDataData = [];
+        }
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(2500 - elapsed, 0); // wait at least 5s
+
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
+      },
+      error: err => {
+        this.loadingIndicator = false;
+        console.error(err);
+      }
+    });
+  }
+ 
+
+  // added on 21-aug-25
+  chunkedEvents: any[][] = [];
+
+  chunkArray(arr: any[], size: number): any[][] {
+    return arr.reduce((acc, _, i) => 
+      (i % size ? acc : [...acc, arr.slice(i, i + size)]), []);
   }
 }
 

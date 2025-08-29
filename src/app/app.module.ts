@@ -35,6 +35,7 @@ import { CifLoginPageModule } from './views/pages/cif_webPortal/CifLoginPage/Cif
 import { HeaderComponent } from "./views/pages/cif_webPortal/header/header.component";
 import { FooterComponent } from "./views/pages/cif_webPortal/footer/footer.component";
 import { ClickToCallComponent } from './views/pages/cif_webPortal/click-to-call/click-to-call.component';
+import { HomePageTopBarModule } from "./views/pages/cif_webPortal/HomePage/HomePageTopBar/HomePageTopBar.module";
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { ClickToCallComponent } from './views/pages/cif_webPortal/click-to-call/
     AFooterBarModule,
     CifInstrumentsModule,
     CifRegisterPageModule,
-    
+    HomePageTopBarModule
 ],
   providers: [
     httpInterceptorProviders,

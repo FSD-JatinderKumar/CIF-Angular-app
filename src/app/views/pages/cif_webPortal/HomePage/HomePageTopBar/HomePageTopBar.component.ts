@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit,Output,ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter,HostListener, OnInit,Output,ViewChild } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -27,6 +27,7 @@ export class HomePageTopBarComponent implements OnInit {
     private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.checkScroll();
   }
   openSampleInstructions() {
     swal.fire({
@@ -79,4 +80,40 @@ export class HomePageTopBarComponent implements OnInit {
   goto(val: any): void {
     this.router.navigateByUrl(val);
   }  
+
+
+
+ 
+  menuIconChanged = false;
+  isFixedNav = false;
+
+  
+
+  toggleMenuIcon(): void {
+    this.menuIconChanged = !this.menuIconChanged;
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    this.checkScroll();
+  }
+
+  @HostListener('window:resize', [])
+  onWindowResize(): void {
+    this.checkScroll();
+  }
+
+  private checkScroll(): void {
+    const y = window.scrollY || window.pageYOffset;
+    const isIndexPage = document.body.classList.contains('index-page');
+    const navWrapElement = document.getElementById('nest-nav-scroll');
+    const navWrap = isIndexPage && navWrapElement ? navWrapElement.offsetTop : 100;
+
+    if (window.innerWidth > 1030) {
+      this.isFixedNav = y > navWrap;
+    } else {
+      this.isFixedNav = false;
+    }
+  }
+
 }

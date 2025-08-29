@@ -1,29 +1,3 @@
-<script>
-    function myFunction(x) {
-        x.classList.toggle("change");
-    }
-    function PlusMinusFunction(x) {
-        x.classList.toggle("plusMinus");
-    }
-    $(document).ready(function() {
-        // $('.nest-nav').removeClass('fixed-nav');
-        $(window).scroll(function() {
-            var y = $(this).scrollTop();
-            var isIndexPage = $('body').hasClass('index-page');
-            var navWrap = isIndexPage ? $('#nest-nav-scroll').offset().top : 100;
-            if ($(window).width() > 1030) {
-                if (y > navWrap) {
-                    $('.nest-nav').addClass('fixed-nav');
-                } else {
-                    $('.nest-nav').removeClass('fixed-nav');
-                }
-            } else {
-                $('.nest-nav').removeClass('fixed-nav');
-            }
-        });
-    });
-</script>
-
 <div class="nest-nav">
     <nav>
         <label for="drop" class="toggle">

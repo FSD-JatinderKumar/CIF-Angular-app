@@ -17,6 +17,7 @@ import { QuillModule } from 'ngx-quill';
 // import { NgbCollapseModule, NgbModule, NgbNav, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomePageTopBarModule } from '../HomePage/HomePageTopBar/HomePageTopBar.module';
 
 
 const routes: Routes = [
@@ -30,6 +31,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     CommonModule,
     NgbNavModule,
+    HomePageTopBarModule
     // 
   ],
 })
