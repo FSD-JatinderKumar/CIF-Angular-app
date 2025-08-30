@@ -83,23 +83,11 @@ export class StaffUserDetailsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    const GetCookieData = this.cookieService.get('authData');
+    const GetCookieData = this.cookieService.get('StaffUserAuthData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;
     this.user_Email = retrievedCookies.EmailId;
     this.candidateName = retrievedCookies.CandidateName;
-    // if (GetCookieData) {
-    //   const retrievedCookies = JSON.parse(GetCookieData);
-    //   this.UserRole = retrievedCookies.UserRole;
-    //   this.user_Email = retrievedCookies.EmailId;
-    //   this.candidateName = retrievedCookies.CandidateName;
-    // } else {
-    //    swal.fire({
-    //     title: 'Login Failed ',
-    //     icon: 'warning',
-    //   });
-    //   this.router.navigate(['/cifWebPortal']);
-    // }
     this.getBookingDetails()
   }
 

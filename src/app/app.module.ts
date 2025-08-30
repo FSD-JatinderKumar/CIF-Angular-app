@@ -16,7 +16,7 @@ import { RegisterPageComponent } from './views/pages/cif_webPortal/register-page
 import { DashBoardComponent } from './views/pages/cif_webPortal/dash-board/dash-board.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RefundStatusComponent } from './views/pages/cif_webPortal/refund-status/refund-status.component';
-import { ChangePasswordsComponent } from './views/pages/cif_webPortal/change-passwords/change-passwords.component';
+import { ChangePasswordsComponent } from './views/pages/InternalUserDashboard/change-passwords/change-passwords.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CookieService } from 'ngx-cookie-service';
 import { MatCardModule } from '@angular/material/card'; // Import MatCardModule

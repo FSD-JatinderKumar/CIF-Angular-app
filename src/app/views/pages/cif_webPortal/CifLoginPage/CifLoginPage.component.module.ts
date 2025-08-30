@@ -23,7 +23,10 @@ const routes: Routes = [
       NgxDatatableModule,
       ReactiveFormsModule,
       PerfectScrollbarModule,
-      NgbModule
+      NgbModule,
+      FormData,
+      ReactiveFormsModule
+
     ],
   
   })

@@ -1,20 +1,11 @@
-import { FormBuilder, UntypedFormBuilder } from '@angular/forms';
-import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { UntypedFormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/_services/auth.service';
-import { StorageService } from 'src/app/_services/storage.service';
+import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
-import swal from 'sweetalert2';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
-import { LoginSessionService } from 'src/app/_services/login-session.service';
 
-import { ColumnMode } from '@swimlane/ngx-datatable';
 
-import { MatTableDataSource } from '@angular/material/table';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-StaffUserFeedbackDetails',
   templateUrl: './StaffUserFeedbackDetails.component.html',
@@ -33,12 +24,8 @@ export class StaffUserFeedbackDetailsComponent implements OnInit {
   }
   constructor(
     private CIFwebService: LpuCIFWebService,
-    private storageService: StorageService,
-    private authService: AuthService,
     public formBuilder: UntypedFormBuilder,
-    private AuthSession: LoginSessionService,
-    private fb: FormBuilder,
-    private router: Router, private route: ActivatedRoute, private cookieService: CookieService
+    private router: Router, private cookieService: CookieService
   ) {
 
   }
@@ -47,23 +34,11 @@ export class StaffUserFeedbackDetailsComponent implements OnInit {
     this.router.navigateByUrl(val);
   }
   ngOnInit(): void {
-    const GetCookieData = this.cookieService.get('authData');
+    const GetCookieData = this.cookieService.get('StaffUserAuthData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;
     this.user_Email = retrievedCookies.EmailId;
     this.candidateName = retrievedCookies.CandidateName;
-    // if (GetCookieData) {
-    //   const retrievedCookies = JSON.parse(GetCookieData);
-    //   this.UserRole = retrievedCookies.UserRole;
-    //   this.user_Email = retrievedCookies.EmailId;
-    //   this.candidateName = retrievedCookies.CandidateName;
-    // } else {
-    //    swal.fire({
-    //     title: 'Login Failed ',
-    //     icon: 'warning',
-    //   });
-    //   this.router.navigate(['/cifWebPortal']);
-    // }
     this.GetAllFeedbackData();
 
   }

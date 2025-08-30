@@ -1,0 +1,148 @@
+/* Allow badge text to wrap */
+.bottomMargin{
+    margin-bottom: 20rem;
+}
+.badge-wrap {
+    white-space: normal !important;
+    line-height: 1.2;
+    word-break: break-word;
+    text-align: center;
+    display: inline-block;
+    max-width: 100%;
+}
+
+/* For small screens, limit width so it wraps sooner */
+@media (max-width: 576px) {
+    .badge-wrap {
+        max-width: 120px;
+        /* adjust based on design */
+    }
+}
+
+.label {
+    height: 3.125rem;
+    width: 76.875rem;
+    background-color: brown;
+    color: white;
+    /* margin-left:3.123rem; */
+    margin-top: 0.625rem;
+}
+
+.box {
+    height: 29.375rem;
+    width: 76.875rem;
+    /* margin-left:3.125rem; */
+    border-style: outset;
+    margin-top: 0rem;
+    margin-bottom: 20rem;
+}
+
+h4 {
+    // margin-left:31.25rem;
+    padding: 0.625rem;
+    font-weight: bold;
+}
+
+.field {
+    display: inline-flex;
+    margin-left: 12.5rem;
+    margin-top: 0.5rem;
+    /*1px;*/
+    width: 50rem;
+    ;
+    height: 5rem;
+}
+
+label {
+    font-weight: bold;
+    color: brown;
+}
+
+.details {
+    width: 21.875rem;
+    margin-left: 2.5rem;
+
+}
+
+select,
+textarea,
+input {
+    border-style: outset;
+    box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.2);
+}
+
+.btt {
+    width: 21.875REM;
+    margin-top: 2.25rem;
+    margin-left: 22.5rem;
+
+}
+
+.buttonx {
+    background-color: #fd6c04 !important;
+    color: white;
+    // margin-top: 3rem;
+    box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.2);
+}
+
+// button:hover
+// {
+//     background-color: brown!important;
+//     color:white;
+// }
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.pd {
+    padding: 0px 15px;
+}
+
+.ml15 {
+    margin-right: 15px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+
+
+.floating-cart {
+    position: fixed;
+    top: 5.5rem;
+    right: 20px;
+    background-color: #e2441c;
+    border: 1px solid #200404;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(27, 1, 1, 0.1);
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.cart-content {
+    display: flex;
+    align-items: center;
+}
+
+.cart-text {
+    margin-left: 10px;
+    font-size: 16px;
+}

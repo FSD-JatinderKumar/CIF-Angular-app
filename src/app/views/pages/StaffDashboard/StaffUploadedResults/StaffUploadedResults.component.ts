@@ -82,7 +82,7 @@ export class StaffUploadedResultsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';//'http://172.19.2.52/umsweb/webftp/MOUDocuments/'; = 'https://files.lpu.in/umsweb/CIFDocuments/'
-    const GetCookieData = this.cookieService.get('authData');
+    const GetCookieData = this.cookieService.get('StaffUserAuthData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;
     this.UserId = retrievedCookies.EmailId;

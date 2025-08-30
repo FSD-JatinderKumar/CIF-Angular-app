@@ -255,7 +255,7 @@ export class CifRegisterPageComponent implements OnInit {
 //     //       window.location.reload();
 //     //     }
 //     //     //  window.location.reload();
-//     //     this.router.navigate(['/cifWebPortal']);
+//     //     this.router.navigate(['/Home']);
 //     //    },
 //     //  });
 //     this.CIFwebService.NewUserRecord(formData).subscribe({
@@ -270,7 +270,7 @@ export class CifRegisterPageComponent implements OnInit {
 //             icon: 'success',
 //           }).then(() => {
 //             // After the success alert, navigate to the desired page
-//             this.router.navigate(['/cifWebPortal']);
+//             this.router.navigate(['/Home']);
 //           });
 //         } else if (errorCode === -1) {
 //           swal.fire({

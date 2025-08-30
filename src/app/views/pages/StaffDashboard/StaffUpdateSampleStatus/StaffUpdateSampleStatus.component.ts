@@ -77,7 +77,7 @@ export class StaffUpdateSampleStatusComponent implements OnInit {
   disabledStatusSet: Set<string>;
   ngOnInit(): void {
     this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';// 'http://172.19.2.52/umsweb/webftp/MOUDocuments/';  serverUrl: string = 'https://files.lpu.in/umsweb/CIFDocuments/';
-    const GetCookieData = this.cookieService.get('authData');
+    const GetCookieData = this.cookieService.get('StaffUserAuthData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;
     this.user_Email = retrievedCookies.EmailId;
@@ -125,7 +125,6 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
       next: response => {
         if (response.item1 && response.item1.length > 0) {
           this.AllBookingTestsData = response.item1;
-          // console.log(this.AllBookingTestsData)
           this.dataSource = response.item1;
           this.tmpsAllBookingTestsData = response.item1;
           this.headHtmlData = this.tmpsAllBookingTestsData[0];
@@ -235,9 +234,6 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
   
     this.CIFwebService.NewSAmpleStatus(formData).subscribe({
       next: (response: any) => {
-        // console.log('VerifyData Response:', response);
-  
-        // Validate response structure
         const isValidResponse = response && Array.isArray(response.item1) && response.item1.length > 0;
         if (!isValidResponse) {
           this.showAlert('Something went wrong', 'Unexpected server response. Please try again.', 'error', true);
@@ -311,13 +307,13 @@ isStatusDisabled(bookingId: string, instrumentId: string): boolean {
 
   CheckUserStatus(){
 
-     const GetCookieData = this.cookieService.get('authData');
+     const GetCookieData = this.cookieService.get('StaffUserAuthData');
     if (GetCookieData.length == 0) {
       swal.fire({
         title: 'Login Failed ',
         icon: 'warning',
       });
-     this.router.navigate(['/cifWebPortal']);
+     this.router.navigate(['/Home']);
     }
   }
 }

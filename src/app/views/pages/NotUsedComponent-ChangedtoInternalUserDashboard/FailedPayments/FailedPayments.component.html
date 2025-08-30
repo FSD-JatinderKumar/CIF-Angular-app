@@ -1,0 +1,260 @@
+<app-cif-menu-bar></app-cif-menu-bar>
+
+
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Loading, please wait...</div>
+</div>
+
+<div class="container-fluid BottomSpace">
+    <div class="row" *ngIf="BookingStatusData.length > 0 ;else NoData">
+        <div class="col-12 stretch-card">
+            <div class="card-body" style="margin-bottom: 2rem;">
+                <hr />
+                <div class="row mt-2 d-flex justify-content-center">
+                    <div class="col-sm-2 text-start">
+                        <div class="mb-3">
+                            <button (click)="exportToExcel()" class="btn btn-dark"
+                                [disabled]="tmpsBookingStatusData.length == 0">Export to Excel</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="mb-1 text-start">
+                            <h3 class="">Payment Failed Details </h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 text-start">
+                        <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text" class="form-control" style="width: 14rem;"
+                            placeholder="Search" aria-label="Search" />
+                    </div>
+                </div>
+
+                <hr />
+                <ng-container *ngIf="tmpsBookingStatusData.length > 0; else noRecords">
+                    <div class="table-responsive mt-4 mb-4">
+                        <table id="BookinglDataTable" #table>
+                            <thead>
+                                <tr>
+                                    <th class="form-label d-none d-md-table-cell ">Booking Id</th>
+                                    <th class="form-label d-none d-md-table-cell">Instrument Name</th>
+                                    <th class="form-label d-none d-lg-table-cell">Request Date</th>
+                                    <!-- <th class="form-label d-none d-lg-table-cell">Number of Samples</th> -->
+                                    <th class="form-label ">Amount </th>
+                                    <th class="form-label">Status</th>
+                                    <th class="form-label">Print </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let BookingStatusDataRow of getCurrentPageData(); let i = index">
+                                    <tr>
+                                        <td class="fw-bold d-none d-md-table-cell "> {{BookingStatusDataRow.bookingId}}</td>
+                                        <td class="fw-bold d-none d-md-table-cell"> {{BookingStatusDataRow.instrumentName}}</td>
+                                        <td class="fw-bold d-none d-lg-table-cell">{{ BookingStatusDataRow.requestDate }}</td>
+                                        <!-- <td class="fw-bold d-none d-lg-table-cell"> {{BookingStatusDataRow.noOfSamples}}</td> -->
+                                        <td class="fw-bold text-danger "> {{ BookingStatusDataRow.amount | currency:'INR':'symbol'}} </td>
+                                        <td class="" [ngSwitch]="BookingStatusDataRow.paymentStatus">
+                                            <div *ngSwitchCase="'success'" class="fw-bold text-success p-2">
+                                                <span class="badge text-bg-success ms-3 fs-5 mb-4">Payment
+                                                    Successful</span>
+                                                <span class="fw-bold text-dark">On</span>
+                                                {{ BookingStatusDataRow.paymentDate }}
+                                            </div>
+                                            <div *ngSwitchCase="'failure'" class="fw-bold text-danger p-2">
+                                                <span class="badge text-bg-info ms-3 fs-5 mb-4">Payment Failed 
+                                                    <!-- on <span
+                                                        class="badge text-bg-danger fs-5">{{BookingStatusDataRow.paymentDate }}</span> -->
+                                                    </span>
+                                                <button class="btn btn-dark ms-3" (click)="openPaymentModal(BookingStatusDataRow)">Pay Now</button>
+                                            </div>
+                                            <div *ngSwitchCase="null" class="fw-bold text-dark p-3">
+                                                <span class="badge text-bg-warning ms-3 fs-5 mb-4">Payment
+                                                    Pending</span>
+                                                <button class="btn btn-dark ms-3" (click)="openPaymentModal(BookingStatusDataRow)">Pay Now</button>
+                                            </div>
+                                        </td>
+                                        <!-- <td class="" [ngSwitch]="BookingStatusDataRow.paymentStatus">
+                                            <div *ngSwitchCase="'success'" class="fw-bold text-success p-2">
+                                              Paid
+                                              <span class="text-dark">On</span>
+                                              {{ BookingStatusDataRow.paymentDate }}
+                                            </div>
+                                            <div *ngSwitchCase="'failure'" class="fw-bold text-danger p-2">
+                                              Failed
+                                            </div>
+                                            <div *ngSwitchCase="null" class="fw-bold text-dark p-3">
+                                              Pending
+                                            </div>
+                                          </td> -->
+                                        <td>
+                                            <button class="btn btn-dark btn-sm"
+                                                    (click)="paymentReceiptScreen(BookingStatusDataRow)">Receipt</button>
+
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                                    class="mdi mdi-chevron-left  fs-2"> </i>
+                            </a>
+                            <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                            <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #noRecords>
+                    <p class="fs-2 text-danger text-center ">No Payment Record(s).</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <ng-template #NoData>
+        <div class="text-center  p-2 mb-4 vh-100">
+            <div class="row mt-4 mb-4 rounded border border-primary">
+                <h3 class="text-center fs-2 pt-5 "> No Failed Payments Records   ! </h3>
+                <div class="col-sm-12 text-center">
+                    <div class="mb-3 p-4">
+                        <h3 class="text-center" style="color: #ef7d00 !important;" >No Payment Record Found.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<ng-template #viewDescModal2 let-modal >
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Get Result Screen </h5>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body" #modalBody>  
+        <div class="col-md-12 grid-margin stretch-card" id="ReceiptData">
+            <div class="modal-body" >
+                <div class="container-fluid">
+                    <p class="text-center mb-5" style="font-size: 30px; border: 2px solid black;">Payment Receipt</p>
+                    
+                    <button class="btn btn-primary mb-3" (click)="printReceipt()">Print Receipt</button>
+                    <div class="row">
+                        <hr>
+                        <div class="col-6">
+                            <span class="">Name</span>
+                        </div>
+                        <div class="col-6">
+                            <span class="text-danger">{{PaymentReceipt.candidateName}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <hr>
+                        <div class="col-6">
+                            <span class="me-4">Booking Id</span>
+                        </div>
+                        <div class="col-6">
+                            {{PaymentReceipt.bookingId}}
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <span>Request Date</span>
+                        </div>
+                        <div class="col-6">
+                            {{PaymentReceipt.requestDate}}
+                        </div>
+                        <hr />
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <span class="text-black">Instrument Name</span>
+                        </div>
+                        <div class="col-6">
+                            <p>{{PaymentReceipt.instrumentName}}</p>
+                        </div>
+                        <hr>
+                    </div>
+                    
+                    <div class="row text-black">
+                        <div class="col-6">
+                            <p>Sample Count</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="float-start fw-bold">{{PaymentReceipt.noOfSamples}}</p>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="row text-black">
+                        <div class="col-6">
+                            <p>Payable Amount</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="float-start fw-bold">Total: {{PaymentReceipt.totalCharges}}</p>
+                        </div>
+                        <hr style="border: 2px solid black;">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p>Payment Status</p>
+                        </div>
+                        <div class="col-6">
+                            <div class="fw-bold" [ngSwitch]="PaymentReceipt.paymentStatus">
+                                <div *ngSwitchCase="'success'" class="fw-bold text-success ">
+                                  Paid <span class="fw-bold text-dark">Payment Date</span>{{ PaymentReceipt.paymentDate }}
+                                </div>
+                                <div *ngSwitchCase="'failure'" class="fw-bold text-danger ">
+                                  Failed <span class="fw-bolder text-dark ms-4 me-3">Payment Date  </span> {{ PaymentReceipt.paymentDate }} 
+                                </div>
+                                <div *ngSwitchCase="null" class="fw-bold text-dark p-3">
+                                  Pending
+                                </div>
+                            </div>
+                            <!-- <p class="float-start text-danger fw-bold">{{PaymentReceipt.paymentStatus === null ? 'Failed' : '-'}}</p> -->
+                            
+                        </div>
+                        <hr style="border: 2px solid black;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #viewDescModal5 let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelPayment">Payment Screen </h5>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-sm">
+                            <table id="dataTableAllClosedRemarks" class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="fw-bold ">Booking Id</th>
+                                        <th class="fw-bold ">Instrument Name </th>
+                                        <th class="fw-bold ">Total Amount </th>
+                                        <th class="fw-bold ">Pay Now </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class=" " >{{BookingCase.id}} </td>
+                                        <td class=" " style="width: 20%;">{{BookingCase.instrumentName}}</td>
+                                        <td class=" ">{{BookingCase.amount | currency:'INR':'symbol'}} </td>
+                                        <td><button type="submit" class="btn btn-dark me-2"
+                                                (click)="VerifyData(BookingCase);">Confirm & Pay</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

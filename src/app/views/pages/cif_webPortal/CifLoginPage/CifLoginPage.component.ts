@@ -1,5 +1,5 @@
-import { FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -7,7 +7,7 @@ import { StorageService } from 'src/app/_services/storage.service';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
 import swal from 'sweetalert2';
 import { LoginSessionService } from 'src/app/_services/login-session.service';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { MouDocumentsService } from 'src/app/_services/mou-documents.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class CifLoginPageComponent implements OnInit {
   EmployeeName: any; EmployeeCode: any; Department: any; DepartmentName: any; loadingIndicator: boolean; CandidateName: any;
   UserId: any; Designation: any; EmailId: any; MobileNo: any; UserRole: any; SupervisorName: any; ProofNumber: any; ProofName: any; SecretKey: any;
   Email: any;
-
+  formdata!: FormGroup;
 
   constructor(
     private CIFwebService: LpuCIFWebService,
@@ -31,18 +31,14 @@ export class CifLoginPageComponent implements OnInit {
     private fb: FormBuilder,
     private AuthSession: LoginSessionService,
     private router: Router,
-    private route: ActivatedRoute,
-    private cookieService: CookieService,
-    private mouDocumentsService: MouDocumentsService
-  ) { }
+    private cookieService: CookieService  ) { }
 
   ngOnInit(): void {
-    this.cookieService.delete('authData');
+    this.cookieService.delete('InternalUserAuthData');
     this.AuthSession.clearSession();
     this.loadForm();
   }
 
-  formdata!: FormGroup;
   submitted = false;
   showPassword = false;
   loginError: string | null = null;
@@ -92,11 +88,7 @@ export class CifLoginPageComponent implements OnInit {
     var DataX = this.formdata.value;
     var uid = DataX.Email ?? '';
     var password = DataX.password ?? '';
-    var encodeduid = btoa(uid);
-    var encodedPassword = btoa(password);
     var userRoleX: number | null = null;
-
-
     if (DataX.UserRoleS !== null && DataX.UserRoleS !== undefined) {
       userRoleX = parseInt(DataX.UserRoleS as string);
       this.AuthoriseUserNewWay(uid, password, userRoleX);
@@ -107,8 +99,6 @@ export class CifLoginPageComponent implements OnInit {
       return;
     }
   }
-
-
   LoginFailed(_NewError: any) {
     this.isLoginFailed = true;
     swal.fire({
@@ -140,8 +130,6 @@ export class CifLoginPageComponent implements OnInit {
             text: 'Check Details!',
             icon: 'warning',
           });
-
-          // ✅ Reset form even on login failure
           this.formdata.reset();
           this.formdata.patchValue({
             UserRoleS: '', // Reset to default "Select Role" placeholder
@@ -189,7 +177,7 @@ export class CifLoginPageComponent implements OnInit {
         this.SetUserData(response);
 
       },
-      error: err => {
+      error: () => {
         this.loadingIndicator = false;
         this.showNoDataFoundMessage = false;
         this.isLoginFailed = false;
@@ -231,7 +219,7 @@ export class CifLoginPageComponent implements OnInit {
       PasswordText: this.SecretKey,
     };
     const UserCookies = JSON.stringify(userCookiesData);
-    this.cookieService.set('authData', UserCookies);
+    this.cookieService.set('InternalUserAuthData', UserCookies);
 
     swal.fire({
       title: 'Terms Conditions',
@@ -260,9 +248,9 @@ export class CifLoginPageComponent implements OnInit {
   </div>
 `,
 
-customClass: {
-  popup: 'swal-wide'
-},
+      customClass: {
+        popup: 'swal-wide'
+      },
       icon: 'success',
       showCancelButton: true,
       confirmButtonText: 'Yes, Agreed',
@@ -280,16 +268,10 @@ customClass: {
           text: 'You must agree to proceed further.',
           icon: 'warning',
         }).then(() => {
-          this.LogoutUser(); // implement this to clear session/cookies and redirect to login
+          this.LogoutUser(); 
         });
       }
     });
-    // }
-    //   swal.fire({
-    //     title: 'Login Successful',
-    //     text: 'Login details are Valid!',
-    //     icon: 'success',
-    //   });
 
   }
   openSampleInstructions() {
@@ -313,9 +295,9 @@ customClass: {
 
   }
   LogoutUser() {
-    this.cookieService.delete('authData');
+    this.cookieService.delete('InternalUserAuthData');
     this.AuthSession.clearSession(); // if you have a method like this
-    this.router.navigateByUrl('/login'); // adjust to your login path
+    this.router.navigateByUrl('/Login'); // adjust to your login path
   }
 
 

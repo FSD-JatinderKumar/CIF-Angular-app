@@ -1,0 +1,142 @@
+
+<app-HomePageTopBar (facilitiesClicked)="gotoFacilities()"></app-HomePageTopBar>
+
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">Loading, please wait...</div>
+</div>
+
+<section class="section p-0 ">
+<div class="container mt-5 mb-5">
+    <div class="card-body">
+        <h2 class="text-center mb-4"> Our Terms and Conditions</h2>
+          <div class="terms-content" >
+            <h2 class="fs-3">Introduction</h2>
+            <p class="fs-5 m-3">
+                  Welcome to Lovely Professional University. These terms and conditions outline the rules and regulations for the use of Lovely Professional University's Website, located at lpu.co.in
+              </p>
+
+
+              <h2 class="fs-3 mb-3 mt-3 ">
+                  You are specifically agree from all of the following undertakings:
+              </h2>
+              <ul>
+                <li> 
+                <!--  <span class="badge bg-info text-dark m-1 p-1 fs-5" style="background: #ff9219 !important;"></span>-->
+
+                  We agree to acknowledge CIF, LPU in our publications and thesis if the results from CIF instrumentation are
+                  incorporated/used in them. </li>
+                  <li> I/We undertake to abide by the safety, standard sample preparation guidelines and precautions during testing of
+                    samples. </li>
+                  <li> I/We do understand the possibility of samples getting damaged during handling and analysis. I/We shall not claim
+                    for any loss/damage of the sample submitted to CIF and agreed to resubmit the new sample requested by CIF for
+                    analysis.</li>
+                  <li> CIF, LPU reserves the rights to return the samples without performing analysis and will refund the analytical
+                    charges (after deduction of GST, if applicable) under special circumstances. </li>
+                  <li> I/we do agree to maintain the decorum during the visit in CIF labs for sample analysis and fully agreed that CIF
+                    has full right to take action, if decorum of CIF’s labs functionality is disturbed/hampered by me. </li>
+                  <li> CIF shall not take any responsibility about the analysis, interpretation and publication of data acquired by the
+                    end user.</li>
+                 
+                  <li> I/We hereby declare that the results of the analysis will not be used for the settlement of any legal issue.
+              </ul>
+
+              <!-- <h2 class="fs-3 bolds">Our Privacy </h2>
+              <p class="fs-5 m-3">
+                  Please read our Privacy Policy.
+              </p>
+
+              <h2 class="fs-3 bolds">Limitation of Liability </h2>
+              <p class="fs-5 m-3">
+                  In no event shall LPU, nor any of its officers, directors, and employees, be held liable for anything arising out of or in any way connected with your use of this Website.
+              </p>
+
+              <h2 class="fs-3 bolds">Variation of Terms </h2>
+              <p class="fs-5 m-3">
+                  LPU is permitted to revise these Terms at any time as it sees fit, and by using this Website you are expected to review these Terms on a regular basis.
+              </p>
+
+              <h2 class="fs-3 bolds">Governing Law & Jurisdiction </h2>
+              <p class="fs-5 m-3">
+                  These Terms will be governed by and interpreted in accordance with the laws of the State of Punjab, and you submit to the non-exclusive jurisdiction of the state and federal courts located in Punjab for the resolution of any disputes.
+              </p> -->
+          </div>
+      </div>
+</div>
+</section>
+<section class="section bg-dark-yellow" #facilitiesSection>
+  <div class="container">
+      <div class="heading-wraper mb-4">
+          <div class="main-head">
+              <h2 id="CIF_Facilities">Facilities</h2>
+              <div class="call-action">                    
+                  <a (click)="goto('/ourInstruments')" class="link-btn">
+                      <img src="https://www.lpu.in/lpu-assets/images/icons/chevron-right.svg" alt="Icon">Know
+                      more</a>
+              </div>
+          </div>
+
+          <p>CIF of Lovely Professional University is equipped with sophisticated instruments to carry out
+              spectral
+              measurements, structure determination and chemical analysis. Click on the instrument name in the
+              following table to view their description.</p>
+      </div>
+      <div class="row cif-facilties">
+          <div class="col-md-3" *ngFor="let InstrumentData of tmpsInstrumentsDataData; let i = index"
+              [attr.data-index]="i">
+              <div class="mb-4">
+
+                  <div *ngIf="loadingStates[i]"
+                      class="spinner-border text-primary position-absolute top-50 start-50 translate-middle"
+                      role="status">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <img [src]="InstrumentData.imageUrl" alt="{{InstrumentData.instrumentName}}" class="img-fluid"
+                      loading="lazy" (load)="onImageLoad(i)" (error)="onImageError($event, i)" />
+              </div>
+              <div class="mb-5">
+                  <a (click)="VisitUrl('/ourInstruments',InstrumentData.instrumentName.slice(0,10), InstrumentData.id, InstrumentData.categoryId)"
+                      data-is-active="instrument.isActive ? 'true' : 'false'}">
+                      {{InstrumentData.instrumentName}}
+                  </a>
+                  <!-- <a
+                      (click)="VisitUrl('/ourInstruments',InstrumentData.instrumentName.slice(0,10), InstrumentData.id, InstrumentData.categoryId)">
+                      {{InstrumentData.instrumentName}}
+                  </a> -->
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+<section class="section bg-dark-yellow">
+  <div class="container">
+  <div class="heading-wraper">
+      <div class="main-head">
+          <h2>Events & Happenings</h2>
+          <div class="inner-testi-slider-nav">
+              <button id="prev_event_slide" class="inner-testi-prev-arrow" (click)="carousel.prev()">
+                  <img src="https://www.lpu.in/lpu-assets/images/icons/vector-left.svg" />
+              </button>
+              <button id="next_event_slide" class="inner-testi-next-arrow" (click)="carousel.next()">
+                  <img src="https://www.lpu.in/lpu-assets/images/icons/vector-right.svg" />
+              </button>
+          </div>
+      </div>
+  </div>
+    <ngb-carousel #carousel [interval]="66000" [pauseOnHover]="true" [showNavigationArrows]="false" [showNavigationIndicators]="true">
+      <ng-template ngbSlide *ngFor="let group of chunkedEvents">
+        <div class="row text-center">
+          <div class="col-md-4" *ngFor="let event of group">
+            <img [src]="event.img" [alt]="event.title" class="img-fluid" />
+            <div class="mt-4 mb-2">
+              <strong class="d-block">{{ event.title }}</strong>
+              {{ event.date }}
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-carousel>
+  </div>
+</section>
