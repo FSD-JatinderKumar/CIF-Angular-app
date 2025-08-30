@@ -1,0 +1,134 @@
+<app-cif-menu-bar></app-cif-menu-bar>
+<div class=" container BottomSpace "  >
+    <div class="row" *ngIf="SamplesStatusData.length > 0 ;else NoData">
+        <div class="col-12 stretch-card">
+            <div class="card-body">
+                <hr />
+                <div class="row mt-2 d-flex justify-content-center">
+                    <div class="col-sm-2 text-start">
+                        <div class="mb-3">
+                            <button (click)="exportToExcel()" class="btn btn-dark"
+                                [disabled]="tmpsSamplesStatusData.length == 0">Export to Excel</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="mb-1 text-start">
+                            <h3 >Payment, Samples Details</h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 text-start">
+                        <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text" class="form-control" style="width: 14rem;"
+                            placeholder="Search" aria-label="Search" />
+                    </div>
+                </div>
+
+                <marquee class=" fs-2" onmouseover="this.stop();" onmouseout="this.start();" [scrollAmount]="8">
+                    Analyzed Result(s) will be available within <span class="text-danger">07 Working days. (Condition
+                        Applied)* </span>
+                </marquee>
+                <hr />
+                <ng-container *ngIf="tmpsSamplesStatusData.length > 0; else noRecords">
+                    <div class="table-responsive mt-4 mb-4">
+                        <table id="SampleslDataTable" #table >
+                            <thead>
+                                <tr>
+                                    <th class="form-label">Booking Id</th>
+                                    <th class="form-label">Instrument Name</th>
+                                    <th class="form-label">Recevied By </th>
+                                    <th class="form-label">Recevied On</th>
+                                    <th class="form-label">Number of Samples</th>
+                                    <th class="form-label">Sample Status Remarks </th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let SamplesStatusDataRow of getCurrentPageData(); let i = index">
+                                    <tr>
+                                        <td class="fw-bold "> {{SamplesStatusDataRow.bookingId}}</td>
+                                        <td class="fw-bold "> {{SamplesStatusDataRow.instrumentName}}</td>
+                                        <td class="fw-bold text-danger ">{{SamplesStatusDataRow.receivedBy }} </td>
+                                        <td class="fw-bold text-danger ">{{SamplesStatusDataRow.receivedDate }} </td>
+                                        <td class="fw-bold "> {{SamplesStatusDataRow.sampleCount}}</td>
+                                        <td class="fw-bold ">{{ SamplesStatusDataRow.sampleCondition }}</td>
+                                         
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        <div class="pagination">
+                            <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                                    class="mdi mdi-chevron-left  fs-2"> </i>
+                            </a>
+                            <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                            <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #noRecords>
+                    <p class="fs-2 text-danger text-center ">Try Search With Different Text.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+    <ng-template #NoData>
+        <div class="text-center">
+            <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
+            <div class="row mt-4 mb-4">
+                <div class="col-sm-12 text-center">
+                    <div class="mb-3 p-4">
+                        <Label class="form-label fs-4 text-danger ">No Samples Found.</Label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+
+
+
+<ng-template #viewDescModal2 let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Get Result Screen </h5>
+        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-sm">
+                            <table id="dataTableTestsResults" class="table">
+                                <thead>
+                                    <tr>
+                                        <!-- <th class=" fs-5 ">User </th> -->
+                                        <th class=" fs-5 ">Booking Id </th>
+                                        <th class=" fs-5 ">Instrument Name </th>
+                                        <th class=" fs-5 ">Excel File </th>
+                                        <th class=" fs-5 ">Remarks </th>
+                                        <th class=" fs-5 ">Results File </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.userEmailId != null || SamplesCase.userEmailId !== 'undefined' ? SamplesCase.userEmailId: 'NA' }}</td> -->
+                                        <td class=" fs-5 p-4 " style="width: 20%;">{{SamplesCase.bookingId}} </td>
+                                        <td class=" fs-5 p-4 " style="width: 20%;">{{SamplesCase.instrumentName}} </td>
+                                        <td class=" fs-5 ">
+                                           
+                                            </td>
+                                        <td class=" fs-5 p-4 " style="width: 20%;">
+                                            {{SamplesCase.remarks}}
+                                        </td>
+                                        <td> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,36 +1,25 @@
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataTable } from "simple-datatables";
 import { AuthService } from 'src/app/_services/auth.service';
 import { StorageService } from 'src/app/_services/storage.service';
 import * as XLSX from 'xlsx';
-import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
-import swal from 'sweetalert2';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
-import Swal from 'sweetalert2';
-import { toInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { LoginSessionService } from 'src/app/_services/login-session.service';
-import { FormsModule } from '@angular/forms';
 
 import { ColumnMode } from '@swimlane/ngx-datatable';
 
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import { DOCUMENT } from '@angular/common';
 
 
 @Component({
-  selector: 'app-search-bookings',
-  templateUrl: './search-bookings.component.html',
-  styleUrls: ['./search-bookings.component.scss']
+  selector: 'app-SampleStatus',
+  templateUrl: './SampleStatus.component.html',
+  styleUrls: ['./SampleStatus.component.scss']
 })
-export class SearchBookingsComponent implements OnInit {
+export class SampleStatusComponent implements OnInit {
 
     @ViewChild('viewDescModal2') viewDescModal2: TemplateRef<any>;
     selectedId: number;
@@ -43,14 +32,14 @@ export class SearchBookingsComponent implements OnInit {
     @ViewChild('table') table: ElementRef;
     displayedColumns: string[] = [
       'instrumentName', 'analysisType', 'analysisCharges', 'noOfSamples',
-      'totalCharges', 'remarks', 'bookingRequestDate', //'bookingrequestDate'
+      'totalCharges', 'remarks', 'SamplesRequestDate', //'SamplesrequestDate'
     ];
-    BookingCase: any;
-    BookingStatusData: any[] = [];
+    SamplesCase: any;
+    SamplesStatusData: any[] = [];
     ResultData: any[] = [];
     currentPage = 1;
     itemsPerPage = 10; //
-    tmpsBookingStatusData: any[] = [];
+    tmpsSamplesStatusData: any[] = [];
     tmpsResultData: any[] = [];
     InstrumentId: any;
     UserRole: any;
@@ -84,14 +73,14 @@ export class SearchBookingsComponent implements OnInit {
       const retrievedCookies = JSON.parse(GetCookieData);
       this.UserRole = retrievedCookies.UserRole;
       this.UserId = retrievedCookies.EmailId;
-      this.getBookingDetails()
+      this.getMySampleStatus(this.UserId)
     }
   
     searchQuery: string = ''; // Property to store the search query
   
     search() {
       const query = this.searchQuery.toLowerCase();
-      this.tmpsBookingStatusData = this.BookingStatusData.filter(item => {
+      this.tmpsSamplesStatusData = this.SamplesStatusData.filter(item => {
         return Object.values(item).some(val =>
           String(val).toLowerCase().includes(query)
         );
@@ -99,32 +88,32 @@ export class SearchBookingsComponent implements OnInit {
     }
   
   
-    get filteredBookingStatusData(): any[] {
+    get filteredSamplesStatusData(): any[] {
       // If search query is empty, return all data
       if (!this.searchQuery.trim()) {
-        return this.BookingStatusData;
+        return this.SamplesStatusData;
       }
       const searchTerm = this.searchQuery.toLowerCase();
-      return this.BookingStatusData.filter((booking: { instrumentName: string; analysisType: string; }) =>
-        booking.instrumentName.toLowerCase().includes(searchTerm) || booking.analysisType.toLowerCase().includes(searchTerm)
+      return this.SamplesStatusData.filter((Samples: { instrumentName: string; analysisType: string; }) =>
+        Samples.instrumentName.toLowerCase().includes(searchTerm) || Samples.analysisType.toLowerCase().includes(searchTerm)
       );
     }
-    getBookingDetails() {
-      this.CIFwebService.GetUserBookingStatus(this.UserId).subscribe({
+    getMySampleStatus(UID: any) {
+      this.CIFwebService.GetSampleStatus(this.UserId).subscribe({
         next: response => {
           if (response.item1 && response.item1.length > 0) {
-            this.BookingStatusData = response.item1;
+            this.SamplesStatusData = response.item1;
             this.dataSource = response.item1;
-            // console.log(JSON.stringify(this.BookingStatusData))
-            this.tmpsBookingStatusData = response.item1;
-            this.headHtmlData = this.tmpsBookingStatusData[0];
-            this.columns = Object.keys(this.tmpsBookingStatusData[0]);
+            console.log(JSON.stringify(this.SamplesStatusData))
+            this.tmpsSamplesStatusData = response.item1;
+            this.headHtmlData = this.tmpsSamplesStatusData[0];
+            this.columns = Object.keys(this.tmpsSamplesStatusData[0]);
             this.columns = this.columns.filter((item: any) => item !== 'ResultFile' && item !== 'userId' && item !== 'id' && item !== 'analysisId');
             this.columns.push()
             this.loadingIndicator = false;
           }
           else {
-            this.BookingStatusData = [];
+            this.SamplesStatusData = [];
           }
         },
         error: err => {
@@ -134,13 +123,13 @@ export class SearchBookingsComponent implements OnInit {
     }
   
     getTotalPages() {
-      return Math.ceil(this.tmpsBookingStatusData.length / this.itemsPerPage);
+      return Math.ceil(this.tmpsSamplesStatusData.length / this.itemsPerPage);
     }
   
     getCurrentPageData() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.tmpsBookingStatusData.slice(startIndex, endIndex);
+      return this.tmpsSamplesStatusData.slice(startIndex, endIndex);
     }
   
     nextPage() {
@@ -155,8 +144,8 @@ export class SearchBookingsComponent implements OnInit {
       }
     }
     exportToExcel(): void {
-      const fileName = 'Booking_Details_report.xlsx';
-      const exportedData = this.BookingStatusData.map(item => ({
+      const fileName = 'Samples_Details_report.xlsx';
+      const exportedData = this.SamplesStatusData.map(item => ({
         BookingId: item.bookingId,
         InstrumentName: item.instrumentName,
         AssignedTo: item.assignedTo.split(' ').slice(0, -1).join(' ') ,

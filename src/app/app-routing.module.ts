@@ -85,6 +85,10 @@ const routes: Routes = [
   path: "LpuTermsConditions",//    component:OurTermsConditionsComponent
   loadChildren: () => import('./views/pages/InternalUserDashboard/OurTermsConditions/OutTermsConditions.module').then(m => m.OurTermsConditionsModule),
 },
+{
+  path: "SampleStatus",//    component:OurTermsConditionsComponent
+  loadChildren: () => import('./views/pages/InternalUserDashboard/Sample-Status/SampleStatus.module').then(m => m.SampleStatusModule),
+},
 // INTERNAL USER DASHBOARD END
 
 

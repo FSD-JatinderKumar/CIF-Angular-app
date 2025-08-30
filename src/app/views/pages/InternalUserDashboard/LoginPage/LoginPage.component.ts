@@ -120,6 +120,7 @@ export class LoginPageNComponent implements OnInit {
     this.formdata.reset();
   }
   getStudentById(regNo: any) {
+    debugger;
     this.CIFwebService.getStudentById(regNo).subscribe({
       next: response => {
         if (response.item1.length > 0) {
@@ -237,7 +238,13 @@ export class LoginPageNComponent implements OnInit {
         this.LoginFailed(err);
       }
     });
-    this.formdata.reset();
+    swal.fire({
+      title: 'Login Failed',
+      text: 'Login details are Invalid!',
+      icon: 'warning',
+    }).then(() => {
+      window.location.reload();
+    });
   }
   GetEmployeeDetails() {
     this.mouDocumentsService.GetEmployeeDetails().subscribe({
@@ -315,7 +322,7 @@ export class LoginPageNComponent implements OnInit {
                 if (result.isConfirmed) {
                   this.AuthSession.addToSession(this.UserData);
 
-                  this.router.navigateByUrl('/CifTermsConditions').then(() => {
+                  this.router.navigateByUrl('/NewBookings').then(() => {
                     window.location.reload();
                   });
                 } else {
@@ -397,9 +404,9 @@ export class LoginPageNComponent implements OnInit {
   }
 
   LogoutUser() {
-    this.cookieService.delete('authData');
+    this.cookieService.delete('InternalUserAuthData');
     this.AuthSession.clearSession(); // if you have a method like this
-    this.router.navigateByUrl('/login'); // adjust to your login path
+    this.router.navigateByUrl('Login'); // adjust to your login path
   }
 
 }

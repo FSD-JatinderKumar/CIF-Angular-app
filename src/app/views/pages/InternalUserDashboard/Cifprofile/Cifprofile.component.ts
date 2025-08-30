@@ -46,7 +46,7 @@ export class CifPorfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const GetCookieData = this.cookieService.get('authData');
+    const GetCookieData = this.cookieService.get('InternalUserAuthData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.UserRole;
     this.CanidateName = retrievedCookies.CandidateName;

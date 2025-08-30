@@ -233,11 +233,7 @@ export class CifLoginPageComponent implements OnInit {
     <p style="font-weight: bold;">You specifically agree to all of the following undertakings:</p>
 
     <ul style="list-style-type: disc; padding-left: 20px; font-size: 14px; line-height: 1.6;">
-      <p style="margin-bottom: 8px;">
-        <span style="background: #ff9219; padding: 5px 10px; color: #000; border-radius: 4px; display: inline-block;">
-          •    We agree to acknowledge CIF, LPU in our publications and thesis if the results from CIF instrumentation are incorporated/used in them.
-        </span>
-      </p>
+      <p style="margin-bottom: 8px;">•    We agree to acknowledge CIF, LPU in our publications and thesis if the results from CIF instrumentation are incorporated/used in them. </p>
       <p style="margin-bottom: 8px;">• I/We undertake to abide by the safety, standard sample preparation guidelines and precautions during testing of samples.</p>
       <p style="margin-bottom: 8px;">• I/We do understand the possibility of samples getting damaged during handling and analysis. I/We shall not claim for any loss/damage of the sample submitted to CIF and agreed to resubmit the new sample requested by CIF for analysis.</p>
       <p style="margin-bottom: 8px;">• CIF, LPU reserves the rights to return the samples without performing analysis and will refund the analytical charges (after deduction of GST, if applicable) under special circumstances.</p>

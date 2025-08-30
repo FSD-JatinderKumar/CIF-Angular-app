@@ -91,7 +91,7 @@ export class PendingPaymentsComponent implements OnInit {
     // Add your desired endpoint
     // this.ResponseUrl = "https://lpu.in/cif/cifDemo/PendingPayments";//   
     this.ResponseUrl = `${baseUrl}/PendingPayments`;
-    const GetCookieData = this.cookieService.get('authData');
+    const GetCookieData = this.cookieService.get('InternalUserAuthData');
     const retrievedCookies = JSON.parse(GetCookieData);
     this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
     this.UserId = retrievedCookies.Id;
