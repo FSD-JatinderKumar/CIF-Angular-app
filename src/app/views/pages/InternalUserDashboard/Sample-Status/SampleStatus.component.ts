@@ -104,7 +104,7 @@ export class SampleStatusComponent implements OnInit {
           if (response.item1 && response.item1.length > 0) {
             this.SamplesStatusData = response.item1;
             this.dataSource = response.item1;
-            console.log(JSON.stringify(this.SamplesStatusData))
+            // console.log(JSON.stringify(this.SamplesStatusData))
             this.tmpsSamplesStatusData = response.item1;
             this.headHtmlData = this.tmpsSamplesStatusData[0];
             this.columns = Object.keys(this.tmpsSamplesStatusData[0]);

@@ -1,0 +1,149 @@
+<!-- <app-AdminDashboard></app-AdminDashboard>
+
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Loading, please wait...</div>
+</div>
+<section class="section bg-dark-yellow py-5">
+    <div class="container">
+        <div class="card shadow-sm rounded-3 border-0">
+            <div class="card-body px-5 py-4">
+                <h2 class="text-center mb-4 fw-bold text-primary">New Event(s) Upload Page</h2>
+                <form [formGroup]="CIFEventRegistration" (ngSubmit)="Onsubmit()" class="forms-sample">
+                    <fieldset class="border p-3 mb-4">
+                        <legend class="w-auto px-2">Event Details</legend>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-3">
+                                <label class="form-label">Event Name <span class="text-danger">*</span></label>
+                                <input type="text" id="EventName" formControlName="EventName" class="form-control"
+                                    placeholder="Enter Event Name"
+                                    [ngClass]="{'is-invalid': form1['EventName'].invalid && (form1['EventName'].touched || isForm1Submitted)}" />
+                                <div *ngIf="form1['EventName'].invalid && (form1['EventName'].touched || isForm1Submitted)"
+                                    class="text-danger">
+                                    Please enter a valid Event Name.
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">EventDate <span class="text-danger">*</span></label>
+                                <input type="Date" id="EventDate" formControlName="EventDate" class="form-control"
+                                    placeholder="Enter Event Date"
+                                    [ngClass]="{'is-invalid': form1['EventDate'].invalid && (form1['EventDate'].touched || isForm1Submitted)}" />
+                                <div *ngIf="form1['EventDate'].invalid && (form1['EventDate'].touched || isForm1Submitted)"
+                                    class="text-danger">
+                                    Please enter a valid Event Date.
+                                </div>
+                            </div>
+                             
+                            <div class="col-md-3">
+                                <label class="form-label">Event Details <span class="text-danger">*</span></label>
+                                <textarea id="EventDetails" formControlName="EventDetails" class="form-control" rows="4"
+                                    placeholder="Enter event details"
+                                    [ngClass]="{'is-invalid': form1['EventDetails'].invalid && (form1['EventDetails'].touched || isForm1Submitted)}"></textarea>
+                                <div *ngIf="form1['EventDetails'].invalid && (form1['EventDetails'].touched || isForm1Submitted)"
+                                    class="text-danger">
+                                    Please enter a valid Event Details.
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="border p-3 mb-4">
+                        <legend class="w-auto px-2">Image</legend>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-3">
+                                <input type="file" name="ImageUrl" id="ImageUrl" class="form-control"
+                                    (change)="onFileSelected($event)"
+                                    [ngClass]="{'is-invalid': form1['ImageUrl'].invalid && (form1['ImageUrl'].touched || isForm1Submitted)}" />
+                                <div *ngIf="form1['ImageUrl'].invalid && (form1['ImageUrl'].touched || isForm1Submitted)"
+                                    class="text-danger">
+                                    Please upload Image File.
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary px-5"
+                            [disabled]="!isSubmitted || isLoading">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section> -->
+
+
+<app-AdminDashboard></app-AdminDashboard>
+
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">Loading, please wait...</div>
+</div>
+
+<section class="section bg-dark-yellow py-5">
+  <div class="container">
+    <div class="card shadow-sm rounded-3 border-0">
+      <div class="card-body px-5 py-4">
+        <h2 class="text-center mb-4 fw-bold text-primary">New Event(s) Upload Page</h2>
+
+        <form [formGroup]="CIFEventRegistration" (ngSubmit)="Onsubmit()" class="forms-sample" novalidate>
+          <fieldset class="border p-3 mb-4">
+            <legend class="w-auto px-2">Event Details</legend>
+            <div class="row g-4 mb-4">
+              <div class="col-md-3">
+                <label class="form-label">Event Name <span class="text-danger">*</span></label>
+                <input type="text" id="EventName" formControlName="EventName" class="form-control"
+                  placeholder="Enter Event Name"
+                  [ngClass]="{'is-invalid': form1['EventName'].invalid && (form1['EventName'].touched || isForm1Submitted)}" />
+                <div *ngIf="form1['EventName'].invalid && (form1['EventName'].touched || isForm1Submitted)" class="text-danger">
+                  Please enter a valid Event Name.
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Event Date <span class="text-danger">*</span></label>
+                <input type="date" id="EventDate" formControlName="EventDate" class="form-control"
+                  placeholder="Enter Event Date"
+                  [ngClass]="{'is-invalid': form1['EventDate'].invalid && (form1['EventDate'].touched || isForm1Submitted)}" />
+                <div *ngIf="form1['EventDate'].invalid && (form1['EventDate'].touched || isForm1Submitted)" class="text-danger">
+                  Please enter a valid Event Date.
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Event Details <span class="text-danger">*</span></label>
+                <textarea id="EventDetails" formControlName="EventDetails" class="form-control" rows="4"
+                  placeholder="Enter event details"
+                  [ngClass]="{'is-invalid': form1['EventDetails'].invalid && (form1['EventDetails'].touched || isForm1Submitted)}"></textarea>
+                <div *ngIf="form1['EventDetails'].invalid && (form1['EventDetails'].touched || isForm1Submitted)" class="text-danger">
+                  Please enter valid Event Details.
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="border p-3 mb-4">
+            <legend class="w-auto px-2">Image</legend>
+            <div class="row g-4 mb-4">
+              <div class="col-md-3">
+                <input type="file" name="ImageUrl" id="ImageUrl" class="form-control"
+                  (change)="onFileSelectedConsentLetter($event)"
+                  [ngClass]="{'is-invalid': form1['ImageUrl'].invalid && (form1['ImageUrl'].touched || isForm1Submitted)}" />
+                <!-- <div *ngIf="form1['ImageUrl'].invalid && (form1['ImageUrl'].touched || isForm1Submitted)" class="text-danger">
+                  Please upload an image file.
+                </div> -->
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary px-5" [disabled]="CIFEventRegistration.invalid || isLoading">
+              {{ isLoading ? 'Submitting...' : 'Submit' }}
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>

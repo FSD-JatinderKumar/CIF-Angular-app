@@ -93,6 +93,7 @@ const routes: Routes = [
 
 
   // Staff Dashboard for Upload results
+
   {
     path: "StaffLogins",
     loadChildren: () => import('./views/pages/StaffDashboard/StaffUserlogin/StaffUser-login.module').then(m => m.StaffUserLoginModule),
@@ -151,6 +152,15 @@ const routes: Routes = [
   },
 
 // Admin Dashboard
+
+{
+  path: "EventUploads",
+  loadChildren: () => import('./views/pages/AdminDashboard/AdminNewEventsData/AdminNewEventsData.module').then(m => m.AdminNewEventsDataModule),
+},
+{
+  path: "AllCIFEvents",
+  loadChildren: () => import('./views/pages/AdminDashboard/AdminActionCifEvents/AdminActionCifEvents.mdoule').then(m => m.AdminActionInstrumentsModule),
+},
   {
     path: "AdminLoginX",  
     loadChildren: () => import('./views/pages/cif_webPortal/internalUser-login/internalUser-login.module').then(m => m.InternalUserLoginModule),

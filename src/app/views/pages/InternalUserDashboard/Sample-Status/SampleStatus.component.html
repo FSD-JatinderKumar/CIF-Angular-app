@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-sm-4 text-center">
                         <div class="mb-1 text-start">
-                            <h3 >Payment, Samples Details</h3>
+                            <h2 >Samples Recevied with condition Details</h2>
                         </div>
                     </div>
                     <div class="col-sm-3 text-start">
@@ -21,11 +21,6 @@
                             placeholder="Search" aria-label="Search" />
                     </div>
                 </div>
-
-                <marquee class=" fs-2" onmouseover="this.stop();" onmouseout="this.start();" [scrollAmount]="8">
-                    Analyzed Result(s) will be available within <span class="text-danger">07 Working days. (Condition
-                        Applied)* </span>
-                </marquee>
                 <hr />
                 <ng-container *ngIf="tmpsSamplesStatusData.length > 0; else noRecords">
                     <div class="table-responsive mt-4 mb-4">

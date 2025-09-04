@@ -156,7 +156,7 @@
             </div>
         </div>
     </div>
-      <ngb-carousel #carousel [interval]="66000" [pauseOnHover]="true" [showNavigationArrows]="false" [showNavigationIndicators]="true">
+      <!-- <ngb-carousel #carousel [interval]="66000" [pauseOnHover]="true" [showNavigationArrows]="false" [showNavigationIndicators]="true">
         <ng-template ngbSlide *ngFor="let group of chunkedEvents">
           <div class="row text-center">
             <div class="col-md-4" *ngFor="let event of group">
@@ -168,7 +168,34 @@
             </div>
           </div>
         </ng-template>
+      </ngb-carousel> -->
+      <ngb-carousel #carousel [interval]="66000" [pauseOnHover]="true" [showNavigationArrows]="false" [showNavigationIndicators]="true">
+        <ng-template ngbSlide *ngFor="let group of chunkedEvents">
+          <div class="row text-center">
+            <div class="col-md-4" *ngFor="let event of group">
+              <img [src]="event.imageUrl" [alt]="event.eventName" class="img-fluid" />
+              <div class="mt-4 mb-2">
+                <strong class="d-block">{{ event.eventName }}</strong>
+                {{ event.eventDate }}
+              </div>
+            </div>
+          </div>
+        </ng-template>
       </ngb-carousel>
+      
+      <!-- <ngb-carousel #carousel [interval]="66000" [pauseOnHover]="true" [showNavigationArrows]="false" [showNavigationIndicators]="true">
+        <ng-template ngbSlide *ngFor="let group of chunkedEvents">
+          <div class="row text-center">
+            <div class="col-md-4" *ngFor="let event of group">
+              <img [src]="event.imageUrl" [alt]="event.eventName" class="img-fluid" />
+              <div class="mt-4 mb-2">
+                <strong class="d-block">{{ event.eventName }}</strong>
+                {{ event.eventDate }}
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel> -->
     </div>
   </section>
 

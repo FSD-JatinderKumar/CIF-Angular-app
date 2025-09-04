@@ -26,7 +26,7 @@ export class HomePageComponent implements OnInit {
   ColumnMode = ColumnMode; columns: any; loadingIndicator = false; headHtmlData: any[] = []; p: any = 1; perPage: any = 5;
   @ViewChild('table') table: ElementRef;
   loadingStates: boolean[] = [];  ServerUrl: any;   isLoading: boolean = true;  loadedCount: number = 0;
-
+  events: any=[];
   constructor(
     private CIFwebService: LpuCIFWebService,
     private fb: FormBuilder, private cdRef: ChangeDetectorRef,
@@ -35,7 +35,8 @@ export class HomePageComponent implements OnInit {
  
   ngOnInit(): void {
     this.getAllInstruments();
-    this.chunkedEvents = this.chunkArray(this.events, 3);
+    this.GetAllEventDetails()
+    
   }
   openSampleInstructions() {
     swal.fire({
@@ -108,51 +109,51 @@ export class HomePageComponent implements OnInit {
     return arr.reduce((acc, _, i) => 
       (i % size ? acc : [...acc, arr.slice(i, i + size)]), []);
   }
-  events = [
+  Staticevents = [
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp',
-      title: 'ANRF Sponsored Summer Training Programme',
-      date: '(2 June - 11 July 2025)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp',
+      eventName: 'ANRF Sponsored Summer Training Programme',
+      eventDate: '(2 June - 11 July 2025)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/event-10.jpg',
-      title: 'Discovering the Crystalline and Nano world using X-ray Diffraction and Particle Size and Zeta Potential Analyzer: A National Workshop',
-      date: '(24 – 26 April 2025)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-10.jpg',
+      eventName: 'Discovering the Crystalline and Nano world using X-ray Diffraction and Particle Size and Zeta Potential Analyzer: A National Workshop',
+      eventDate: '(24 – 26 April 2025)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/event-9.jpg',
-      title: 'National Workshop on Advance Research with Field Emission Scanning Electron Microscopy: Exploring the Nano-Structural Imaging',
-      date: '(27 - 29 March 2025)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-9.jpg',
+      eventName: 'National Workshop on Advance Research with Field Emission Scanning Electron Microscopy: Exploring the Nano-Structural Imaging',
+      eventDate: '(27 - 29 March 2025)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/event-7.jpg',
-      title: 'National Workshop on Advanced Chromatographic Techniques Theory & Applications',
-      date: '(19 - 21 September, 2024)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-7.jpg',
+      eventName: 'National Workshop on Advanced Chromatographic Techniques Theory & Applications',
+      eventDate: '(19 - 21 September, 2024)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/event-8.jpg',
-      title: 'SHORT-TERM COURSE on Advanced Materials analysis & Characterization Techniques: Hands-on-Training and Data Interpretation',
-      date: '(09 – 13 December, 2024)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-8.jpg',
+      eventName: 'SHORT-TERM COURSE on Advanced Materials analysis & Characterization Techniques: Hands-on-Training and Data Interpretation',
+      eventDate: '(09 – 13 December, 2024)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/event-1.jpg',
-      title: 'National workshop on X-Ray Diffraction and Particle Size Analyzer',
-      date: '(26 - 27 April 2024)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-1.jpg',
+      eventName: 'National workshop on X-Ray Diffraction and Particle Size Analyzer',
+      eventDate: '(26 - 27 April 2024)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/event-2.jpg',
-      title: 'Summer Training Programme',
-      date: '(3 June - 13 July 2024)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-2.jpg',
+      eventName: 'Summer Training Programme',
+      eventDate: '(3 June - 13 July 2024)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/event-3.jpg',
-      title: 'Workshop on Field Emission Scanning Electron Microscope',
-      date: '(29 - 30 March 2024)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-3.jpg',
+      eventName: 'Workshop on Field Emission Scanning Electron Microscope',
+      eventDate: '(29 - 30 March 2024)'
     },
     {
-      img: 'https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp',
-      title: 'ANRF Sponsored Summer Training Programme',
-      date: '(2 June - 11 July 2025)'
+      imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp',
+      eventName: 'ANRF Sponsored Summer Training Programme',
+      eventDate: '(2 June - 11 July 2025)'
     },    
   ];
 
@@ -198,4 +199,35 @@ export class HomePageComponent implements OnInit {
     this.show = !this.show;
   } 
 
+  GetAllEventDetails(): void {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
+    this.CIFwebService.GetAllEventDetails().subscribe({
+      next: response => {
+        if (response.item1 && response.item1.length > 0) {
+          this.events = response.item1;
+        } else {
+          this.events = this.Staticevents;
+        }
+        // Update chunkedEvents after events are set
+        this.chunkedEvents = this.chunkArray(this.events, 3);
+  
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(2500 - elapsed, 0); // wait at least 2.5s
+  
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
+      },
+      error: err => {
+        this.loadingIndicator = false;
+        console.error(err);
+        // Fallback to static events and chunk them
+        this.events = this.Staticevents;
+        this.chunkedEvents = this.chunkArray(this.events, 3);
+      }
+    });
+  }
+  
+ 
 }
