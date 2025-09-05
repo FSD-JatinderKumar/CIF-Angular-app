@@ -1,4 +1,165 @@
 <app-AdminDashboard></app-AdminDashboard>
+
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">Loading, please wait...</div>
+</div>
+
+<div *ngIf="AllBookingTestsData.length > 0; else NoData" class="row">
+  <div class="col-12 stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row mt-4 mb-4 align-items-center">
+          <div class="col-sm-4 mb-3">
+            <button class="btn btn-dark" (click)="exportToExcel()" [disabled]="filteredBookingTestsData.length === 0">
+              Export to Excel
+            </button>
+          </div>
+          <div class="col-sm-4 mb-3 text-center">
+            <h2>Update Sample Status</h2>
+          </div>
+          <div class="col-sm-4 mb-3">
+            <input
+              [(ngModel)]="searchQuery"
+              (input)="search()"
+              type="text"
+              class="form-control"
+              placeholder="Search Your Text Here"
+              aria-label="Search"
+            />
+          </div>
+        </div>
+
+        <ng-container *ngIf="filteredBookingTestsData.length > 0; else noRecords">
+          <div class="table-responsive mt-4 mb-4">
+            <table id="AdminAssignTest" #table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Candidate Name</th>
+                  <th>Candidate Email</th>
+                  <th>Instrument Name</th>
+                  <th>Request Date</th>
+                  <th>Update Sample Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of getCurrentPageData(); trackBy: trackByBookingId">
+                  <td>{{ row.candidateName?.length ? row.candidateName : 'Internal User' }}</td>
+                  <td>{{ row.userEmailId?.length ? row.userEmailId : 'Internal User' }}</td>
+                  <td>{{ row.instrumentName }} - {{ row.instrumentId }}</td>
+                  <td>{{ row.bookingRequestDate | date: 'dd/MM/yyyy' }}</td>
+                  <td *ngIf="!isStatusDisabled(row.bookingId, row.instrumentId); else NotApplicable">
+                    <button
+                      class="btn btn-danger"
+                      (click)="!isStatusDisabled(row.bookingId, row.instrumentId) && openUpdateStatusModal(row)"
+                      [disabled]="isStatusDisabled(row.bookingId, row.instrumentId)"
+                    >
+                    <i class="bi bi-exclamation-circle"></i>
+                    </button>
+                  </td>
+                  <ng-template #NotApplicable>
+                    <p class="text-danger">Action Applied</p>
+                  </ng-template>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="pagination d-flex justify-content-center align-items-center gap-3">
+              <button class="btn btn-outline-primary" (click)="prevPage()" [disabled]="currentPage === 1">
+                <i class="mdi mdi-chevron-left fs-4"></i>
+              </button>
+              <span>{{ currentPage }} / {{ getTotalPages() }}</span>
+              <button class="btn btn-outline-primary" (click)="nextPage()" [disabled]="currentPage === getTotalPages()">
+                <i class="mdi mdi-chevron-right fs-4"></i>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #noRecords>
+          <p class="fs-2 text-center">No Grid Data Available.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #NoData>
+  <div class="text-center bg-info p-5">
+    <h3 class="fs-2 mb-4">No Record!</h3>
+    <label class="fw-bold fs-4">No Booking Found.</label>
+  </div>
+</ng-template>
+
+<ng-template #ViewUpdateStatusModal let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title fs-2">Update Sample Status</h2>
+    <button type="button" class="btn-close" (click)="modal.close()" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Booking Id</th>
+              <th>Instrument Id</th>
+              <th>Sample Status</th>
+              <th>Received on</th>
+              <th>Update Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ BookingCase.bookingId }}</td>
+              <td>{{ BookingCase.instrumentId }}</td>
+              <td>
+                <select
+                  class="form-control"
+                  [(ngModel)]="AssignedTo"
+                  required
+                  #AssignedToModel="ngModel"
+                >
+                  <option value="" disabled selected>Select Status</option>
+                  <option value="Poor">Poor</option>
+                  <option value="Good">Good</option>
+                  <option value="Average">Average</option>
+                  <option value="Excellent">Excellent</option>
+                </select>
+                <div *ngIf="AssignedToModel.invalid && AssignedToModel.touched" class="text-danger">
+                  Please select an option
+                </div>
+              </td>
+              <td>
+                <input
+                  type="date"
+                  class="form-control"
+                  [(ngModel)]="ReceivedDate"
+                  required
+                  #ReceivedDateModel="ngModel"
+                />
+                <div *ngIf="ReceivedDateModel.invalid && ReceivedDateModel.touched" class="text-danger">
+                  Received Date is required
+                </div>
+              </td>
+              <td>
+                <button
+                  class="btn btn-dark"
+                  (click)="verifyData()"
+                  [disabled]="!ReceivedDate || !AssignedTo"
+                >
+                  Update
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- <app-AdminDashboard></app-AdminDashboard>
 <div *ngIf="loadingIndicator" class="fullscreen-loader">
   <div class="loader-spinner"></div>
   <div class="loader-text">Loading, please wait...</div>
@@ -152,4 +313,4 @@
       </div>
     </div>
   </div>
-</ng-template>
+</ng-template> -->

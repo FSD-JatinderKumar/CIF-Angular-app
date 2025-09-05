@@ -41,7 +41,7 @@ export class AdminDashboardComponent implements OnInit {
         title: 'Login Failed',
         icon: 'warning',
       });
-      this.router.navigate(['/login']);
+      this.router.navigate(['Home']);
     }
   }
 
@@ -61,7 +61,7 @@ export class AdminDashboardComponent implements OnInit {
 
   LogoutUser() {
     this.cookieService.delete('authData');
-    this.AuthSession.clearSession(); // if you have a method like this
-    this.router.navigateByUrl('/login'); // adjust to your login path
+    this.AuthSession.clearSession();  
+    this.router.navigateByUrl('Home');  
   }
 }

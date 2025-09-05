@@ -192,7 +192,7 @@ const routes: Routes = [
     // component:AdminPendingPaymentsComponent
   },
   {
-    path: "SampleStatus",
+    path: "SampleStatusAdmin",
     loadChildren: () => import('./views/pages/AdminDashboard/AdminUpdateSampleStatus/AdminUpdateSampleStatus.module').then(m => m.AdminUpdateSampleStatusModule),
     // component:AdminAssignTestComponent
   },

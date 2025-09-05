@@ -1,6 +1,5 @@
-import { Component, OnInit, TemplateRef, ViewChild, ElementRef, Inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,10 +8,6 @@ import * as XLSX from 'xlsx';
 import swal from 'sweetalert2';
 
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
-import { AuthService } from 'src/app/_services/auth.service';
-import { StorageService } from 'src/app/_services/storage.service';
-import { LoginSessionService } from 'src/app/_services/login-session.service';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-AdminAssignTest',
