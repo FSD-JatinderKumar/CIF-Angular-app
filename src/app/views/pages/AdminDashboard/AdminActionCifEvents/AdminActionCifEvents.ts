@@ -220,5 +220,11 @@ Reason: any;
     );
    }
    
-   
+   // 6-sep-25
+   onSelectFile(a: any) {
+    let aa = a;
+    // alert(JSON.stringify(a))
+    window.open(this.serverUrl+aa.imageUrl, '_blank');
+  }
+
 }

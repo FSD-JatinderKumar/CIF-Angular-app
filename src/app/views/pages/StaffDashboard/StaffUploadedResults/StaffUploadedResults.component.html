@@ -1,4 +1,130 @@
 <app-StaffMenu></app-StaffMenu>
+
+<div *ngIf="loadingIndicator" class="fullscreen-loader">
+  <div class="loader-spinner"></div>
+  <div class="loader-text">Loading, please wait...</div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <hr />
+    <div class="d-flex justify-content-center">
+      <div class="row">
+        <label class="fs-2">My Uploaded Results</label>
+      </div>
+    </div>
+    <hr />
+  </div>
+</div>
+
+<div class="row" *ngIf="NoResults !== '' ; else NoData">
+  <div class="col-12 stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row d-flex justify-content-center">
+          <div class="col-sm-2">
+            <div class="mb-3">
+              <button (click)="exportToExcel()" class="btn btn-dark" [disabled]="NoResults === 'No Details'">
+                Export to Excel
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-5 text-center">
+            <label class="fs-5">Results Uploaded Details</label>
+          </div>
+          <div class="col-sm-5 mb-4">
+            <input
+              [(ngModel)]="searchQuery"
+              (keyup)="search()"
+              [disabled]="NoResults === 'No Details'"
+              id="search"
+              type="text"
+              class="form-control"
+              placeholder="Search"
+              aria-label="Search"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+          <hr />
+        </div>
+        <hr />
+
+        <ng-container *ngIf="tmpsBookingData.length > 0; else noRecords">
+          <div class="table-responsive mt-4 mb-4">
+            <table id="BookingDetailsDataTable" #table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="form-label fw-bolder">User  Id</th>
+                  <th class="form-label fw-bolder">Booking Id</th>
+                  <th class="form-label fw-bolder">Instrument Name</th>
+                  <th class="fw-bold fw-bolder">Request Sheet</th>
+                  <th class="form-label fw-bolder">Request Date</th>
+                  <th class="form-label fw-bolder">Uploaded Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let BookingDataRow of getCurrentPageData()">
+                  <tr *ngIf="BookingDataRow.testUserId?.length > 0">
+                    <td class="fw-bold">{{ BookingDataRow.testUserId || 'NA' }}</td>
+                    <td class="fw-bold">{{ BookingDataRow.bookingId }}</td>
+                    <td class="fw-bold">{{ BookingDataRow.instrumentName }}</td>
+                    <td>
+                      <ng-container *ngIf="BookingDataRow.testSampleFile; else NoFile">
+                        <button class="btn btn-dark ms-3" (click)="downloadFile(BookingDataRow.testSampleFile)">
+                          View
+                        </button>
+                      </ng-container>
+                      <ng-template #NoFile>
+                        <span class="badge text-bg-info ms-3 fs-5">N/A</span>
+                      </ng-template>
+                    </td>
+                    <td class="fw-bold">{{ BookingDataRow.testDate }}</td>
+                    <td>
+                      <ng-container *ngIf="BookingDataRow.uploadedResult; else NoFiles">
+                        <button class="btn btn-dark ms-3" (click)="downloadFile(BookingDataRow.uploadedResult)">
+                          View
+                        </button>
+                      </ng-container>
+                      <ng-template #NoFiles>
+                        <span class="badge text-bg-info ms-3 fs-5">N/A</span>
+                      </ng-template>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+
+            <div class="pagination d-flex justify-content-center align-items-center">
+              <a (click)="prevPage()" [class.disabled]="currentPage === 1" class="btn btn-link">
+                <i class="mdi mdi-chevron-left fs-2"></i>
+              </a>
+              <span class="text-danger p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+              <a (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()" class="btn btn-link">
+                <i class="mdi mdi-chevron-right fs-2"></i>
+              </a>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-template #noRecords>
+          <p class="fs-2 text-danger text-center">No Data Available.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #NoData>
+  <div class="card">
+    <div class="card-body">
+      <div class="text-center">
+        <h3 class="fs-2 m-5 text-danger pt-5">No Result(s) Uploaded!</h3>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- <app-StaffMenu></app-StaffMenu>
 <div *ngIf="loadingIndicator" class="fullscreen-loader">
     <div class="loader-spinner"></div>
     <div class="loader-text">Loading, please wait...</div>
@@ -46,8 +172,7 @@
                                 <th class="form-label fw-bolder">Booking Id</th>
                                 <th class="form-label fw-bolder">Instrument Name</th>
                                 <th class="fw-bold fw-bolder">Request Sheet</th>
-                                <th class="form-label fw-bolder">Request Date</th>
-                                <!-- <th class="form-label fw-bolder">Uploaded On </th> -->
+                                <th class="form-label fw-bolder">Request Date</th>                                 
                                 <th class="form-label fw-bolder">Uploaded Result</th>
                                 
                             </tr>
@@ -107,68 +232,15 @@
     <div class="card">
         <div class="card-body">
             <div class="text-center ">
-                <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
+                <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Result(s) Uploaded ! </h3>
                 <div class="row mt-4 mb-4">
                     <div class="col-sm-12 text-center">
                         <div class="mb-3 p-4">
-                            <Label class="form-label fs-4 text-danger ">No Booking Found.</Label>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</ng-template>
-
-<ng-template #viewDescModal2 let-modal>
-    <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Result Upload Screen </h5>
-        <button type="button" class="btn-close" (click)="modal.close('by: close icon')" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-sm">
-                            <table id="dataTableAllClosedRemarks" class="table">
-                                <thead>
-                                    <tr>
-                                        <!-- <th class=" fs-5 ">User </th> -->
-                                        <th class=" fs-5 ">Booking Id </th>
-                                        <th class=" fs-5 ">Instrument Name </th>
-                                        <th class=" fs-5 ">Upload File </th>
-                                        <th class=" fs-5 ">Remarks (Any)</th>
-                                        <th class=" fs-5 ">Upload Action </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <!-- <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.userEmailId != null || BookingCase.userEmailId !== 'undefined' ? BookingCase.userEmailId: 'NA' }}</td> -->
-                                        <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.bookingId}} </td>
-                                        <td class=" fs-5 p-4 " style="width: 20%;">{{BookingCase.instrumentName}} </td>
-                                        <td class=" fs-5 ">
-                                            <input class="w-30" required type="file" id="File" name="File"
-                                            (change)="onFileSelected($event)" accept=".zip, .7z, .rar" #fileInput="ngModel"
-                                            ngModel />
-                                            <div class="col- mt-2"><span class="themeClr"> Allowed Documents format Zip and of Max size 5MB </span></div>
-
-                                        </td>
-                                        <td class=" fs-5 p-4 " style="width: 20%;">
-                                            <textarea required name="remarks" [(ngModel)]="Remarks"  rows="5" cols="30"
-                                            class="col-12 p-2 form-control" id="remarks" #remarks="ngModel" autocomplete="off">
-                                           </textarea>
-                                        </td>
-                                        <td><button type="submit" class="btn btn-primary me-2" [disabled]="this.fileStatus==false "
-                                                (click)="VerifyData(BookingCase);">Upload Result</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template>
+</ng-template> -->

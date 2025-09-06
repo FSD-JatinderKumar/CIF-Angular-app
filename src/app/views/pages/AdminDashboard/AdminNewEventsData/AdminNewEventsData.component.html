@@ -90,7 +90,7 @@
           <fieldset class="border p-3 mb-4">
             <legend class="w-auto px-2">Event Details</legend>
             <div class="row g-4 mb-4">
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label class="form-label">Event Name <span class="text-danger">*</span></label>
                 <input type="text" id="EventName" formControlName="EventName" class="form-control"
                   placeholder="Enter Event Name"
@@ -100,7 +100,7 @@
                 </div>
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label class="form-label">Event Date <span class="text-danger">*</span></label>
                 <input type="date" id="EventDate" formControlName="EventDate" class="form-control"
                   placeholder="Enter Event Date"
@@ -110,7 +110,7 @@
                 </div>
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <label class="form-label">Event Details <span class="text-danger">*</span></label>
                 <textarea id="EventDetails" formControlName="EventDetails" class="form-control" rows="4"
                   placeholder="Enter event details"
@@ -125,7 +125,7 @@
           <fieldset class="border p-3 mb-4">
             <legend class="w-auto px-2">Image</legend>
             <div class="row g-4 mb-4">
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <input type="file" name="ImageUrl" id="ImageUrl" class="form-control"
                   (change)="onFileSelectedConsentLetter($event)"
                   [ngClass]="{'is-invalid': form1['ImageUrl'].invalid && (form1['ImageUrl'].touched || isForm1Submitted)}" />

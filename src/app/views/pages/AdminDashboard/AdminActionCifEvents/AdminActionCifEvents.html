@@ -34,6 +34,7 @@
                                 <th class="form-label ">Event Id</th>
                                 <th class="form-label ">Event Name</th>
                                 <th class="form-label">EventDate</th>                             
+                                <th class="form-label">Image </th>                             
                                 <th class="form-label ">Action </th>
                             </tr>
                         </thead>
@@ -43,6 +44,10 @@
                                     <td class="fw-bold "> {{InstrumentDataRow.eventId}}</td>
                                     <td class="fw-bold "> {{InstrumentDataRow.eventName}}</td>
                                     <td class="fw-bold "> {{InstrumentDataRow.eventDate}}</td>
+                                    <td class="fw-bold "> 
+                                        
+                                        <button  class="btn btn-danger" (click)="onSelectFile(InstrumentDataRow)"> View </button>
+                                    </td>
                                     <td><button  class="btn btn-danger" (click)="DisapproveStatus(InstrumentDataRow)"> <i class="bi bi-exclamation-circle"></i></button></td>
                                    
                                 </tr>

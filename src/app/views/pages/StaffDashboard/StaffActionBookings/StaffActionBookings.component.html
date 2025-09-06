@@ -7,7 +7,7 @@
     <div class="card-body">
         <hr />
         <div class="d-flex justify-content-center">
-            <div class="row"><Label class="fs-2 "> Results Upload Page </Label>
+            <div class="row"><Label class="fs-2 "> Upload Result Page </Label>
             </div>
         </div>
         <hr />
@@ -59,28 +59,13 @@
                     <div class="table-responsive mt-4 mb-4">
                         <table id="BookingDetailsDataTable" #table>
                             <thead>
-                                <!-- <tr>
-                                    <th class="form-label fw-bolder">Booking Id</th>
-                                    <th class="form-label fw-bolder">Instrument Name</th>
-                                    <th class="form-label fw-bolder">Sample Count</th>
-                                    <th class="form-label fw-bolder">Total Charges </th>
-                                    <th class="fw-bold fw-bolder">Request Sheet</th>
-                                    <th class="form-label fw-bolder">Request Date</th>
-                                    <th class="form-label fw-bolder">Candidate Id</th>
-                                    <th class="form-label fw-bolder">Candidate Name</th>
-                                    <th class="form-label fw-bolder">Organisation Name</th>
-                                    <th class="form-label fw-bolder">User Type</th>
-                                    <th class="form-label fw-bolder">Payment Status</th>
-                                    <th class="form-label fw-bolder">Payment Date</th>
-                                    <th class="form-label fw-bolder">Action </th>
-                                </tr> -->
+                             
                                 <tr>
                                     <th class="form-label fw-bolder">Booking Id</th>
                                     <th class="form-label fw-bolder">Instrument Name</th>
                                     <th class="form-label fw-bolder">Sample Count</th>
                                     <th class="form-label fw-bolder">Total Charges </th>
                                     <th class="fw-bold fw-bolder">Request Sheet</th>
-                                    <!-- <th class="form-label fw-bolder">Request Date</th> -->
                                     <th class="form-label fw-bolder">Candidate Id</th>
                                     <th class="form-label fw-bolder">Candidate Name</th>
                                     <th class="form-label fw-bolder">Organisation Name</th>
@@ -90,56 +75,6 @@
                                     <th class="form-label fw-bolder">Action </th>
                                 </tr>
                             </thead>
-                            <!-- <tbody>
-                               <ng-container *ngFor="let BookingDataRow of getCurrentPageData(); let i = index">
-                                    <tr *ngIf="BookingDataRow.userId.length>0;">
-                                        <td class="fw-bold"> {{BookingDataRow.bookingId}}</td>
-                                        <td class="fw-bold"> {{BookingDataRow.instrumentName}}</td>
-                                        <td class="fw-bold"> {{BookingDataRow.noOfSamples}}</td>
-                                        <td class="fw-bold"> {{BookingDataRow.totalCharges>0? (BookingDataRow.totalCharges | currency:'INR':'symbol'): 'NA'}}</td>
-                                        <ng-container *ngIf="BookingDataRow.fileName; else NoFile">
-                                            <td>
-                                                <button class="btn-dark btn ms-3"
-                                                    (click)="downloadFile(BookingDataRow.fileName)">
-                                                    View
-                                                </button>
-                                            </td>
-                                        </ng-container>
-                                        <ng-template #NoFile>
-                                            <td class="ms-4">
-                                                <span class="badge text-bg-info ms-3 fs-5 "> N/A </span>
-                                            </td>
-                                        </ng-template>
-                                        <td class="fw-bold"> {{BookingDataRow.createdOn}}</td>
-                                        <td class="fw-bold "> {{BookingDataRow.userId?.length>0? BookingDataRow.userId: 'NA' }}</td>
-                                        <td class="fw-bold"> {{BookingDataRow.candidateName}}</td>
-                                        <td class="fw-bold"> {{BookingDataRow.organisationName}}</td>
-                                        <td class="fw-bold"> {{BookingDataRow.userRole}}</td>
-                                        <td>
-                                            <span class="badge" [ngClass]="{
-                                                                                'bg-success': BookingDataRow?.paymentStatus === 'success',
-                                                                                'bg-danger': BookingDataRow?.paymentStatus === 'failure',
-                                                                                'bg-warning text-dark': !BookingDataRow?.paymentStatus || BookingDataRow?.paymentStatus === 'null'
-                                                                              }">
-                                                {{
-                                                BookingDataRow?.paymentStatus === 'success' ? 'Done' :
-                                                BookingDataRow?.paymentStatus === 'failure' ? 'Failed' :
-                                                'Pending'
-                                                }}
-                                            </span>
-                                        </td>
-                                        <td class="fw-bold ">{{BookingDataRow?.paymentDate &&
-                                            BookingDataRow?.paymentDate!='null'
-                                            ? (BookingDataRow?.paymentDate): '-NA-'}}
-
-                                        <td class="fw-bold"><button class="btn btn-dark btn-sm"
-                                                (click)="openPaymentModal(BookingDataRow)">Upload </button>
-                                        </td>
-                                    </tr>
-                                </ng-container> 
-                            
-                                 
-                            </tbody> -->
                             <tbody>                             
                                 <ng-container *ngFor="let AllBookingTestsDataRow of getCurrentPageData(); let i = index">
                                     <tr>
@@ -201,11 +136,11 @@
     <div class="card">
         <div class="card-body">
             <div class="text-center ">
-                <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Record ! </h3>
+                <h3 class="text-center fs-2 m-5 text-danger pt-5 "> No Booking Assigned Yet ! </h3>
                 <div class="row mt-4 mb-4">
                     <div class="col-sm-12 text-center">
                         <div class="mb-3 p-4">
-                            <Label class="form-label fs-4 text-danger ">No Booking Found.</Label>
+                            <!-- <Label class="form-label fs-4 text-danger ">No Booking Found.</Label> -->
                         </div>
                     </div>
                 </div>
