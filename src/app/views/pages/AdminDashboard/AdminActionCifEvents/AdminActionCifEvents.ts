@@ -5,11 +5,12 @@ import * as XLSX from 'xlsx';
 import swal from 'sweetalert2';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
 import { LoginSessionService } from 'src/app/_services/login-session.service';
-
+import Swal from 'sweetalert2';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class AdminActionCifEvents implements OnInit {
   @ViewChild('viewDescModal') viewDescModal: TemplateRef<any>;
   // @ViewChild('viewDescModal2') viewDescModal2: TemplateRef<any>;
   dataSource: MatTableDataSource<any>;
-  serverUrl: any = 'https://files.lpu.in/umsweb/CIFDocuments/'; 
+  serverUrl: any = 'https://files.lpu.in/umsweb/CIFDocuments/';
   FileData: any; array: any[] = []; fileData: File; fileStatus: boolean = false;
   fileName: string;
   selectedId: number;
@@ -53,33 +54,32 @@ export class AdminActionCifEvents implements OnInit {
   candidateName: any;
 
   constructor(
-    private CIFwebService: LpuCIFWebService,    
-    private modalService: NgbModal,
-    private AuthSession: LoginSessionService,    
+    private CIFwebService: LpuCIFWebService,
+    private modalService: NgbModal, private fb: FormBuilder,
+    private AuthSession: LoginSessionService,
     private cookieService: CookieService) { }
   user_Email: any;
   sessionData: any[] = [];
   getSessionDetails() {
-    //// debugger
     this.sessionData = this.AuthSession.getSession();
     for (const session of this.sessionData) {
       this.user_Email = session[0]['userEmail']
     }
   }
   ngOnInit(): void {
-    // this.getSessionDetails();
     const GetCookieData = this.cookieService.get('authData');
-      const retrievedCookies = JSON.parse(GetCookieData);
-      this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
-      this.user_Email = retrievedCookies.EmailId;
-      this.supervisorName = retrievedCookies.SupervisorName;
-      this.departmentName = retrievedCookies.DepartmentName;
-      this.candidateName = retrievedCookies.CandidateName;
-   
-      this.GetAllEventDetails();
+    const retrievedCookies = JSON.parse(GetCookieData);
+    this.UserRole = retrievedCookies.userRole?.length > 0 ? retrievedCookies.userRole : 'Internal User';
+    this.user_Email = retrievedCookies.EmailId;
+    this.supervisorName = retrievedCookies.SupervisorName;
+    this.departmentName = retrievedCookies.DepartmentName;
+    this.candidateName = retrievedCookies.CandidateName;
+
+    this.GetAllEventDetails();
+    this.LoadNewForm();
   }
 
-  searchQuery: string = ''; // Property to store the search query
+  searchQuery: string = '';  
 
   get filteredInstrumentData(): any[] {
     // If search query is empty, return all data
@@ -170,9 +170,9 @@ export class AdminActionCifEvents implements OnInit {
 
 
   // Added on 5-sep-25
-Reason: any;
+  Reason: any;
 
-  
+
   DisapproveStatus(rowData: any) {
     swal.fire({
       title: "Reason for Rejection",
@@ -185,7 +185,7 @@ Reason: any;
         const formData = new FormData();
         formData.append('EventId', rowData.eventId);
         formData.append('DisapprovalReason', this.Reason);
-        formData.append('UpdatedBy',  this.user_Email);
+        formData.append('UpdatedBy', this.user_Email);
         this.handleStatusChange(formData);
       } else {
         this.showCancelledSwal();
@@ -213,18 +213,294 @@ Reason: any;
   }
 
   private showCancelledSwal() {
-   swal.fire(
+    swal.fire(
       'Cancelled',
       ' ',
       'error'
     );
-   }
-   
-   // 6-sep-25
-   onSelectFile(a: any) {
+  }
+
+  // 6-sep-25
+  onSelectFile(a: any) {
     let aa = a;
     // alert(JSON.stringify(a))
-    window.open(this.serverUrl+aa.imageUrl, '_blank');
+    window.open(this.serverUrl + aa.imageUrl, '_blank');
+  }
+
+  // 8 sept-25
+  @ViewChild('editEventModal') editEventModal: TemplateRef<any>;
+  editEvent: any = {};
+  selectedFile: File | null = null;
+
+  // Open modal and load selected event
+  // openEditModal(eventData: any) {
+  //   this.editEvent = { ...eventData }; // clone object
+  //   this.selectedFile = null;
+  //   this.modalService.open(this.editEventModal, { centered: true, size: 'lg' });
+  // }
+
+  openEditModal(eventData: any) {
+    this.editEvent = { ...eventData }; // clone object
+    this.selectedFile = null;
+    // Patch form values
+    this.CIFEventRegistration.patchValue({
+      EventName: eventData.eventName,
+      EventDate: this.formatDateForInput(eventData.eventDate),
+      EventDetails: eventData.eventDetails,
+      ImageUrl: '' //'' // reset file input
+    });
+    this.modalService.open(this.editEventModal, { centered: true, size: 'lg' });
+  }
+
+  // File change handler
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
+  // Save/Update event
+  // updateEvent() {
+  //   this.isForm1Submitted = true;
+
+  //   if (this.CIFEventRegistration.invalid) {
+  //     return;
+  //   }
+
+  //   this.isLoading = true;
+
+  //   const formValue = this.CIFEventRegistration.value;
+  //   const formData = new FormData();
+
+  //   formData.append('EventId', this.editEvent.eventId);
+  //   formData.append('EventName', formValue.EventName);
+  //   formData.append('EventDate', formValue.EventDate);
+  //   formData.append('EventDetails', formValue.EventDetails || '');
+  //   formData.append('CreatedBy', this.user_Email);
+  //   if (this.selectedFile) {
+  //     formData.append("ImageUrl", this.ConsentLetterFileName);
+  //     formData.append("ImageUrlData", this.ConsentLetterData);
+  //   } else if (this.editEvent.imageUrl) {
+  //     formData.append('ExistingImageUrl', this.editEvent.imageUrl);
+  //   }
+
+
+
+  //   this.CIFwebService.CIFUpdateEventsDetails(formData).subscribe({
+  //     next: (res: any) => {
+  //       this.isLoading = false;
+  //       swal.fire('Updated Successfully!', '', 'success').then(() => {
+  //         this.modalService.dismissAll();
+  //         this.GetAllEventDetails(); // refresh list
+  //       });
+  //     },
+  //     error: (err) => {
+  //       this.isLoading = false;
+  //       swal.fire('Update Failed', 'Please try again.', 'error');
+  //       console.error(err);
+  //     }
+  //   });
+  // }
+
+  updateEvent() {
+    this.isForm1Submitted = true;
+  
+    if (this.CIFEventRegistration.invalid || !this.isImageValid) {
+      return;
+    }
+  
+    this.isLoading = true;
+  
+    const formValue = this.CIFEventRegistration.value;
+    const formData = new FormData();
+  
+    formData.append('EventId', this.editEvent.eventId);
+    formData.append('EventName', formValue.EventName);
+    formData.append('EventDate', formValue.EventDate);
+    formData.append('EventDetails', formValue.EventDetails || '');
+    formData.append('CreatedBy', this.user_Email);
+  
+    if (this.selectedFile) {
+      formData.append("ImageUrl", this.ConsentLetterFileName);
+      formData.append("ImageUrlData", this.ConsentLetterData);
+    } else if (this.editEvent.imageUrl) {
+      formData.append('ExistingImageUrl', this.editEvent.imageUrl);
+    }
+  
+    this.CIFwebService.CIFUpdateEventsDetails(formData).subscribe({
+      next: (res: any) => {
+        this.isLoading = false;
+        swal.fire('Updated Successfully!', '', 'success').then(() => {
+          this.modalService.dismissAll();
+          this.GetAllEventDetails();
+        });
+      },
+      error: (err) => {
+        this.isLoading = false;
+        swal.fire('Update Failed', 'Please try again.', 'error');
+        console.error(err);
+      }
+    });
+  }
+  
+
+  CIFEventRegistration!: FormGroup; isForm1Submitted: boolean = false; isSubmitted = false;
+  isLoading: boolean = false;
+
+  get form1() {
+    return this.CIFEventRegistration.controls;
+  }
+
+  LoadNewForm() {
+    this.CIFEventRegistration = this.fb.group({
+      EventName: ['', Validators.required],
+      EventDate: ['', Validators.required],
+      EventDetails: ['', Validators.required],
+      ImageUrl: ['']
+    });
+  }
+  get isImageValid(): boolean {
+    // Valid if either a new file is selected or existing image URL is present
+    return !!this.selectedFile || !!this.editEvent?.imageUrl;
+  }
+  
+  // get isImageValid(): boolean {
+  //   // If editing and existing image present, valid
+  //   if (this.editEvent?.imageUrl) {
+  //     return true;
+  //   }
+  //   // Otherwise, require a selected file
+  //   return this.selectedFile != null;
+  // }
+
+  ConsentLetterData: any = ''; ConsentLetterStatus: boolean = false;
+  ConsentLetterFileName: any = '';
+  onFileSelectedConsentLetter(event: any): void {
+    const reader = new FileReader();
+    const target = event.target as HTMLInputElement;
+    const file: File | null = (target.files as FileList)[0] || null;
+  
+    if (file && file.size > 3148576) {
+      Swal.fire({
+        title: 'File size exceeds 3MB. Please upload a smaller file.',
+        text: 'Invalid File size',
+        icon: 'warning'
+      });
+      target.value = '';
+      this.selectedFile = null;
+      this.CIFEventRegistration.patchValue({ ImageUrl: '' });
+      return;
+    }
+  
+    const fileNameRegex = /^[a-zA-Z0-9._-]+$/;
+    if (file && !fileNameRegex.test(file.name)) {
+      const validFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const modifiedFile = new File([file], validFileName, { type: file.type });
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(modifiedFile);
+      target.files = dataTransfer.files;
+  
+      this.selectedFile = modifiedFile;
+      this.ConsentLetterFileName = validFileName;
+  
+      reader.readAsDataURL(modifiedFile);
+      reader.onload = () => {
+        const ssss = reader.result as string;
+        const ssssArray = ssss.split(',');
+        this.ConsentLetterData = ssssArray[1];
+      };
+    } else {
+      this.selectedFile = file;
+      this.ConsentLetterFileName = file?.name || '';
+      if (file) {
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const ssss = reader.result as string;
+          const ssssArray = ssss.split(',');
+          this.ConsentLetterData = ssssArray[1];
+        };
+      }
+    }
+  
+    // Patch form control to trigger validation update
+    this.CIFEventRegistration.patchValue({ ImageUrl: this.ConsentLetterFileName });
+    this.CIFEventRegistration.get('ImageUrl')?.markAsTouched();
+  }
+  
+
+  Onsubmit(): void {
+    this.isForm1Submitted = true;
+
+    if (this.CIFEventRegistration.invalid) {
+      return;
+    }
+
+    if (!this.ConsentLetterData) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Kindly upload a file.',
+        icon: 'error'
+      });
+      return;
+    }
+
+    this.isLoading = true;
+
+    const formValue = this.CIFEventRegistration.value;
+    const formData = new FormData();
+
+    formData.append('EventName', formValue.EventName);
+    formData.append('EventDate', formValue.EventDate);
+    formData.append('EventDetails', formValue.EventDetails);
+
+
+    if (this.selectedFile) {
+      formData.append("ImageUrl", this.ConsentLetterFileName);
+      formData.append("ImageUrlData", this.ConsentLetterData);
+    } else if (this.editEvent.imageUrl) {
+      // Optionally send existing image info if needed by backend
+      formData.append('ExistingImageUrl', this.editEvent.imageUrl);
+    }
+
+
+    formData.append('CreatedBy', this.UserId);
+
+
+    formData.forEach((value, key) => {
+      console.log(key + ':', value);
+    });
+    // Call your API service to upload the form data
+    this.CIFwebService.CIFNewEventsDetails(formData).subscribe({
+      next: (response) => {
+        this.isLoading = false;
+        Swal.fire({
+          title: 'Event Stored Successfully!',
+          icon: 'success'
+        }).then(() => {
+          this.CIFEventRegistration.reset();
+          this.FileData = null;
+          this.fileName = '';
+          this.isForm1Submitted = false;
+        });
+      },
+      error: (error) => {
+        this.isLoading = false;
+        Swal.fire({
+          title: 'Upload Failed',
+          text: 'There was an error uploading the file.',
+          icon: 'error'
+        });
+      }
+    });
+  }
+
+  formatDateForInput(dateString: string): string {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
   }
 
 }

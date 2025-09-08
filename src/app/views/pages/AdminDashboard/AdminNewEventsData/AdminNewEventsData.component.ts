@@ -32,13 +32,13 @@ export class AdminNewEventsDataComponent implements OnInit {
   }
   ngOnInit(): void {
     this.serverUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';//'http://172.19.2.52/umsweb/webftp/CIFDocuments/';
-    // const GetCookieData = this.cookieService.get('authData');
-    // const retrievedCookies = JSON.parse(GetCookieData);
-    // this.UserRole = retrievedCookies.UserRole;
-    // this.UserId = retrievedCookies.EmailId;
-    this.UserId = '121309';
+    const GetCookieData = this.cookieService.get('authData');
+    const retrievedCookies = JSON.parse(GetCookieData);
+    this.UserRole = retrievedCookies.UserRole;
+    this.UserId = retrievedCookies.EmailId;
+    // this.UserId = '121309';
     this.LoadNewForm();
-
+    this.GetAllEventDetails();
   }
 
 
@@ -167,4 +167,99 @@ export class AdminNewEventsDataComponent implements OnInit {
       }
     });
   }
+  events: any=[];
+ // added on 21-aug-25
+ chunkedEvents: any[][] = [];
+
+ chunkArray(arr: any[], size: number): any[][] {
+   return arr.reduce((acc, _, i) => 
+     (i % size ? acc : [...acc, arr.slice(i, i + size)]), []);
+ }
+ Staticevents = [
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp',
+     eventName: 'ANRF Sponsored Summer Training Programme',
+     eventDate: '(2 June - 11 July 2025)'
+   },
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-10.jpg',
+     eventName: 'Discovering the Crystalline and Nano world using X-ray Diffraction and Particle Size and Zeta Potential Analyzer: A National Workshop',
+     eventDate: '(24 – 26 April 2025)'
+   },
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-9.jpg',
+     eventName: 'National Workshop on Advance Research with Field Emission Scanning Electron Microscopy: Exploring the Nano-Structural Imaging',
+     eventDate: '(27 - 29 March 2025)'
+   },
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-7.jpg',
+     eventName: 'National Workshop on Advanced Chromatographic Techniques Theory & Applications',
+     eventDate: '(19 - 21 September, 2024)'
+   },
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-8.jpg',
+     eventName: 'SHORT-TERM COURSE on Advanced Materials analysis & Characterization Techniques: Hands-on-Training and Data Interpretation',
+     eventDate: '(09 – 13 December, 2024)'
+   },
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-1.jpg',
+     eventName: 'National workshop on X-Ray Diffraction and Particle Size Analyzer',
+     eventDate: '(26 - 27 April 2024)'
+   },
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-2.jpg',
+     eventName: 'Summer Training Programme',
+     eventDate: '(3 June - 13 July 2024)'
+   },
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/event-3.jpg',
+     eventName: 'Workshop on Field Emission Scanning Electron Microscope',
+     eventDate: '(29 - 30 March 2024)'
+   },
+   {
+     imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp',
+     eventName: 'ANRF Sponsored Summer Training Programme',
+     eventDate: '(2 June - 11 July 2025)'
+   },    
+ ];
+
+ get eventGroups() {
+   const groups = [];
+   for (let i = 0; i < this.events.length; i += 3) {
+     groups.push(this.events.slice(i, i + 3));
+   }
+   return groups;
+ }
+
+
+  GetAllEventDetails(): void {
+    this.loadingIndicator = true;
+    const startTime = new Date().getTime();
+    this.CIFwebService.GetAllEventDetails().subscribe({
+      next: response => {
+        if (response.item1 && response.item1.length > 0) {
+          this.events = response.item1;
+        } else {
+          this.events = this.Staticevents;
+        }
+        // Update chunkedEvents after events are set
+        this.chunkedEvents = this.chunkArray(this.events, 3);
+  
+        const elapsed = new Date().getTime() - startTime;
+        const remainingDelay = Math.max(2500 - elapsed, 0); // wait at least 2.5s
+  
+        setTimeout(() => {
+          this.loadingIndicator = false;
+        }, remainingDelay);
+      },
+      error: err => {
+        this.loadingIndicator = false;
+        console.error(err);
+        // Fallback to static events and chunk them
+        this.events = this.Staticevents;
+        this.chunkedEvents = this.chunkArray(this.events, 3);
+      }
+    });
+  }
+  
 }

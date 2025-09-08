@@ -34,6 +34,7 @@ export class HomePageComponent implements OnInit {
     private router: Router, private route: ActivatedRoute) { }
  
   ngOnInit(): void {
+    this.ServerUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';
     this.getAllInstruments();
     this.GetAllEventDetails()
     
@@ -211,7 +212,7 @@ export class HomePageComponent implements OnInit {
         }
         // Update chunkedEvents after events are set
         this.chunkedEvents = this.chunkArray(this.events, 3);
-  
+        console.log(JSON.stringify(this.chunkedEvents))
         const elapsed = new Date().getTime() - startTime;
         const remainingDelay = Math.max(2500 - elapsed, 0); // wait at least 2.5s
   

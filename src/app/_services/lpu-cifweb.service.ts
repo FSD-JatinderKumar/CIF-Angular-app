@@ -637,8 +637,8 @@ export class LpuCIFWebService {
       // .set('Authorization', 'Bearer ' + authToken)
       .set('Authorization', 'Bearer ' + authToken)
     return this.http.post(
-      AUTH_API + 'api/LpuCIF/CIFEventsUploads', dataSoft, { headers });
-      // 'https://localhost:7125/api/LpuCIF/CIFEventsUploads', dataSoft, { headers });
+      // AUTH_API + 'api/LpuCIF/CIFEventsUploads', dataSoft, { headers });
+      'https://localhost:7125/api/LpuCIF/CIFEventsUploads', dataSoft, { headers });
   }
   CIFUpdateEventsDetails(dataSoft: FormData): Observable<any> {
     var authToken = this.storageService.getUser();
@@ -646,7 +646,7 @@ export class LpuCIFWebService {
       // .set('Authorization', 'Bearer ' + authToken)
       .set('Authorization', 'Bearer ' + authToken)
     return this.http.post(
-      AUTH_API + 'api/LpuCIF/LpuCIF/UpdateEventsStatus', dataSoft, { headers });
-      // 'https://localhost:7125/api/LpuCIF/UpdateEventsStatus', dataSoft, { headers });
+      // AUTH_API + 'api/LpuCIF/LpuCIF/UpdateCIFEventDetails', dataSoft, { headers });
+      'https://localhost:7125/api/LpuCIF/UpdateCIFEventDetails', dataSoft, { headers });
   }
 }

@@ -3,14 +3,15 @@
     <div class="loader-spinner"></div>
     <div class="loader-text">Loading, please wait...</div>
 </div>
-<div class="row" *ngIf="InstrumentData.length > 0 ;else NoData" >
+<div class="row" *ngIf="InstrumentData.length > 0 ;else NoData">
     <div class="col-12 stretch-card">
         <div class="card">
             <div class="card-body">
                 <div class="row mt-2 d-flex justify-content-center">
                     <div class="col-sm-4">
                         <div class="mb-3">
-                            <button (click)="exportToExcel()" class="btn btn-dark" [disabled]="tmpsInstrumentData.length==0">Export to
+                            <button (click)="exportToExcel()" class="btn btn-dark"
+                                [disabled]="tmpsInstrumentData.length==0">Export to
                                 Excel</button>
                         </div>
                     </div>
@@ -19,49 +20,55 @@
                             <Label class="fs-3 fw-bolder">CIF Events Details</Label>
                         </div>
                     </div>
-                
+
                     <div class="col-sm-3 text-start">
-                        <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text"
-                        class="form-control" placeholder="Search" aria-label="Search"
-                            aria-describedby="basic-addon1" />
+                        <input [(ngModel)]="searchQuery" (keyup)="search()" id="search" type="text" class="form-control"
+                            placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" />
                     </div>
                 </div>
-                <ng-container *ngIf="tmpsInstrumentData.length > 0; else noRecords"> 
+                <ng-container *ngIf="tmpsInstrumentData.length > 0; else noRecords">
                     <div class="table-responsive mt-4 mb-4">
-                    <table id="InstrumentDataTable" #table >
-                        <thead>
-                            <tr>
-                                <th class="form-label ">Event Id</th>
-                                <th class="form-label ">Event Name</th>
-                                <th class="form-label">EventDate</th>                             
-                                <th class="form-label">Image </th>                             
-                                <th class="form-label ">Action </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let InstrumentDataRow of getCurrentPageData(); let i = index">
+                        <table id="InstrumentDataTable" #table>
+                            <thead>
                                 <tr>
-                                    <td class="fw-bold "> {{InstrumentDataRow.eventId}}</td>
-                                    <td class="fw-bold "> {{InstrumentDataRow.eventName}}</td>
-                                    <td class="fw-bold "> {{InstrumentDataRow.eventDate}}</td>
-                                    <td class="fw-bold "> 
-                                        
-                                        <button  class="btn btn-danger" (click)="onSelectFile(InstrumentDataRow)"> View </button>
-                                    </td>
-                                    <td><button  class="btn btn-danger" (click)="DisapproveStatus(InstrumentDataRow)"> <i class="bi bi-exclamation-circle"></i></button></td>
-                                   
+                                    <th class="form-label ">Event Id</th>
+                                    <th class="form-label ">Event Name</th>
+                                    <th class="form-label">EventDate</th>
+                                    <th class="form-label">EventDetils</th>
+                                    <th class="form-label">Image </th>
+                                    <th class="form-label ">Action </th>
                                 </tr>
-                            </ng-container>
-                        </tbody>
-                       
-                    </table>
-                    <div class="pagination">
-                        <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
-                                class="mdi mdi-chevron-left  fs-2"> </i> </a>
-                        <span class=" p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
-                        <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
-                                class="mdi mdi-chevron-right  fs-2"> </i></a>
-                    </div>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let InstrumentDataRow of getCurrentPageData(); let i = index">
+                                    <tr>
+                                        <td class="fw-bold "> {{InstrumentDataRow.eventId}}</td>
+                                        <td class="fw-bold "> {{InstrumentDataRow.eventName}}</td>
+                                        <td class="fw-bold "> {{InstrumentDataRow.eventDate}}</td>
+                                        <td class="fw-bold "> {{InstrumentDataRow.eventDetails}}</td>
+                                        <td class="fw-bold ">
+                                            <button class="btn btn-primary"
+                                                (click)="openEditModal(InstrumentDataRow)"><i
+                                                    class="bi bi-pencil-square"></i> </button>
+                                            <button class="btn btn-danger" (click)="onSelectFile(InstrumentDataRow)">
+                                                View </button>
+                                        </td>
+                                        <td><button class="btn btn-danger"
+                                                (click)="DisapproveStatus(InstrumentDataRow)"> <i
+                                                    class="bi bi-exclamation-circle"></i></button></td>
+
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+
+                        </table>
+                        <div class="pagination">
+                            <a class="" (click)="prevPage()" [class.disabled]="currentPage === 1"> <i
+                                    class="mdi mdi-chevron-left  fs-2"> </i> </a>
+                            <span class=" p-2">{{ currentPage }} / {{ getTotalPages() }}</span>
+                            <a class="" (click)="nextPage()" [class.disabled]="currentPage === getTotalPages()"><i
+                                    class="mdi mdi-chevron-right  fs-2"> </i></a>
+                        </div>
                     </div>
                 </ng-container>
                 <ng-template #noRecords>
@@ -70,9 +77,9 @@
             </div>
         </div>
     </div>
-</div>  
+</div>
 <ng-template #NoData>
-    <div class="text-center " >
+    <div class="text-center ">
         <h3 class="text-center fs-2 m-5  pt-5 "> No Record ! </h3>
         <div class="row mt-4 mb-4">
             <div class="col-sm-12 text-center">
@@ -82,4 +89,81 @@
             </div>
         </div>
     </div>
+</ng-template>
+
+
+<ng-template #editEventModal let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Edit Event</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="CIFEventRegistration" (ngSubmit)="updateEvent()" class="forms-sample" novalidate>
+            <fieldset class="border p-3 mb-4">
+                <legend class="w-auto px-2">Event Details</legend>
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <label class="form-label">Event Name <span class="text-danger">*</span></label>
+                        <input type="text" id="EventName" class="form-control" placeholder="Enter Event Name"
+                            formControlName="EventName" />
+                        <div *ngIf="CIFEventRegistration.get('EventName')?.invalid && (CIFEventRegistration.get('EventName')?.touched || isForm1Submitted)"
+                            class="text-danger">
+                            Please enter a valid Event Name.
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Event Date <span class="text-danger">*</span></label>
+                        <input type="date" id="EventDate" class="form-control" placeholder="Enter Event Date"
+                            formControlName="EventDate" />
+                        <div *ngIf="CIFEventRegistration.get('EventDate')?.invalid && (CIFEventRegistration.get('EventDate')?.touched || isForm1Submitted)"
+                            class="text-danger">
+                            Please enter a valid Event Date.
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Event Details <span class="text-danger">*</span></label>
+                        <textarea id="EventDetails" class="form-control" rows="4" placeholder="Enter event details"
+                            formControlName="EventDetails"></textarea>
+                        <div *ngIf="CIFEventRegistration.get('EventDetails')?.invalid && (CIFEventRegistration.get('EventDetails')?.touched || isForm1Submitted)"
+                            class="text-danger">
+                            Please enter valid Event Details.
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="border p-3 mb-4">
+                <legend class="w-auto px-2">Image</legend>
+                <div class="row g-4 mb-4">
+                    <div class="col-md-4">
+                        <input type="file" id="ImageUrl" class="form-control" (change)="onFileSelectedConsentLetter($event)" />
+                        <small *ngIf="editEvent.imageUrl">Current: {{ editEvent.imageUrl }}</small>
+                        <div *ngIf="(isForm1Submitted || CIFEventRegistration.get('ImageUrl')?.touched) && !isImageValid" class="text-danger">
+                            Event Image is required.
+                          </div>
+                          
+                          
+                    </div>
+                </div>
+            </fieldset>
+            <div class="d-flex justify-content-center">
+                <!-- <button type="submit" class="btn btn-primary px-5"
+                                [disabled]="CIFEventRegistration.invalid || isLoading">
+                                {{ isLoading ? 'Submitting...' : 'Submit' }}
+                            </button> -->
+                <button type="submit" class="btn btn-primary px-5"
+                    [disabled]="CIFEventRegistration.invalid || !isImageValid || isLoading">
+                    {{ isLoading ? 'Submitting...' : 'Submit' }}
+                </button>
+
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+
 </ng-template>
