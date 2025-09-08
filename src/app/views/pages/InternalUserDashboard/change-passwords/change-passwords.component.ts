@@ -41,7 +41,7 @@ export class ChangePasswordsComponent implements OnInit {
       const confirmPassword = this.changePasswordForm.get('confirmPassword')?.value;
       const ProofNameText = this.changePasswordForm.get('ProofNameText')?.value;
      
-      console.log((ProofNameText + "==="+ atob(this.ProofNumber) + "==="+ currentPassword + "==="+this.SecretKey + "==="+ newPassword + "==="+ confirmPassword) )
+      // console.log((ProofNameText + "==="+ atob(this.ProofNumber) + "==="+ currentPassword + "==="+this.SecretKey + "==="+ newPassword + "==="+ confirmPassword) )
       if (ProofNameText === atob(this.ProofNumber) && currentPassword === atob(this.SecretKey) && newPassword === confirmPassword) {
         const formData = new FormData();
         formData.append('UserId', this.UserId);
@@ -159,8 +159,8 @@ export class ChangePasswordsComponent implements OnInit {
     this.ProofName = retrievedCookies.ProofName;
     this.ProofNumber = retrievedCookies.ProofNumber;
     this.SecretKey = retrievedCookies.PasswordText;
-    console.log(this.ProofName)
-    console.log(this.SecretKey)
+    // console.log(this.ProofName)
+    // console.log(this.SecretKey)
     if (this.UserRole == 400000) {
       swal.fire({
         title: 'Unauthorise Access ',

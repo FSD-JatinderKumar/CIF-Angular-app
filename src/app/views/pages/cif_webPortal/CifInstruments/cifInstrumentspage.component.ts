@@ -384,12 +384,12 @@ faqs = [
 
   // ✅ Accordion toggle function
   toggleAccordion(faq: any): void {
-    console.log("Clicked:", faq.question, "Current state:", faq.isOpen);
+    // console.log("Clicked:", faq.question, "Current state:", faq.isOpen);
     this.faqs.forEach(f => {
       if (f !== faq) f.isOpen = false;
     });
     faq.isOpen = !faq.isOpen;
-    console.log("New state:", faq.isOpen);
+    // console.log("New state:", faq.isOpen);
   }
   
   // Existing methods

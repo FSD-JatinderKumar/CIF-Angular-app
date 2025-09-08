@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LpuCIFWebService } from 'src/app/_services/lpu-cifweb.service';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import { DOCUMENT } from '@angular/common';
- 
+
 import swal from 'sweetalert2';
 @Component({
   selector: 'app-HomePage',
@@ -25,19 +25,19 @@ export class HomePageComponent implements OnInit {
   Description: any; ImageUrl: any;
   ColumnMode = ColumnMode; columns: any; loadingIndicator = false; headHtmlData: any[] = []; p: any = 1; perPage: any = 5;
   @ViewChild('table') table: ElementRef;
-  loadingStates: boolean[] = [];  ServerUrl: any;   isLoading: boolean = true;  loadedCount: number = 0;
-  events: any=[];
+  loadingStates: boolean[] = []; ServerUrl: any; isLoading: boolean = true; loadedCount: number = 0;
+  events: any = [];
   constructor(
     private CIFwebService: LpuCIFWebService,
     private fb: FormBuilder, private cdRef: ChangeDetectorRef,
     @Inject(DOCUMENT) document: Document,
     private router: Router, private route: ActivatedRoute) { }
- 
+
   ngOnInit(): void {
     this.ServerUrl = 'https://files.lpu.in/umsweb/CIFDocuments/';
     this.getAllInstruments();
     this.GetAllEventDetails()
-    
+
   }
   openSampleInstructions() {
     swal.fire({
@@ -56,9 +56,9 @@ export class HomePageComponent implements OnInit {
            </address>`,
       icon: 'info'
     });
- 
-   
- }
+
+
+  }
   goto(val: any): void {
     this.router.navigateByUrl(val);
   }
@@ -66,18 +66,18 @@ export class HomePageComponent implements OnInit {
     this.router.navigateByUrl(Sufix + '/' + name + '/' + Id + '/' + catId);
   }
   onImageLoad(index: number): void {
-    this.loadingStates[index] = false;  
+    this.loadingStates[index] = false;
   }
 
-  
+
 
   onImageError(event: any, index: number): void {
-    event.target.src = '/image.jpg'; 
+    event.target.src = '/image.jpg';
     this.loadingStates[index] = false;
   }
 
   getAllInstruments(): void {
-    this.loadingIndicator=true;
+    this.loadingIndicator = true;
     const startTime = new Date().getTime();
     this.CIFwebService.GetAllInstrumentsData().subscribe({
       next: response => {
@@ -101,13 +101,13 @@ export class HomePageComponent implements OnInit {
       }
     });
   }
- 
+
 
   // added on 21-aug-25
   chunkedEvents: any[][] = [];
 
   chunkArray(arr: any[], size: number): any[][] {
-    return arr.reduce((acc, _, i) => 
+    return arr.reduce((acc, _, i) =>
       (i % size ? acc : [...acc, arr.slice(i, i + size)]), []);
   }
   Staticevents = [
@@ -155,7 +155,7 @@ export class HomePageComponent implements OnInit {
       imageUrl: 'https://www.lpu.in/lpu-assets/images/cif/summer-training-programme-2025.webp',
       eventName: 'ANRF Sponsored Summer Training Programme',
       eventDate: '(2 June - 11 July 2025)'
-    },    
+    },
   ];
 
   get eventGroups() {
@@ -198,7 +198,7 @@ export class HomePageComponent implements OnInit {
   toggleSearchForm() {
     this.showSearchForm = !this.showSearchForm;
     this.show = !this.show;
-  } 
+  }
 
   GetAllEventDetails(): void {
     this.loadingIndicator = true;
@@ -212,10 +212,9 @@ export class HomePageComponent implements OnInit {
         }
         // Update chunkedEvents after events are set
         this.chunkedEvents = this.chunkArray(this.events, 3);
-        console.log(JSON.stringify(this.chunkedEvents))
         const elapsed = new Date().getTime() - startTime;
         const remainingDelay = Math.max(2500 - elapsed, 0); // wait at least 2.5s
-  
+
         setTimeout(() => {
           this.loadingIndicator = false;
         }, remainingDelay);
@@ -229,6 +228,6 @@ export class HomePageComponent implements OnInit {
       }
     });
   }
-  
- 
+
+
 }

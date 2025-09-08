@@ -306,7 +306,7 @@ export class ClickToCallComponent implements AfterViewInit {
     $('#dateSelect').on('change', () => {
       const selectedDate = $('#dateSelect').val();
       if (selectedDate) {
-        console.log('Selected Date:', selectedDate);
+     //   console.log('Selected Date:', selectedDate);
       }
     });
 

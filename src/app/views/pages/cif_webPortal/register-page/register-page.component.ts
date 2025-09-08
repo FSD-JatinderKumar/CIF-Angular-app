@@ -91,45 +91,10 @@ export class RegisterPageComponent implements OnInit {
       formData.append("UserType", this.userRole);
       formData.append("Address", this.address);
       formData.append("PasswordText", this.password);
-      // formData.forEach((value, key) => {
-      //   console.log(key, value);
-      // });
+   
 
       var result;
-    //   this.CIFwebService.NewUserRecord(formData).subscribe({
-    //    next: data => {
-    //     // console.log(JSON.stringify(data));
-    //      result = data.item1[0]['msg'];
-    //      var ErrorCode = data.item1[0]['returnId'];
-
-    //      if (result == 'Success') {
-    //        swal.fire({
-    //          title: 'Created User Login Successfull' ,
-    //          text: data.item1[0]['msg'],
-    //          icon: 'success'
-    //        }
-    //        );
-    //      }
-    //      else if (ErrorCode == -1) {
-    //        swal.fire({
-    //          title: 'User Already Existed ',
-    //         //  text: result,
-    //          icon: 'error'
-    //        });
-    //        window.location.reload();
-    //      }
-    //      else  {
-    //       swal.fire({
-    //         title: 'Some Technical Issue ',
-    //         text: result,
-    //         icon: 'error'
-    //       });
-    //       window.location.reload();
-    //     }
-    //     //  window.location.reload();
-    //     this.router.navigate(['/Home']);
-    //    },
-    //  });
+  
     this.CIFwebService.NewUserRecord(formData).subscribe({
       next: (data) => {
         let result = data.item1[0]['msg'];

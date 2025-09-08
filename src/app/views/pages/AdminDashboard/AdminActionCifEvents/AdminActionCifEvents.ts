@@ -466,9 +466,9 @@ export class AdminActionCifEvents implements OnInit {
     formData.append('CreatedBy', this.UserId);
 
 
-    formData.forEach((value, key) => {
-      console.log(key + ':', value);
-    });
+    // formData.forEach((value, key) => {
+    //   //console.log(key + ':', value);
+    // });
     // Call your API service to upload the form data
     this.CIFwebService.CIFNewEventsDetails(formData).subscribe({
       next: (response) => {

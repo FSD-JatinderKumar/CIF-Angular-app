@@ -40,9 +40,10 @@
                                     <th class="text-dark">Department </th>
                                     <th class="text-dark">School Name</th>
                                     <th class="text-dark">Supervisor Name </th>
-                                    <th class="text-dark">Designation</th>
-                                    <th class="text-dark">State</th>
+                                    <!-- <th class="text-dark">Designation</th>
+                                    <th class="text-dark">State</th> -->
                                     <th class="text-dark">User Role </th>
+                                    <th class="text-dark">Action </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -62,10 +63,10 @@
                                         <td class="fw-bold">
                                             {{UserDetailsDataRow.supervisorName.length>0?UserDetailsDataRow.supervisorName:
                                             'NA'}} </td>
-                                        <td class="fw-bold"> {{UserDetailsDataRow.designation != null?
+                                        <!-- <td class="fw-bold"> {{UserDetailsDataRow.designation != null?
                                             UserDetailsDataRow.designation:'NA'}}</td>
                                         <td class="fw-bold">{{ UserDetailsDataRow.stateName!= null ?
-                                            UserDetailsDataRow.stateName:'NA'}}</td>
+                                            UserDetailsDataRow.stateName:'NA'}}</td> -->
                                         <td class="fw-bold">
                                             <ng-container *ngIf="UserDetailsDataRow.userRole?.length > 0;">
                                                 <ng-container [ngSwitch]="UserDetailsDataRow.userRole.trim()">
@@ -78,6 +79,8 @@
                                                 </ng-container>
                                             </ng-container>
                                         </td>
+                                        <td class="fw-bold "><button class="btn btn-danger btn-lg" (click)="OpenModalWindow(UserDetailsDataRow)">
+                                            <i class="bi bi-lock"></i></button></td>
                                         <!-- <td class="fw-bold"><button class="btn btn-dark btn-sm" (click)="openPaymentModal(UserDetailsDataRow)">Upload Result</button></td> -->
                                     </tr>
                                 </ng-container>

@@ -73,7 +73,7 @@ export class AutoAssignMetricComponent implements OnInit , AfterViewInit{
     private modalService: NgbModal,private cdr: ChangeDetectorRef ,
     private AuthSession: LoginSessionService,
     private router: Router, private route: ActivatedRoute,
-    ) { debugger ; 
+    ) { 
       console.log("Loading")
     }
 

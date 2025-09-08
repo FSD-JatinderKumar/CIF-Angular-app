@@ -308,7 +308,7 @@ export class StaffPendingPaymentsComponent implements OnInit {
   onUpdatePayment() {
     if (this.paymentForm.valid) {
       const paymentDetails = this.paymentForm.value;
-      console.log("Payment details to update:", paymentDetails);
+      // console.log("Payment details to update:", paymentDetails);
       // Perform your update logic here...
     }
   }
