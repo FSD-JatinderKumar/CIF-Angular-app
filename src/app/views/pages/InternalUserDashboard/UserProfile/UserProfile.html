@@ -1,0 +1,115 @@
+<app-cif-menu-bar></app-cif-menu-bar>
+ 
+<section class="section">
+    <div class="container">
+        <div class="heading-wraper mb-5">
+            <div class="main-head">
+                <h1>User Profile </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 reg-div">
+                <div class="cif-register">
+                    <div class="row">
+                        <form [formGroup]="cifUserForm" (ngSubmit)="onUpdate()" class="forms-sample" novalidate>
+                            <div class="row">
+                              <div class="col-md-6 mb-3">
+                                <label for="EmailId">Email</label>
+                                <input type="email" id="EmailId" formControlName="EmailId" class="form-control" [disabled]="true" >
+                                <div *ngIf="isForm1Submitted && form1.EmailId.errors" class="invalid-feedback d-block">
+                                  <div *ngIf="form1.EmailId.errors.required">Required</div>
+                                  <div *ngIf="form1.EmailId.errors.email">Invalid Email</div>
+                                </div>
+                              </div>
+                          
+                              <div class="col-md-6 mb-3">
+                                <label for="CandidateName">Name</label>
+                                <input type="text" id="CandidateName" formControlName="CandidateName" class="form-control"
+                                  [class.is-invalid]="isForm1Submitted && form1.CandidateName.invalid" [readonly]="!isEditMode">
+                                <div *ngIf="isForm1Submitted && form1.CandidateName.errors" class="invalid-feedback">
+                                  <div *ngIf="form1.CandidateName.errors.required">Required</div>
+                                </div>
+                              </div>
+                          
+                              <div class="col-md-6 mb-3">
+                                <label for="SupervisorName">Name of Supervisor</label>
+                                <input type="text" id="SupervisorName" formControlName="Supervisorname" class="form-control"
+                                  [class.is-invalid]="isForm1Submitted && form1.Supervisorname.invalid" [readonly]="!isEditMode">
+                                <div *ngIf="isForm1Submitted && form1.Supervisorname.errors" class="invalid-feedback">
+                                  <div *ngIf="form1.Supervisorname.errors.required">Required</div>
+                                </div>
+                              </div>
+                          
+                              <div class="col-md-6 mb-3">
+                                <label for="MobileNumber">Mobile</label>
+                                <input type="text" id="MobileNumber" formControlName="MobileNumber" class="form-control"
+                                  [class.is-invalid]="isForm1Submitted && form1.MobileNumber.invalid" [readonly]="!isEditMode">
+                                <div *ngIf="isForm1Submitted && form1.MobileNumber.errors" class="invalid-feedback">
+                                  <div *ngIf="form1.MobileNumber.errors.required">Required</div>
+                                  <div *ngIf="form1.MobileNumber.errors.pattern">Invalid Mobile Number</div>
+                                </div>
+                              </div>
+                          
+                              <div class="col-md-6 mb-3">
+                                <label for="InstituteName">Organization</label>
+                                <input type="text" id="InstituteName" formControlName="InstituteName" class="form-control"
+                                  [class.is-invalid]="isForm1Submitted && form1.InstituteName.invalid" [readonly]="!isEditMode">
+                                <div *ngIf="isForm1Submitted && form1.InstituteName.errors" class="invalid-feedback">
+                                  <div *ngIf="form1.InstituteName.errors.required">Required</div>
+                                </div>
+                              </div>
+                          
+                              <div class="col-md-6 mb-3">
+                                <label for="DepartmentName">Department</label>
+                                <input type="text" id="DepartmentName" formControlName="DepartmentName" class="form-control"
+                                  [class.is-invalid]="isForm1Submitted && form1.DepartmentName.invalid" [readonly]="!isEditMode">
+                                <div *ngIf="isForm1Submitted && form1.DepartmentName.errors" class="invalid-feedback">
+                                  <div *ngIf="form1.DepartmentName.errors.required">Required</div>
+                                </div>
+                              </div>
+                          
+                              <div class="col-md-6 mb-3">
+                                <label for="IdProofType">ID Proof Type</label>
+                                <select id="IdProofType" formControlName="IdProofType" class="form-select"
+                                  [class.is-invalid]="isForm1Submitted && form1.IdProofType.invalid" [disabled]="!isEditMode">
+                                  <option value="">Select</option>
+                                  <option value="AadharCard">Aadhar Card</option>
+                                  <option value="RegistrationCard">Organisation Card</option>
+                                  <option value="PanCard">Pan Card</option>
+                                  <option value="LicenseCard">License Card</option>
+                                </select>
+                                <div *ngIf="isForm1Submitted && form1.IdProofType.errors" class="invalid-feedback">
+                                  <div *ngIf="form1.IdProofType.errors.required">Required</div>
+                                </div>
+                              </div>
+                          
+                              <div class="col-md-6 mb-3">
+                                <label for="IdProofNumber">ID Proof Number</label>
+                                <input type="text" id="IdProofNumber" formControlName="IdProofNumber" class="form-control"
+                                  [class.is-invalid]="isForm1Submitted && form1.IdProofNumber.invalid" [readonly]="!isEditMode">
+                                <div *ngIf="isForm1Submitted && form1.IdProofNumber.errors" class="invalid-feedback">
+                                  <div *ngIf="form1.IdProofNumber.errors.required">Required</div>
+                                </div>
+                              </div>
+                          
+                              <div class="col-md-12 mb-3">
+                                <label for="Address">Address</label>
+                                <textarea id="Address" formControlName="Address" class="form-control"
+                                  [class.is-invalid]="isForm1Submitted && form1.Address.invalid" [readonly]="!isEditMode"></textarea>
+                                <div *ngIf="isForm1Submitted && form1.Address.errors" class="invalid-feedback">
+                                  <div *ngIf="form1.Address.errors.required">Required</div>
+                                </div>
+                              </div>
+                            </div>
+                          
+                            <div class="col-md-12 mb-4 text-center">
+                              <button type="button" class="btn btn-primary me-2" *ngIf="!isEditMode" (click)="onEdit()">Edit</button>
+                              <button type="submit" class="btn btn-success" *ngIf="isEditMode">Update</button>
+                            </div>
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

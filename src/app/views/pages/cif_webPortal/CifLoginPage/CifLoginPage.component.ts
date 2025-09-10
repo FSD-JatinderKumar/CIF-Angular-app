@@ -254,9 +254,12 @@ export class CifLoginPageComponent implements OnInit {
       if (result.isConfirmed) {
         this.AuthSession.addToSession(this.UserData);
 
-        this.router.navigateByUrl('/NewBookings').then(() => {
+        this.router.navigateByUrl('/UserProfiles').then(() => {
           window.location.reload();
         });
+        // this.router.navigateByUrl('/NewBookings').then(() => {
+        //   window.location.reload();
+        // });
       } else {
         swal.fire({
           title: 'Agreement Required',

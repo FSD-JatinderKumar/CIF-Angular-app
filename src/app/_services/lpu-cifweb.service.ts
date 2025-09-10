@@ -661,4 +661,17 @@ export class LpuCIFWebService {
       //'https://localhost:7125/api/LpuCIF/CIFLockUserLogin', dataSoft, { headers }
     );
   }
+
+
+  // added on 10-sep-25
+
+  UpdateUserDetails(UserData: FormData): Observable<any> {
+    var authToken = this.storageService.getUser();
+    let headers = new HttpHeaders()
+      // .set('Authorization', 'Bearer ' + authToken)
+      .set('Authorization', 'Bearer ' + authToken)
+    return this.http.post(
+       'https://localhost:7125/api/LpuCIF/CIUpdateUserDetails', UserData, { headers }
+    ); 
+  }
 }

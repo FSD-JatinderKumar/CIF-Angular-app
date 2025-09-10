@@ -40,6 +40,11 @@ const routes: Routes = [
 // Ended Common Pages
 
 // INTERNAL USER DASHBOARD START
+
+{
+  path:"UserProfiles",
+  loadChildren: () => import('./views/pages/InternalUserDashboard/UserProfile/UserProfile.module').then(m => m.UserProfileModule),
+},
 {
   path: "LpuLogin", 
   loadChildren: () => import('./views/pages/InternalUserDashboard/LoginPage/LoginPage.module').then(m => m.LoginPageNComponentModule),
