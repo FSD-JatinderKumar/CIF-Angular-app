@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-6 login-div">
                 <div class="cif-login">
-                    <form class="forms-sample" [formGroup]="formdata" (ngSubmit)="OnSubmit()">
+                    <form class="forms-sample" [formGroup]="formdata" (ngSubmit)="onSubmit()">
                         <div class="mb-4 cif-input-group">
                             <label class="form-label" for="loginid">Login ID</label>
                             <input type="text" class="form-control" placeholder="Enter Login ID/ Email"
@@ -37,7 +37,7 @@
 
                         <div class="mb-4 cif-input-group">
                             <label class="form-check-label" for="UserRoleS">Choose Role</label>
-                            <select class="form-select" formControlName="UserRoleS" (change)="CheckUserType($event)"
+                            <select class="form-select" formControlName="UserRoleS" (change)="checkUserType($event)"
                                 required>
                                 <option value="" disabled>Select Role</option>
                                 <option value="400001">External Academia</option>

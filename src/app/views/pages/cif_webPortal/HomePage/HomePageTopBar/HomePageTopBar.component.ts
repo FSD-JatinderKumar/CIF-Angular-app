@@ -49,7 +49,9 @@ export class HomePageTopBarComponent implements OnInit {
 
 
   }
-
+  goto(val: any) {
+    this.router.navigateByUrl(val);
+  }
 
   testClick(a: any): void {
     const fileName = `${a}.pdf`;
@@ -75,12 +77,6 @@ export class HomePageTopBarComponent implements OnInit {
         alert('Error downloading file');
       });
   }
-
-
-  goto(val: any): void {
-    this.router.navigateByUrl(val);
-  }  
-
 
 
  

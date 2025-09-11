@@ -32,7 +32,7 @@ export class StaffMenuComponent implements OnInit {
         title: 'Login Failed',
         icon: 'warning',
       });
-      this.router.navigate(['/login']);
+      this.router.navigate(['/Login']);
     }
   }
 
