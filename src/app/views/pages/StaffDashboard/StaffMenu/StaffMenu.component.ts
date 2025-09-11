@@ -50,9 +50,26 @@ export class StaffMenuComponent implements OnInit {
   //  console.log(JSON.parse(GetCookieData));
   }
 
-  LogoutUser() {
+  // LogoutUser() {
+  //   this.cookieService.delete('StaffUserAuthData');
+  //   this.AuthSession.clearSession(); // if you have a method like this
+  //   this.router.navigateByUrl('/login'); // adjust to your login path
+  // }
+  loadingIndicator: any;
+  LogoutUser () {
+    this.loadingIndicator = true;
+  
+    // Clear cookies and session immediately
     this.cookieService.delete('StaffUserAuthData');
-    this.AuthSession.clearSession(); // if you have a method like this
-    this.router.navigateByUrl('/login'); // adjust to your login path
+    this.AuthSession.clearSession();
+  
+    // Wait 1 second before navigating (adjust delay as needed)
+    setTimeout(() => {
+      this.loadingIndicator = false;
+      this.router.navigate(['Home'], { replaceUrl: true }).then(() => {        
+        window.location.reload();
+      });          
+       
+    }, 1000);
   }
 }
