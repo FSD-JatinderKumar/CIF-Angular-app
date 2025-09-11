@@ -156,7 +156,6 @@ export class CifLoginPageComponent implements OnInit {
           });
         }
 
-        // ✅ Reset form on API error as well
         this.formdata.reset();
         this.formdata.patchValue({
           UserRoleS: '', // Reset to default "Select Role" placeholder
@@ -254,12 +253,12 @@ export class CifLoginPageComponent implements OnInit {
       if (result.isConfirmed) {
         this.AuthSession.addToSession(this.UserData);
 
-        this.router.navigateByUrl('/UserProfiles').then(() => {
-          window.location.reload();
-        });
-        // this.router.navigateByUrl('/NewBookings').then(() => {
+        // this.router.navigateByUrl('/UserProfiles').then(() => {
         //   window.location.reload();
         // });
+        this.router.navigateByUrl('/NewBookings').then(() => {
+          window.location.reload();
+        });
       } else {
         swal.fire({
           title: 'Agreement Required',

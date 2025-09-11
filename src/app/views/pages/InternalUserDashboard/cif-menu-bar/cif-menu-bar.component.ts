@@ -83,10 +83,38 @@ openSampleInstructions() {
   toggleNavbar(): void {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
+  loadingIndicator: any;
+  // LogoutUser() {
+  //   this.loadingIndicator = true;
+  //   const startTime = new Date().getTime();
+  //   this.cookieService.delete('InternalUserAuthData');
+  //   this.AuthSession.clearSession(); // if you have a method like this
+  //   const elapsed = new Date().getTime() - startTime;
+  //   const remainingDelay = Math.max(1000 - elapsed, 0); // wait at least 5s
 
-  LogoutUser() {
+  //   setTimeout(() => {
+  //     this.loadingIndicator = false;
+  //     this.router.navigate(['/Login']);
+  //   }, remainingDelay);
+  //   // this.goto('Login'); // adjust to your login path
+   
+  // }
+
+  LogoutUser () {
+    this.loadingIndicator = true;
+  
+    // Clear cookies and session immediately
     this.cookieService.delete('InternalUserAuthData');
-    this.AuthSession.clearSession(); // if you have a method like this
-    this.router.navigateByUrl('/login'); // adjust to your login path
+    this.AuthSession.clearSession();
+  
+    // Wait 1 second before navigating (adjust delay as needed)
+    setTimeout(() => {
+      this.loadingIndicator = false;
+      this.router.navigate(['Home'], { replaceUrl: true }).then(() => {        
+        window.location.reload();
+      });          
+       
+    }, 1000);
   }
+  
 }

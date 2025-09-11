@@ -671,7 +671,8 @@ export class LpuCIFWebService {
       // .set('Authorization', 'Bearer ' + authToken)
       .set('Authorization', 'Bearer ' + authToken)
     return this.http.post(
-       'https://localhost:7125/api/LpuCIF/CIUpdateUserDetails', UserData, { headers }
+      //  'https://localhost:7125/api/LpuCIF/CIUpdateUserDetails', UserData, { headers }
+       AUTH_API + 'api/LpuCIF/CIUpdateUserDetails', UserData, { headers }
     ); 
   }
 }
